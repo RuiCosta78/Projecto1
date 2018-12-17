@@ -34,6 +34,7 @@ public class Login {
 			public void run() {
 				try {
 					Login window = new Login();
+					int a = 0;
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
