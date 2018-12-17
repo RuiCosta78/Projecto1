@@ -24,6 +24,7 @@ public class Login {
 	private JFrame frmLogin;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	
 
 	/**
 	 * Launch the application.
