@@ -7,6 +7,8 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
 * Breve descrição do código
@@ -69,6 +71,13 @@ public class HomepageAdmin {
 		frame.getContentPane().add(button);
 		
 		JButton btnRegistarFuncionrio = new JButton("Registar Funcion\u00E1rio");
+		btnRegistarFuncionrio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setVisible(false);
+				RegistarFuncionario.main(null);
+			}
+		});
 		btnRegistarFuncionrio.setToolTipText("Registar Funcion\u00E1rio");
 		btnRegistarFuncionrio.setBounds(97, 170, 123, 40);
 		frame.getContentPane().add(btnRegistarFuncionrio);
@@ -87,5 +96,4 @@ public class HomepageAdmin {
 		button_4.setBounds(335, 227, 89, 23);
 		frame.getContentPane().add(button_4);
 	}
-
 }
