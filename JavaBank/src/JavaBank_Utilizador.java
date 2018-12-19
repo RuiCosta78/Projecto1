@@ -32,6 +32,14 @@ public class JavaBank_Utilizador {
 		this.password = password;
 	}
 
+	public JavaBank_Utilizador(String primeiro_nome, String sobrenome, String login, String password) {
+		super();
+		this.primeiro_nome = primeiro_nome;
+		this.sobrenome = sobrenome;
+		this.login = login;
+		this.password = password;
+	}
+
 	public String getPrimeiro_nome() {
 		return primeiro_nome;
 	}

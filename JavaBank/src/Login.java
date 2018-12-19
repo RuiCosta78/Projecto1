@@ -69,10 +69,20 @@ public class Login {
 		getFrmLogin().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrmLogin().getContentPane().setLayout(null);
 
+		JLabel lblLogin = new JLabel("Login");
+		lblLogin.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblLogin.setBounds(38, 104, 89, 14);
+		getFrmLogin().getContentPane().add(lblLogin);
+
 		textField = new JTextField();
 		textField.setBounds(137, 101, 216, 20);
 		getFrmLogin().getContentPane().add(textField);
 		textField.setColumns(10);
+
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblPassword.setBounds(38, 150, 89, 14);
+		getFrmLogin().getContentPane().add(lblPassword);
 
 		passwordField = new JPasswordField();
 		passwordField.setBounds(137, 147, 216, 20);
@@ -81,8 +91,10 @@ public class Login {
 		JButton btnEntrar = new JButton("ENTRAR");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String username = textField.getText();
+				String password = passwordField.getText();
 				gestao = new JavaBank_Gestao();
-				gestao.login(textField.getText(), passwordField.getText());
+				gestao.login(username, password);
 			}
 		});
 		btnEntrar.setBounds(164, 227, 89, 23);
@@ -95,16 +107,6 @@ public class Login {
 		lblBenvindoAoJava.setBounds(10, 11, 414, 40);
 		getFrmLogin().getContentPane().add(lblBenvindoAoJava);
 		lblBenvindoAoJava.setOpaque(true);
-
-		JLabel lblLogin = new JLabel("Login");
-		lblLogin.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblLogin.setBounds(38, 104, 89, 14);
-		getFrmLogin().getContentPane().add(lblLogin);
-
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblPassword.setBounds(38, 150, 89, 14);
-		getFrmLogin().getContentPane().add(lblPassword);
 	}
 
 	public JFrame getFrmLogin() {

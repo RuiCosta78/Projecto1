@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
 * Breve descrição do código
@@ -53,7 +55,7 @@ public class HomepageAdmin {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel label = new JLabel("BENVINDO (nome)");
+		JLabel label = new JLabel("BENVINDO");
 		label.setOpaque(true);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Arial Black", Font.PLAIN, 17));
@@ -67,7 +69,7 @@ public class HomepageAdmin {
 		frame.getContentPane().add(label_1);
 		
 		JButton button = new JButton("Alterar Login");
-		button.setBounds(97, 104, 123, 40);
+		button.setBounds(20, 104, 123, 40);
 		frame.getContentPane().add(button);
 		
 		JButton btnRegistarFuncionrio = new JButton("Registar Funcion\u00E1rio");
@@ -79,20 +81,29 @@ public class HomepageAdmin {
 			}
 		});
 		btnRegistarFuncionrio.setToolTipText("Registar Funcion\u00E1rio");
-		btnRegistarFuncionrio.setBounds(97, 170, 123, 40);
+		btnRegistarFuncionrio.setBounds(20, 170, 123, 40);
 		frame.getContentPane().add(btnRegistarFuncionrio);
 		
 		JButton btnListarClientes = new JButton("Listar Clientes");
 		btnListarClientes.setToolTipText("");
-		btnListarClientes.setBounds(230, 170, 123, 40);
+		btnListarClientes.setBounds(153, 170, 123, 40);
 		frame.getContentPane().add(btnListarClientes);
 		
 		JButton btnListarContas = new JButton("Listar Contas");
 		btnListarContas.setToolTipText("");
-		btnListarContas.setBounds(230, 104, 123, 40);
+		btnListarContas.setBounds(153, 104, 123, 40);
 		frame.getContentPane().add(btnListarContas);
 		
+		JButton btnListarFuncionrios = new JButton("Listar Funcion\u00E1rios");
+		btnListarFuncionrios.setBounds(286, 104, 123, 40);
+		frame.getContentPane().add(btnListarFuncionrios);
+		
 		JButton button_4 = new JButton("Logout");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		button_4.setBounds(335, 227, 89, 23);
 		frame.getContentPane().add(button_4);
 	}

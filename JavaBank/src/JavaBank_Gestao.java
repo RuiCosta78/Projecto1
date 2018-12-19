@@ -55,8 +55,28 @@ public class JavaBank_Gestao {
 	}
 
 	// Método para registo de novo funcionário
-	public JavaBank_Funcionario resgistar_funcionario(String nome, String email, String password) {
-		utilizadores.add()
+	public void resgistar_funcionario(String nome, String sobrenome, String email, String password, String estado) {
+		JavaBank_Gestao gestao = new JavaBank_Gestao();
+		RegistarFuncionario registar_func = new RegistarFuncionario(gestao);
+		int cont = 0;
+		for (JavaBank_Utilizador u : getUtilizadores()) {
+			if (u instanceof JavaBank_Funcionario) {
+				cont++;
+			}
+		}
+		if (nome.equals(null) || sobrenome.equals(null) || email.equals(null) || password.equals(null)) {
+			JOptionPane.showMessageDialog(registar_func.getFrame(), "Registo inválido. Campos por preencher.");
+		} else if (!email.contains("@") || !email.contains(".com") || !email.contains(".pt")) {
+			JOptionPane.showMessageDialog(registar_func.getFrame(), "Registo inválido. Email inválido.");
+		} else if (!registar_func.getPasswordField_1().getText().equals(password)) {
+			JOptionPane.showMessageDialog(registar_func.getFrame(),
+					"Registo inválido. Password não confirmada correctamente..");
+		} else if (password.length() < 8) {
+			JOptionPane.showMessageDialog(registar_func.getFrame(), "Registo inválido. Passowrd tem de conter no mínimo 8 caractceres.");
+		} else {
+			JOptionPane.showMessageDialog(registar_func.getFrame(), "Registo concluído com sucesso.");
+			utilizadores.add(new JavaBank_Funcionario(nome, sobrenome, email, password, cont++, estado));
+		}
 	}
 
 	// Método para listagem de clientes
@@ -64,9 +84,13 @@ public class JavaBank_Gestao {
 
 	}
 
-	// Método para listagem de funcionários public
-	ArrayList<JavaBank_Funcionario> listar_funcionarios() {
-
+	// Método para listagem de funcionários
+	public void listar_funcionarios() {
+		for(JavaBank_Utilizador f : getUtilizadores()) {
+			if(f instanceof JavaBank_Funcionario) {
+				
+			}
+		}
 	}
 
 	// Método para listagem de contas

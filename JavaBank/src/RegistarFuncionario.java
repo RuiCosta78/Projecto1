@@ -9,6 +9,9 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 /**
 * Breve descrição do código
@@ -23,6 +26,8 @@ public class RegistarFuncionario {
 	private JTextField textField_1;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
+	private JTextField textField_2;
+	private JavaBank_Gestao gestao;
 
 	/**
 	 * Launch the application.
@@ -45,6 +50,11 @@ public class RegistarFuncionario {
 	 */
 	public RegistarFuncionario() {
 		initialize();
+	}
+	
+	public RegistarFuncionario(JavaBank_Gestao gestao) {
+		initialize();
+		this.gestao = gestao;
 	}
 
 	/**
@@ -70,45 +80,97 @@ public class RegistarFuncionario {
 		lblNome.setBounds(67, 82, 60, 14);
 		frame.getContentPane().add(lblNome);
 		
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEmail.setBounds(67, 107, 60, 14);
-		frame.getContentPane().add(lblEmail);
-		
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblPassword.setBounds(67, 132, 60, 14);
-		frame.getContentPane().add(lblPassword);
-		
-		JLabel lblConfirmao = new JLabel("Confirma\u00E7\u00E3o");
-		lblConfirmao.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblConfirmao.setBounds(67, 157, 60, 14);
-		frame.getContentPane().add(lblConfirmao);
-		
 		textField = new JTextField();
 		textField.setBounds(137, 79, 218, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		JLabel lblSobrenome = new JLabel("Sobrenome");
+		lblSobrenome.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblSobrenome.setBounds(29, 107, 98, 14);
+		frame.getContentPane().add(lblSobrenome);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		textField_1.setBounds(137, 104, 218, 20);
 		frame.getContentPane().add(textField_1);
 		
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblEmail.setBounds(67, 134, 60, 14);
+		frame.getContentPane().add(lblEmail);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(137, 131, 218, 20);
+		frame.getContentPane().add(textField_2);
+		textField_2.setColumns(10);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblPassword.setBounds(67, 159, 60, 14);
+		frame.getContentPane().add(lblPassword);
+		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(137, 129, 218, 20);
+		passwordField.setBounds(137, 156, 218, 20);
 		frame.getContentPane().add(passwordField);
 		
+		JLabel lblConfirmao = new JLabel("Confirma\u00E7\u00E3o");
+		lblConfirmao.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblConfirmao.setBounds(67, 184, 60, 14);
+		frame.getContentPane().add(lblConfirmao);
+		
 		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(137, 154, 218, 20);
+		passwordField_1.setBounds(137, 181, 218, 20);
 		frame.getContentPane().add(passwordField_1);
 		
+		JLabel lblActivo = new JLabel("Activo");
+		lblActivo.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblActivo.setBounds(81, 209, 46, 14);
+		frame.getContentPane().add(lblActivo);
+		
+		JCheckBox checkBox = new JCheckBox("");
+		checkBox.setBounds(137, 205, 97, 23);
+		frame.getContentPane().add(checkBox);
+		
 		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String nome = textField.getText();
+				String sobrenome = textField_1.getText();
+				String email = textField_2.getText();
+				String password = passwordField.getText();
+				boolean bool = checkBox.isSelected();
+				String estado = "";
+				if(bool) {
+					estado.equals("Activo");
+				} else {
+					estado.equals("Inactivo");
+				}
+				gestao = new JavaBank_Gestao();
+				gestao.resgistar_funcionario(nome, sobrenome, email, password, estado);
+			}
+		});
 		btnConfirmar.setBounds(335, 227, 89, 23);
 		frame.getContentPane().add(btnConfirmar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(10, 227, 89, 23);
-		frame.getContentPane().add(btnCancelar);
+		frame.getContentPane().add(btnCancelar);	
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public JPasswordField getPasswordField_1() {
+		return passwordField_1;
+	}
+
+	public void setPasswordField_1(JPasswordField passwordField_1) {
+		this.passwordField_1 = passwordField_1;
 	}
 }
