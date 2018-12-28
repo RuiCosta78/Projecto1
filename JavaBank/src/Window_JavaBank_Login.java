@@ -1,20 +1,18 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTextPane;
-import java.awt.Font;
-import java.awt.SystemColor;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import java.awt.Color;
-import javax.swing.UIManager;
-import javax.swing.JButton;
+import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
 /**
  * Breve descrição do código
@@ -22,38 +20,23 @@ import java.awt.event.ActionEvent;
  * @sid 2002
  * @aid 1.1
  */
-public class Login {
+public class Window_JavaBank_Login {
 
 	private JFrame frmLogin;
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private JavaBank_Gestao gestao;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login window = new Login();
-					window.getFrmLogin().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JavaBank_Gestao gestao = new JavaBank_Gestao();
 
 	/**
 	 * Create the application.
 	 */
-	public Login(JavaBank_Gestao gestao) {
-		initialize();
+
+	public Window_JavaBank_Login(JavaBank_Gestao gestao) {
 		this.gestao = gestao;
+		initialize();
 	}
 
-	public Login() {
+	public Window_JavaBank_Login() {
 		initialize();
 	}
 
@@ -89,14 +72,6 @@ public class Login {
 		getFrmLogin().getContentPane().add(passwordField);
 
 		JButton btnEntrar = new JButton("ENTRAR");
-		btnEntrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String username = textField.getText();
-				String password = passwordField.getText();
-				gestao = new JavaBank_Gestao();
-				gestao.login(username, password);
-			}
-		});
 		btnEntrar.setBounds(164, 227, 89, 23);
 		getFrmLogin().getContentPane().add(btnEntrar);
 
@@ -107,6 +82,27 @@ public class Login {
 		lblBenvindoAoJava.setBounds(10, 11, 414, 40);
 		getFrmLogin().getContentPane().add(lblBenvindoAoJava);
 		lblBenvindoAoJava.setOpaque(true);
+		
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String username = textField.getText();
+				String password = new String(passwordField.getPassword());
+				String mensagem = gestao.login(username, password);
+
+				JOptionPane.showMessageDialog(frmLogin, mensagem);
+				if (mensagem.equals("Login de Admin com sucesso")) {
+					frmLogin.setVisible(false);
+					Window_JavaBank_HomepageAdmin hpadmin = new Window_JavaBank_HomepageAdmin(gestao);
+				} else if (mensagem.equals("Login de Funcionário com sucesso")) {
+					frmLogin.setVisible(false);
+					Window_JavaBank_HomepageFunc hpfunc = new Window_JavaBank_HomepageFunc(gestao);
+				} else if (mensagem.equals("Login de Cliente com sucesso")) {
+					
+				} else {
+					return;
+				}
+			}
+		});
 	}
 
 	public JFrame getFrmLogin() {
@@ -116,4 +112,5 @@ public class Login {
 	public void setFrmLogin(JFrame frmLogin) {
 		this.frmLogin = frmLogin;
 	}
+
 }

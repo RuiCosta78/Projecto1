@@ -32,5 +32,4 @@ public class JavaBank_Funcionario extends JavaBank_Utilizador {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
 }

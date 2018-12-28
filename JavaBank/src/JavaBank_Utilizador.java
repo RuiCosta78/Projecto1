@@ -10,24 +10,24 @@ public class JavaBank_Utilizador {
 	
 	protected String primeiro_nome;
 	protected String sobrenome;
-	protected GregorianCalendar data_nascimento = new GregorianCalendar();
+	protected String data_nascimento;
 	protected String tipo_id;
 	protected int n_id;
 	protected String endereco;
-	protected int n_contacto;
+	protected String n_contacto;
 	protected String login;
 	protected String password;
 	
-	public JavaBank_Utilizador(String primeiro_nome, String sobrenome, GregorianCalendar data_nascimento,
-			String tipo_id, int n_id, String endereco, int n_contacto, String login, String password) {
+	public JavaBank_Utilizador(String primeiro_nome, String sobrenome, String data_nascimento2,
+			String tipo_id, int n_id, String endereco, String n_contacto2, String login, String password) {
 		super();
 		this.primeiro_nome = primeiro_nome;
 		this.sobrenome = sobrenome;
-		this.data_nascimento = data_nascimento;
+		this.data_nascimento = data_nascimento2;
 		this.tipo_id = tipo_id;
 		this.n_id = n_id;
 		this.endereco = endereco;
-		this.n_contacto = n_contacto;
+		this.n_contacto = n_contacto2;
 		this.login = login;
 		this.password = password;
 	}
@@ -56,11 +56,11 @@ public class JavaBank_Utilizador {
 		this.sobrenome = sobrenome;
 	}
 
-	public GregorianCalendar getData_nascimento() {
+	public String getData_nascimento() {
 		return data_nascimento;
 	}
 
-	public void setData_nascimento(GregorianCalendar data_nascimento) {
+	public void setData_nascimento(String data_nascimento) {
 		this.data_nascimento = data_nascimento;
 	}
 
@@ -88,11 +88,11 @@ public class JavaBank_Utilizador {
 		this.endereco = endereco;
 	}
 
-	public int getN_contacto() {
+	public String getN_contacto() {
 		return n_contacto;
 	}
 
-	public void setN_contacto(int n_contacto) {
+	public void setN_contacto(String n_contacto) {
 		this.n_contacto = n_contacto;
 	}
 

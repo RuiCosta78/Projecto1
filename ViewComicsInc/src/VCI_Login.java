@@ -106,7 +106,7 @@ public class VCI_Login {
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(178, 0, 80, 80);
-		// Insertion of image adapted to the size of the jlabel (I mooved the above line with bounds and dimension from down).
+		// Insertion of image adapted to the size of the jlabel (I moved the above line with bounds and dimension from down).
 		ImageIcon imagem= new ImageIcon("C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg");
 		Image img = imagem.getImage();
 		Image img1 = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
