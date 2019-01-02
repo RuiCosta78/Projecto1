@@ -25,6 +25,8 @@ public class JavaBank_Gestao {
 		utilizadores.add(new JavaBank_Admin("José", "Costa", "29/08/1978", "Cartão de cidadão", 123456789,
 				"Rua Maria Vitória Bourbon Bobone, Lote 15.7, 3030-502 Coimbra", "987654321", "qwerty", "asdfghjk"));
 		utilizadores.add(new JavaBank_Funcionario("Rui", "Inácio", "rmmi@gmail.com", "12345678", 1, "Inactivo"));
+		utilizadores.add(new JavaBank_Cliente("Bruno", "Escada", "1/jan/1980", "Passaporte", 123, "asdf", "234", "asdfg@gmail.com", "12345678", "345", 1));
+		contas.add(new JavaBank_Conta_Ordem(1, "1/jan/2001", 250.00, "Activa"));
 	}
 
 	public static void main(String[] args) {
@@ -126,9 +128,8 @@ public class JavaBank_Gestao {
 				janela_confirm = "Registo inválido. Email já registado.";
 			}
 		}
-		if (nome.equals(null) || sobrenome.equals(null) || data.equals(null) || numId == 0
-				|| endereco.equals(null) || contacto.equals(null) || nif.equals(null) || email.equals(null)
-				|| password.equals(null)) {
+		if (nome.equals(null) || sobrenome.equals(null) || data.equals(null) || numId == 0 || endereco.equals(null)
+				|| contacto.equals(null) || nif.equals(null) || email.equals(null) || password.equals(null)) {
 			janela_confirm = "Registo inválido. Campos por preencher.";
 		} else if (!isValidEmailAddress(email)) {
 			janela_confirm = "Registo inválido. Email inválido.";
@@ -189,8 +190,9 @@ public class JavaBank_Gestao {
 		String janela_confirm = "";
 		int id_cliente = 0;
 		int cont = 0;
-		for(JavaBank_Utilizador c : getUtilizadores()) {
-			if(c.getPrimeiro_nome().equals(nome) && c.getSobrenome().equals(sobrenome) && c instanceof JavaBank_Cliente) {
+		for (JavaBank_Utilizador c : getUtilizadores()) {
+			if (c.getPrimeiro_nome().equals(nome) && c.getSobrenome().equals(sobrenome)
+					&& c instanceof JavaBank_Cliente) {
 				id_cliente = c.getN_id();
 				cont++;
 			}
@@ -203,14 +205,18 @@ public class JavaBank_Gestao {
 			janela_confirm = "Registo inválido. Campos por preencher.";
 		} else {
 			janela_confirm = "Registo concluído com sucesso.";
-			if(tipo.equals("Conta à Ordem")) {
-				JavaBank_Movimento mov = new JavaBank_Movimento(data, "Depósito", deposito, JavaBank_Gestao.utilizador_logado.getN_id(), id_cliente);
-				JavaBank_Conta conta = new JavaBank_Conta_Ordem(n_conta, data, deposito, null, estado);
+			if (tipo.equals("Conta à Ordem")) {
+				JavaBank_Movimento mov = new JavaBank_Movimento(data, "Depósito", deposito,
+						JavaBank_Gestao.utilizador_logado.getN_id(), id_cliente);
+				JavaBank_Conta conta = new JavaBank_Conta_Ordem(n_conta, data, deposito, estado);
 				conta.getHistorico_movimentos().add(mov);
+				contas.add(conta);
 			} else if (tipo.equals("Conta Poupança")) {
-				JavaBank_Movimento mov = new JavaBank_Movimento(data, "Depósito", deposito, JavaBank_Gestao.utilizador_logado.getN_id(), id_cliente);
-				JavaBank_Conta conta = new JavaBank_Conta_Poupanca(n_conta, data, deposito, null, estado);
+				JavaBank_Movimento mov = new JavaBank_Movimento(data, "Depósito", deposito,
+						JavaBank_Gestao.utilizador_logado.getN_id(), id_cliente);
+				JavaBank_Conta conta = new JavaBank_Conta_Poupanca(n_conta, data, deposito, estado);
 				conta.getHistorico_movimentos().add(mov);
+				contas.add(conta);
 			}
 		}
 		return janela_confirm;

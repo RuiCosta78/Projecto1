@@ -5,6 +5,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,6 +15,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Breve descrição do código
@@ -82,8 +86,9 @@ public class Window_JavaBank_Login {
 		lblBenvindoAoJava.setBounds(10, 11, 414, 40);
 		getFrmLogin().getContentPane().add(lblBenvindoAoJava);
 		lblBenvindoAoJava.setOpaque(true);
-		
-		btnEntrar.addActionListener(new ActionListener() {
+
+		Action action = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String username = textField.getText();
 				String password = new String(passwordField.getPassword());
@@ -97,12 +102,15 @@ public class Window_JavaBank_Login {
 					frmLogin.setVisible(false);
 					Window_JavaBank_HomepageFunc hpfunc = new Window_JavaBank_HomepageFunc(gestao);
 				} else if (mensagem.equals("Login de Cliente com sucesso")) {
-					
+
 				} else {
 					return;
 				}
 			}
-		});
+		};
+
+		btnEntrar.addActionListener(action);
+		passwordField.addActionListener(action);
 	}
 
 	public JFrame getFrmLogin() {

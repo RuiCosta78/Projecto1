@@ -132,5 +132,13 @@ public class Window_JavaBank_HomepageAdmin extends JFrame {
 			}
 		});
 
+		btnListarContas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Window_JavaBank_ListarContas listaconta = new Window_JavaBank_ListarContas(gestao);
+				main_panel.add(listaconta, "listarconta");
+				CardLayout card = (CardLayout) main_panel.getLayout();
+				card.show(main_panel, "listarconta");
+			}
+		});
 	}
 }

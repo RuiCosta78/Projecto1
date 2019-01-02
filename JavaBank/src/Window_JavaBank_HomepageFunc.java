@@ -89,12 +89,16 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 		hpfunc_panel.add(btnAlterarLogin);
 
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setBounds(170, 221, 89, 23);
+		btnLogout.setBounds(245, 221, 150, 23);
 		hpfunc_panel.add(btnLogout);
 
 		JButton btnListarClientes = new JButton("Listar Clientes");
 		btnListarClientes.setBounds(245, 187, 150, 23);
 		hpfunc_panel.add(btnListarClientes);
+		
+		JButton btnListarContas = new JButton("Listar Contas");
+		btnListarContas.setBounds(31, 221, 150, 23);
+		hpfunc_panel.add(btnListarContas);
 
 		btnRegistarNovoCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -137,6 +141,15 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 				main_panel.add(abrir, "abrirconta");
 				CardLayout card = (CardLayout) main_panel.getLayout();
 				card.show(main_panel, "abrirconta");
+			}
+		});
+		
+		btnListarContas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Window_JavaBank_ListarContas listaconta = new Window_JavaBank_ListarContas(gestao);
+				main_panel.add(listaconta, "listarconta");
+				CardLayout card = (CardLayout) main_panel.getLayout();
+				card.show(main_panel, "listarconta");
 			}
 		});
 	}

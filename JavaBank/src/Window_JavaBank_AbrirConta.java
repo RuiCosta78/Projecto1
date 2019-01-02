@@ -127,9 +127,9 @@ public class Window_JavaBank_AbrirConta extends JPanel {
 		add(lblTipo);
 		
 		JComboBox<String> comboBox_1 = new JComboBox<String>();
-		comboBox.addItem("---Escolha a opção---");
-		comboBox.addItem("Conta à Ordem");
-		comboBox.addItem("Conta Poupança");
+		comboBox_1.addItem("---Escolha a opção---");
+		comboBox_1.addItem("Conta à Ordem");
+		comboBox_1.addItem("Conta Poupança");
 		comboBox_1.setBounds(267, 152, 104, 20);
 		add(comboBox_1);
 		

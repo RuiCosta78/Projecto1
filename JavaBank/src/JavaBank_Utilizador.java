@@ -1,5 +1,3 @@
-import java.util.*;
-
 /**
 * Breve descrição do código
 *
@@ -18,16 +16,16 @@ public class JavaBank_Utilizador {
 	protected String login;
 	protected String password;
 	
-	public JavaBank_Utilizador(String primeiro_nome, String sobrenome, String data_nascimento2,
-			String tipo_id, int n_id, String endereco, String n_contacto2, String login, String password) {
+	public JavaBank_Utilizador(String primeiro_nome, String sobrenome, String data_nascimento,
+			String tipo_id, int n_id, String endereco, String n_contacto, String login, String password) {
 		super();
 		this.primeiro_nome = primeiro_nome;
 		this.sobrenome = sobrenome;
-		this.data_nascimento = data_nascimento2;
+		this.data_nascimento = data_nascimento;
 		this.tipo_id = tipo_id;
 		this.n_id = n_id;
 		this.endereco = endereco;
-		this.n_contacto = n_contacto2;
+		this.n_contacto = n_contacto;
 		this.login = login;
 		this.password = password;
 	}
