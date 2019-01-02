@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**   
  * Breve descrição do código
@@ -21,26 +23,11 @@ public class VCI_Cliente_Op {
 	private JFrame frame;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VCI_Cliente_Op window = new VCI_Cliente_Op();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public VCI_Cliente_Op() {
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -66,17 +53,49 @@ public class VCI_Cliente_Op {
 		label_1.setBounds(33, 56, 196, 24);
 		panel.add(label_1);
 		
-		JButton btnListarTodosOs = new JButton("Listar todos os livros");
+		// LISTAR LIVROS
+		JButton btnListarTodosOs = new JButton("Listar livros");
+		btnListarTodosOs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				VCI_ListarLivros window = new VCI_ListarLivros();
+				window.getFrame().setVisible(true);;
+			}
+		});
 		btnListarTodosOs.setBounds(125, 107, 148, 23);
 		panel.add(btnListarTodosOs);
 		
+		// PESQUISAR LIVROS
 		JButton btnPesquisarLivros = new JButton("Pesquisar livros");
+		btnPesquisarLivros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				VCI_PesLivro window = new VCI_PesLivro();
+				window.getFrame().setVisible(true);;
+			}
+		});
 		btnPesquisarLivros.setBounds(125, 154, 148, 23);
 		panel.add(btnPesquisarLivros);
 		
+		// VOLTAR
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				VCI_N1 window = new VCI_N1();
+				window.getFrame().setVisible(true);;
+			}
+		});
 		btnVoltar.setBounds(343, 229, 83, 23);
 		panel.add(btnVoltar);
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 
 }

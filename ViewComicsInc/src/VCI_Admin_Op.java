@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**   
  * Breve descrição do código
@@ -20,27 +22,13 @@ public class VCI_Admin_Op {
 
 	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VCI_Admin_Op window = new VCI_Admin_Op();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
 	 */
 	public VCI_Admin_Op() {
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -72,14 +60,33 @@ public class VCI_Admin_Op {
 		panel.add(lblSelecioneUmaOpo);
 		
 		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose(); // Fecha a janela (fecha o programa)
+			}
+		});
 		btnLogout.setBounds(293, 229, 133, 23);
 		panel.add(btnLogout);
 		
 		JButton btnAlterarLogin = new JButton("Alterar login");
+		btnAlterarLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				VCI_LoginAlt window = new VCI_LoginAlt();
+				window.getFrame(); // Ativa a janela a que o botão dá acesso;
+			}
+		});
 		btnAlterarLogin.setBounds(10, 109, 133, 23);
 		panel.add(btnAlterarLogin);
 		
 		JButton btnRegistarVendedor = new JButton("Registar Vendedor");
+		btnRegistarVendedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose();
+				VCI_ADMIN1 window = new VCI_ADMIN1();
+				window.getFrame(); // Ativa a janela a que o botão dá acesso;
+			}
+		});
 		btnRegistarVendedor.setBounds(10, 151, 133, 23);
 		panel.add(btnRegistarVendedor);
 		
@@ -110,6 +117,25 @@ public class VCI_Admin_Op {
 		JButton btnAtualizarStock = new JButton("Atualizar stock");
 		btnAtualizarStock.setBounds(150, 194, 133, 23);
 		panel.add(btnAtualizarStock);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose(); // desliga a janela ativa;
+				VCI_Login window = new VCI_Login();
+				window.getFrame().setVisible(true);
+
+			}
+		});
+		btnVoltar.setBounds(10, 229, 133, 23);
+		panel.add(btnVoltar);
 	}
 
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
 }

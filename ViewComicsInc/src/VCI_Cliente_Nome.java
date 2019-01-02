@@ -1,5 +1,3 @@
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
@@ -9,6 +7,8 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**   
  * Breve descrição do código
@@ -23,26 +23,12 @@ public class VCI_Cliente_Nome {
 	private JTextField textField;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VCI_Cliente_Nome window = new VCI_Cliente_Nome();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public VCI_Cliente_Nome() {
 		initialize();
+		frame.setVisible(true);
+
 	}
 
 	/**
@@ -83,9 +69,44 @@ public class VCI_Cliente_Nome {
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		JButton button = new JButton("OK");
-		button.setBounds(188, 206, 59, 23);
-		panel.add(button);
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnConfirmar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnConfirmar.setBounds(233, 206, 89, 23);
+		panel.add(btnConfirmar);
+		
+		// Botão "Voltar"
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnVoltar.addActionListener(new ActionListener() {
+			// Adição de ação ao botão:
+			public void actionPerformed(ActionEvent arg0) {
+				frame.dispose(); // desliga a janela ativa;
+				VCI_N1 window = new VCI_N1();
+				window.getFrame().setVisible(true);; // Ativa a janela a que o botão dá acesso;
+			}
+		});
+		btnVoltar.setBounds(115, 206, 89, 23);
+		panel.add(btnVoltar);
 	}
 
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
+
+	public JTextField getTextField() {
+		return textField;
+	}
+
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+	
 }
