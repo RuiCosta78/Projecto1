@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
+import java.util.Locale;
 
 /**
  * Breve descrição do código
@@ -96,6 +97,7 @@ public class Window_JavaBank_AbrirConta extends JPanel {
 		add(lblDataDeCriao);
 
 		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setLocale(new Locale("pt"));
 		dateChooser.setBounds(112, 126, 89, 20);
 		add(dateChooser);
 

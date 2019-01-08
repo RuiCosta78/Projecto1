@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 public class Window_JavaBank_HomepageFunc extends JFrame {
 
 	private JPanel main_panel;
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
+	private JavaBank_Gestao gestao;
 
 	public Window_JavaBank_HomepageFunc(JavaBank_Gestao gestao) throws HeadlessException {
 		this.gestao = gestao;
@@ -53,51 +53,27 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 		hpfunc_panel.add(benvindo);
 
 		JButton btnAbrirNovaConta = new JButton("Abrir Nova Conta");
-		btnAbrirNovaConta.setBounds(31, 51, 150, 23);
+		btnAbrirNovaConta.setBounds(30, 99, 150, 23);
 		hpfunc_panel.add(btnAbrirNovaConta);
 
-		JButton btnFecharConta = new JButton("Fechar Conta");
-		btnFecharConta.setBounds(31, 85, 150, 23);
-		hpfunc_panel.add(btnFecharConta);
-
 		JButton btnRegistarNovoCliente = new JButton("Registar Novo Cliente");
-		btnRegistarNovoCliente.setBounds(31, 119, 150, 23);
+		btnRegistarNovoCliente.setBounds(30, 133, 150, 23);
 		hpfunc_panel.add(btnRegistarNovoCliente);
 
-		JButton btnEfectuarDepsito = new JButton("Efectuar Dep\u00F3sito");
-		btnEfectuarDepsito.setBounds(31, 153, 150, 23);
-		hpfunc_panel.add(btnEfectuarDepsito);
-
-		JButton btnEfectuarLevantamento = new JButton("Efectuar Levantamento");
-		btnEfectuarLevantamento.setBounds(31, 187, 150, 23);
-		hpfunc_panel.add(btnEfectuarLevantamento);
-
-		JButton btnTranferencia = new JButton("Efectuar Transfer\u00EAncia");
-		btnTranferencia.setBounds(245, 51, 150, 23);
-		hpfunc_panel.add(btnTranferencia);
-
-		JButton btnAssociarCarto = new JButton("Associar Cart\u00E3o");
-		btnAssociarCarto.setBounds(245, 85, 150, 23);
-		hpfunc_panel.add(btnAssociarCarto);
-
-		JButton btnModificarConta = new JButton("Modificar Conta");
-		btnModificarConta.setBounds(245, 119, 150, 23);
-		hpfunc_panel.add(btnModificarConta);
-
 		JButton btnAlterarLogin = new JButton("Alterar Login");
-		btnAlterarLogin.setBounds(245, 153, 150, 23);
+		btnAlterarLogin.setBounds(244, 99, 150, 23);
 		hpfunc_panel.add(btnAlterarLogin);
 
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setBounds(245, 221, 150, 23);
+		btnLogout.setBounds(244, 167, 150, 23);
 		hpfunc_panel.add(btnLogout);
 
 		JButton btnListarClientes = new JButton("Listar Clientes");
-		btnListarClientes.setBounds(245, 187, 150, 23);
+		btnListarClientes.setBounds(244, 133, 150, 23);
 		hpfunc_panel.add(btnListarClientes);
 		
 		JButton btnListarContas = new JButton("Listar Contas");
-		btnListarContas.setBounds(31, 221, 150, 23);
+		btnListarContas.setBounds(30, 167, 150, 23);
 		hpfunc_panel.add(btnListarContas);
 
 		btnRegistarNovoCliente.addActionListener(new ActionListener() {
@@ -152,5 +128,6 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 				card.show(main_panel, "listarconta");
 			}
 		});
+		
 	}
 }

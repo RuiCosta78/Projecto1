@@ -1,28 +1,38 @@
+import java.util.Calendar;
+import java.util.Random;
+
 /**
-* Breve descrição do código
-*
-* @sid 2002
-* @aid 1.1
-*/
+ * Breve descrição do código
+ *
+ * @sid 2002
+ * @aid 1.1
+ */
 public class JavaBank_Cartao_Debito {
-	
+
 	protected String nome_titular;
-	protected int numero;
+	protected String numero;
 	protected String data_vencimento;
-	protected int codigo_verificacao;
-	
-	public JavaBank_Cartao_Debito(String nome_titular, int numero, String data_vencimento, int codigo_verificacao) {
+	protected String codigo_verificacao;
+
+	public JavaBank_Cartao_Debito(String nome_titular, String numero) {
+		super();
+		Calendar cal = Calendar.getInstance();
+		this.nome_titular = nome_titular;
+		this.numero = numero;
+		this.data_vencimento = String.valueOf(cal.get(Calendar.MONTH) + 1) + "/"
+				+ String.valueOf(cal.get(Calendar.YEAR) + 5);
+		Random r = new Random();
+		int cinf = 0;
+		int csup = 1000;
+		this.codigo_verificacao = String.format("%03d", r.nextInt(csup - cinf) + cinf);
+	}
+
+	public JavaBank_Cartao_Debito(String nome_titular, String numero, String data_vencimento, String codigo_verificacao) {
 		super();
 		this.nome_titular = nome_titular;
 		this.numero = numero;
 		this.data_vencimento = data_vencimento;
 		this.codigo_verificacao = codigo_verificacao;
-	}
-	
-	public JavaBank_Cartao_Debito(String nome_titular, int numero) {
-		super();
-		this.nome_titular = nome_titular;
-		this.numero = numero;
 	}
 
 	public JavaBank_Cartao_Debito(String nome_titular) {
@@ -42,11 +52,11 @@ public class JavaBank_Cartao_Debito {
 		this.nome_titular = nome_titular;
 	}
 
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
@@ -58,11 +68,11 @@ public class JavaBank_Cartao_Debito {
 		this.data_vencimento = data_vencimento;
 	}
 
-	public int getCodigo_verificacao() {
+	public String getCodigo_verificacao() {
 		return codigo_verificacao;
 	}
 
-	public void setCodigo_verificacao(int codigo_verificacao) {
+	public void setCodigo_verificacao(String codigo_verificacao) {
 		this.codigo_verificacao = codigo_verificacao;
 	}
 

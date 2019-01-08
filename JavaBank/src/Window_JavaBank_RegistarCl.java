@@ -15,6 +15,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import java.util.Locale;
 
 /**
  * Breve descrição do código
@@ -109,6 +110,7 @@ public class Window_JavaBank_RegistarCl extends JPanel {
 		add(lblDataDeNascimento);
 
 		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setLocale(new Locale("pt"));
 		dateChooser.setBounds(156, 103, 127, 20);
 		add(dateChooser);
 

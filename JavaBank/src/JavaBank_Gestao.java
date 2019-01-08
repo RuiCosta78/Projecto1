@@ -4,6 +4,9 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * Breve descrição do código
@@ -25,11 +28,23 @@ public class JavaBank_Gestao {
 		utilizadores.add(new JavaBank_Admin("José", "Costa", "29/08/1978", "Cartão de cidadão", 123456789,
 				"Rua Maria Vitória Bourbon Bobone, Lote 15.7, 3030-502 Coimbra", "987654321", "qwerty", "asdfghjk"));
 		utilizadores.add(new JavaBank_Funcionario("Rui", "Inácio", "rmmi@gmail.com", "12345678", 1, "Inactivo"));
-		utilizadores.add(new JavaBank_Cliente("Bruno", "Escada", "1/jan/1980", "Passaporte", 123, "asdf", "234", "asdfg@gmail.com", "12345678", "345", 1));
-		contas.add(new JavaBank_Conta_Ordem(1, "1/jan/2001", 250.00, "Activa"));
+		utilizadores.add(new JavaBank_Cliente("Bruno", "Escada", "1/jan/1980", "Passaporte", 123, "asdf", "234",
+				"asdfg@gmail.com", "12345678", "345", 1));
+		utilizadores.add(new JavaBank_Cliente("Nuno", "Pratas", "1/mar/1980", "Cartão de Cidadão", 789, "asdf", "234",
+				"asdfg@gmail.com", "12345678", "345", 2));
+		contas.add(new JavaBank_Conta_Ordem(1, "1/jan/2001", 250.00, "Activa", null));
+		contas.add(new JavaBank_Conta_Ordem(2, "1/jan/2001", 150.00, "Activa",
+				new JavaBank_Cartao_Debito("Nuno Pratas", "0001", "1/2024", "001")));
 	}
 
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -179,11 +194,6 @@ public class JavaBank_Gestao {
 		return funcionarios;
 	}
 
-	// Método para listagem de contas
-	public ArrayList<JavaBank_Conta> listar_contas() {
-
-	}
-
 	// Método para abertura de nova conta
 	public String abrir_nova_conta(int n_conta, String nome, String sobrenome, String data, String estado,
 			double deposito, String tipo) {
@@ -228,14 +238,36 @@ public class JavaBank_Gestao {
 
 	}
 
-	// Método para realizar depósito de determinado valor em determinada conta
-	public double depositar_valor() {
-
-	}
-
-	// Método para lenvatamento de determinado valor de determinada conta
-	public double levantar_valor() {
-
+	// Método para realizar movimento de determinado valor em determinada conta
+	public void movimento(String montante, int aux, String movimento) {
+		double saldoInst = 0;
+		for (JavaBank_Conta c : getContas()) {
+			if (c.getN_conta() == aux && c.getEstado().equals("Activa")) {
+				Calendar cal = Calendar.getInstance();
+				String dia = String.valueOf(cal.get(Calendar.DATE));
+				String mes = String.valueOf(cal.get(Calendar.MONTH) + 1);
+				String ano = String.valueOf(cal.get(Calendar.YEAR));
+				String data_movimento = dia + "/" + mes + "/" + ano;
+				String tipo_movimento = movimento;
+				double quantia = Double.parseDouble(montante);
+				if (movimento.equals("Depósito") || movimento.contains("Transferência de")) {
+					saldoInst = c.getSaldo() + quantia;
+				} else if (movimento.equals("Levantamento") || movimento.contains("Transferência para")) {
+					saldoInst = c.getSaldo() - quantia;
+				}
+				c.setSaldo(saldoInst);
+				int id_funcionario = JavaBank_Gestao.utilizador_logado.getN_id();
+				int id_cliente = 0;
+				for (JavaBank_Utilizador u : getUtilizadores()) {
+					if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getN_conta() == c.getN_conta()) {
+						id_cliente = u.getN_id();
+					}
+				}
+				JavaBank_Movimento mov = new JavaBank_Movimento(data_movimento, tipo_movimento, quantia, id_funcionario,
+						id_cliente, saldoInst);
+				c.getHistorico_movimentos().add(mov);
+			}
+		}
 	}
 
 	// Método para associar cartão de débito em determinada conta

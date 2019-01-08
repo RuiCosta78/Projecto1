@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,6 +16,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Breve descrição do código
@@ -23,8 +27,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Window_JavaBank_ListarContas extends JPanel {
 
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
-	private int n_conta_aux = 0;
+	private JavaBank_Gestao gestao;
+	private int n_conta_aux;
+	private String nome_completo;
 
 	public Window_JavaBank_ListarContas(JavaBank_Gestao gestao) {
 		this.gestao = gestao;
@@ -61,46 +66,60 @@ public class Window_JavaBank_ListarContas extends JPanel {
 			}
 		});
 
-		String col[] = { "Nº de Conta", "Titular", "Data de Criação", "Tipo de Conta", "Saldo", "Juros(%)","Estado" };
-		DefaultTableModel tableModel = new DefaultTableModel(col, 0);
+		String col[] = { "Nº de Conta", "Titular", "Tipo de Conta", "Estado" };
+		DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
 		JTable table = new JTable(tableModel);
 
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
 
-		String nome_completo = "", tipo = "", nome = "";
-		double juros = 0.0;
+		String tipo = "", nome = "";
 		for (JavaBank_Conta c : gestao.getContas()) {
 			int n_conta = c.getN_conta();
 			for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
 				if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getN_conta() == n_conta) {
 					nome = u.getPrimeiro_nome();
 					String sobrenome = u.getSobrenome();
-					nome_completo = nome.concat(" ").concat(sobrenome); 
+					nome_completo = nome.concat(" ").concat(sobrenome);
 				}
 			}
-			String data = c.getData_criacao();
 			if (c instanceof JavaBank_Conta_Ordem) {
 				tipo = "Conta à Ordem";
-				juros = 0.0;
 			} else if (c instanceof JavaBank_Conta_Poupanca) {
 				tipo = "Conta Poupança";
-				juros = ((JavaBank_Conta_Poupanca) c).getJuros();
 			}
-			double saldo = c.getSaldo();
 			String estado = c.getEstado();
-			Object dados[] = { n_conta, nome_completo, data, tipo, saldo, juros, estado };
+			Object dados[] = { n_conta, nome_completo, tipo, estado };
 			tableModel.addRow(dados);
 		}
 		scrollPane.setViewportView(table);
-		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	        	n_conta_aux = (int) table.getValueAt(table.getSelectedRow(), 0);
-				Window_JavaBank_ListarMov listarmov = new Window_JavaBank_ListarMov(gestao);
-	        }
-	    });
 
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				double saldo = 0;
+				n_conta_aux = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
+				for(JavaBank_Conta c : gestao.getContas()) {
+					if(c.getN_conta() == n_conta_aux) {
+						saldo = c.getSaldo();
+					}
+				}
+				Window_JavaBank_DadosConta listarmov = new Window_JavaBank_DadosConta(gestao, n_conta_aux, saldo);
+				getParent().add(listarmov, "listarmov");
+				CardLayout card = (CardLayout) getParent().getLayout();
+				card.show(getParent(), "listarmov");
+			}
+		});
+		
+	}
+
+	public String getNome_completo() {
+		return nome_completo;
 	}
 
 	public int getN_conta_aux() {

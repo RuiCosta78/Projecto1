@@ -31,6 +31,10 @@ public class JavaBank_Conta {
 		this.saldo = saldo;
 		this.estado = estado;
 	}
+	
+	public JavaBank_Conta() {
+		super();
+	}
 
 	public int getN_conta() {
 		return n_conta;
