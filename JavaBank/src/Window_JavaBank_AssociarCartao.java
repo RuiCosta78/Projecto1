@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
  */
 public class Window_JavaBank_AssociarCartao extends JPanel {
 
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
+	private JavaBank_Gestao gestao;
 	private String titular;
 	private String n_cartao;
 	private String data_validade;
@@ -26,12 +26,13 @@ public class Window_JavaBank_AssociarCartao extends JPanel {
 	private int aux;
 
 	public Window_JavaBank_AssociarCartao(String titular, String n_cartao, String data_validade, String codigo_verif,
-			int aux) {
+			int aux, JavaBank_Gestao gestao) {
 		this.titular = titular;
 		this.n_cartao = n_cartao;
 		this.data_validade = data_validade;
 		this.codigo_verif = codigo_verif;
 		this.aux = aux;
+		this.gestao = gestao;
 		initialize();
 	}
 
@@ -95,15 +96,20 @@ public class Window_JavaBank_AssociarCartao extends JPanel {
 
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for (JavaBank_Conta c : gestao.getContas()) {
-					if (c instanceof JavaBank_Conta_Ordem && c.getN_conta() == aux) {
-						((JavaBank_Conta_Ordem) c)
-								.setCartao(new JavaBank_Cartao_Debito(titular, n_cartao, data_validade, codigo_verif));
-						JOptionPane.showMessageDialog(getParent(), "Cartão associado com sucesso.");
-						CardLayout card = (CardLayout) getParent().getLayout();
-						removeAll();
-						initialize();
-						card.show(getParent(), "mainf");
+				String[] partes = titular.split(" ");
+				for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
+					for (JavaBank_Conta c : gestao.getContas()) {
+						if (u instanceof JavaBank_Cliente && u.getPrimeiro_nome().equals(partes[0])
+								&& u.getSobrenome().equals(partes[1]) && c instanceof JavaBank_Conta_Ordem
+								&& c.getN_conta() == aux) {
+							((JavaBank_Conta_Ordem) c).setCartao(
+									new JavaBank_Cartao_Debito(titular, n_cartao, data_validade, codigo_verif));
+							JOptionPane.showMessageDialog(getParent(), "Cartão associado com sucesso.");
+							CardLayout card = (CardLayout) getParent().getLayout();
+							removeAll();
+							initialize();
+							card.show(getParent(), "mainf");
+						}
 					}
 				}
 			}

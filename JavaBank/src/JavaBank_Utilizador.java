@@ -1,10 +1,12 @@
+import java.io.Serializable;
+
 /**
 * Breve descrição do código
 *
 * @sid 2002
 * @aid 1.1
 */
-public class JavaBank_Utilizador {
+public class JavaBank_Utilizador implements Serializable{
 	
 	protected String primeiro_nome;
 	protected String sobrenome;

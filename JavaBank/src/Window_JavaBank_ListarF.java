@@ -25,7 +25,7 @@ import javax.swing.table.TableCellRenderer;
  */
 public class Window_JavaBank_ListarF extends JPanel {
 
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
+	private JavaBank_Gestao gestao;
 
 	public Window_JavaBank_ListarF(JavaBank_Gestao gestao) {
 		this.gestao = gestao;
@@ -49,21 +49,8 @@ public class Window_JavaBank_ListarF extends JPanel {
 		btnVoltar.setBounds(335, 227, 89, 23);
 		add(btnVoltar);
 
-		JLabel lblEstado = new JLabel("Estado");
-		lblEstado.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEstado.setBounds(20, 62, 46, 14);
-		add(lblEstado);
-
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.addItem("---Escolha uma opção---");
-		comboBox.addItem("Todos");
-		comboBox.addItem("Activo");
-		comboBox.addItem("Inactivo");
-		comboBox.setBounds(76, 59, 127, 20);
-		add(comboBox);
-
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 87, 414, 135);
+		scrollPane.setBounds(10, 51, 414, 171);
 		add(scrollPane);
 
 		btnVoltar.addActionListener(new ActionListener() {
@@ -76,54 +63,17 @@ public class Window_JavaBank_ListarF extends JPanel {
 		});
 
 		String col[] = { "ID", "Nome", "Sobrenome", "Email", "Estado" };
-		DefaultTableModel tableModel = new DefaultTableModel(col, 0);
+		DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		JTable table = new JTable(tableModel);
 		ArrayList<JavaBank_Utilizador> funcionarios = gestao.listar_funcionarios();
 
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
-
-		if (comboBox.getSelectedIndex() == 0) {
-			for (JavaBank_Utilizador f : funcionarios) {
-				int id = ((JavaBank_Funcionario) f).getId();
-				String pNome = f.getPrimeiro_nome();
-				String sNome = f.getSobrenome();
-				String email = f.getLogin();
-				String estado = ((JavaBank_Funcionario) f).getEstado();
-				Object dados[] = { id, pNome, sNome, email, estado };
-				tableModel.addRow(dados);
-			}
-			scrollPane.setViewportView(table);
-		}
-		if (comboBox.getSelectedIndex() == 1) {
-			for (JavaBank_Utilizador f : funcionarios) {
-				if (((JavaBank_Funcionario) f).getEstado().equals("Activo")) {
-					int id = ((JavaBank_Funcionario) f).getId();
-					String pNome = f.getPrimeiro_nome();
-					String sNome = f.getSobrenome();
-					String email = f.getLogin();
-					String estado = ((JavaBank_Funcionario) f).getEstado();
-					Object dados[] = { id, pNome, sNome, email, estado };
-					tableModel.addRow(dados);
-				}
-			}
-			scrollPane.setViewportView(table);
-		}
-		if (comboBox.getSelectedIndex() == 2) {
-			for (JavaBank_Utilizador f : funcionarios) {
-				if (((JavaBank_Funcionario) f).getEstado().equals("Inactivo")) {
-					int id = ((JavaBank_Funcionario) f).getId();
-					String pNome = f.getPrimeiro_nome();
-					String sNome = f.getSobrenome();
-					String email = f.getLogin();
-					String estado = ((JavaBank_Funcionario) f).getEstado();
-					Object dados[] = { id, pNome, sNome, email, estado };
-					tableModel.addRow(dados);
-				}
-			}
-			scrollPane.setViewportView(table);
-		}
-
 	}
 
 }

@@ -30,7 +30,7 @@ public class Window_JavaBank_RegistarCl extends JPanel {
 	private JTextField textFieldEmail;
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldConfirm;
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
+	private JavaBank_Gestao gestao;
 	private JTextField textFieldId;
 	private JTextField textFieldEndereco;
 	private JTextField textFieldContacto;

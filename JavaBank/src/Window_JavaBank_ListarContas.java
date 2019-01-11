@@ -1,21 +1,32 @@
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -68,34 +79,46 @@ public class Window_JavaBank_ListarContas extends JPanel {
 
 		String col[] = { "Nº de Conta", "Titular", "Tipo de Conta", "Estado" };
 		DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return column == 1;
+			}
 		};
 		JTable table = new JTable(tableModel);
 
 		table.setShowHorizontalLines(false);
 		table.setShowVerticalLines(false);
 
-		String tipo = "", nome = "";
+		String tipo = "", nome = "", sobrenome = "";
 		for (JavaBank_Conta c : gestao.getContas()) {
-			int n_conta = c.getN_conta();
+			int n_conta = 0;
+			int cont = 0;
 			for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
-				if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getN_conta() == n_conta) {
+				if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getConta() != null
+						&& ((JavaBank_Cliente) u).getConta().getN_conta() == c.getN_conta()) {
 					nome = u.getPrimeiro_nome();
-					String sobrenome = u.getSobrenome();
-					nome_completo = nome.concat(" ").concat(sobrenome);
+					sobrenome = u.getSobrenome();
+					if (cont == 0) {
+						nome_completo = nome + " " + sobrenome;
+					} else if (cont > 0) {
+						nome_completo = nome + " " + sobrenome + " +" + (cont - 1);
+					}
+					if (c instanceof JavaBank_Conta_Ordem) {
+						tipo = "Conta à Ordem";
+					} else if (c instanceof JavaBank_Conta_Poupanca) {
+						tipo = "Conta Poupança";
+					}
+					String estado = c.getEstado();
+					if(c.getN_conta() != n_conta && cont == 0) {
+						Object dados[] = { c.getN_conta(), nome_completo, tipo, estado };
+						tableModel.addRow(dados);
+					} else {
+						cont++;
+					}
+					n_conta = c.getN_conta();
 				}
 			}
-			if (c instanceof JavaBank_Conta_Ordem) {
-				tipo = "Conta à Ordem";
-			} else if (c instanceof JavaBank_Conta_Poupanca) {
-				tipo = "Conta Poupança";
-			}
-			String estado = c.getEstado();
-			Object dados[] = { n_conta, nome_completo, tipo, estado };
-			tableModel.addRow(dados);
+
 		}
 		scrollPane.setViewportView(table);
 
@@ -104,8 +127,8 @@ public class Window_JavaBank_ListarContas extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				double saldo = 0;
 				n_conta_aux = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
-				for(JavaBank_Conta c : gestao.getContas()) {
-					if(c.getN_conta() == n_conta_aux) {
+				for (JavaBank_Conta c : gestao.getContas()) {
+					if (c.getN_conta() == n_conta_aux) {
 						saldo = c.getSaldo();
 					}
 				}
@@ -115,7 +138,7 @@ public class Window_JavaBank_ListarContas extends JPanel {
 				card.show(getParent(), "listarmov");
 			}
 		});
-		
+
 	}
 
 	public String getNome_completo() {
@@ -125,5 +148,4 @@ public class Window_JavaBank_ListarContas extends JPanel {
 	public int getN_conta_aux() {
 		return n_conta_aux;
 	}
-
 }

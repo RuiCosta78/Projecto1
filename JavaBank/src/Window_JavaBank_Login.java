@@ -17,6 +17,14 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Breve descrição do código
@@ -40,7 +48,18 @@ public class Window_JavaBank_Login {
 		initialize();
 	}
 
-	public Window_JavaBank_Login() {
+	public Window_JavaBank_Login() throws ClassNotFoundException, IOException {
+		/*try {
+			FileInputStream utilizadoresIn = new FileInputStream("JavaBank_Utilizadores.dat");
+			ObjectInputStream uIn = new ObjectInputStream(utilizadoresIn);
+			gestao.utilizadores = (ArrayList<JavaBank_Utilizador>) uIn.readObject();
+			uIn.close();
+			utilizadoresIn.close();
+		} catch (Exception e) {
+			gestao.utilizadores.add(new JavaBank_Admin("Rui", "Costa", "29/08/1978", "Cartão de cidadão", 123456789,
+					"Rua Maria Vitória Bourbon Bobone, Lote 15.7, 3030-502 Coimbra", "987654321", "rdrmdc",
+					"SuperBread1978"));
+		}*/
 		initialize();
 	}
 
@@ -92,7 +111,8 @@ public class Window_JavaBank_Login {
 			public void actionPerformed(ActionEvent e) {
 				String username = textField.getText();
 				String password = new String(passwordField.getPassword());
-				String mensagem = gestao.login(username, password);
+				String mensagem = null;
+				mensagem = gestao.login(username, password);
 
 				JOptionPane.showMessageDialog(frmLogin, mensagem);
 				if (mensagem.equals("Login de Admin com sucesso")) {
@@ -102,7 +122,8 @@ public class Window_JavaBank_Login {
 					frmLogin.setVisible(false);
 					Window_JavaBank_HomepageFunc hpfunc = new Window_JavaBank_HomepageFunc(gestao);
 				} else if (mensagem.equals("Login de Cliente com sucesso")) {
-
+					frmLogin.setVisible(false);
+					Window_JavaBank_HomepageCliente hpcli = new Window_JavaBank_HomepageCliente(gestao);
 				} else {
 					return;
 				}
@@ -111,6 +132,7 @@ public class Window_JavaBank_Login {
 
 		btnEntrar.addActionListener(action);
 		passwordField.addActionListener(action);
+
 	}
 
 	public JFrame getFrmLogin() {
@@ -119,6 +141,21 @@ public class Window_JavaBank_Login {
 
 	public void setFrmLogin(JFrame frmLogin) {
 		this.frmLogin = frmLogin;
+		frmLogin.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				try {
+					FileOutputStream utilizadoresOut = new FileOutputStream("JavaBank_Utilizadores.dat");
+					ObjectOutputStream uOut = new ObjectOutputStream(utilizadoresOut);
+					uOut.writeObject(gestao.getUtilizadores());
+					uOut.close();
+					utilizadoresOut.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

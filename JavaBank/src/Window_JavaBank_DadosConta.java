@@ -3,15 +3,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -77,11 +78,17 @@ public class Window_JavaBank_DadosConta extends JPanel {
 		btnTransferncia.setBounds(151, 97, 126, 23);
 		add(btnTransferncia);
 
-		JButton btnMudarDados = new JButton("Mudar Dados");
-		btnMudarDados.setBounds(287, 47, 121, 23);
-		add(btnMudarDados);
-
 		JButton btnAssociarCarto = new JButton("Associar Cart\u00E3o");
+		for (JavaBank_Conta c : gestao.getContas()) {
+			if (c.getN_conta() == aux) {
+				if (c instanceof JavaBank_Conta_Poupanca
+						|| JavaBank_Gestao.utilizador_logado instanceof JavaBank_Cliente) {
+					btnAssociarCarto.setEnabled(false);
+				} else if (c instanceof JavaBank_Conta_Ordem) {
+					btnAssociarCarto.setEnabled(true);
+				}
+			}
+		}
 		btnAssociarCarto.setBounds(287, 72, 121, 23);
 		add(btnAssociarCarto);
 
@@ -89,12 +96,22 @@ public class Window_JavaBank_DadosConta extends JPanel {
 		btnFecharConta.setBounds(287, 97, 121, 23);
 		add(btnFecharConta);
 
+		if (JavaBank_Gestao.utilizador_logado instanceof JavaBank_Cliente) {
+			btnDepsito.setEnabled(false);
+			btnLevantamento.setEnabled(false);
+			btnFecharConta.setEnabled(false);
+		} else {
+			btnDepsito.setEnabled(true);
+			btnLevantamento.setEnabled(true);
+			btnFecharConta.setEnabled(true);
+		}
+
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(335, 266, 89, 23);
 		add(btnVoltar);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 123, 414, 132);
+		scrollPane.setBounds(10, 126, 414, 129);
 		add(scrollPane);
 
 		btnVoltar.addActionListener(new ActionListener() {
@@ -105,12 +122,10 @@ public class Window_JavaBank_DadosConta extends JPanel {
 
 		for (JavaBank_Conta c : gestao.getContas()) {
 			if (c.getN_conta() == aux) {
-
 				JLabel lblData = new JLabel(c.getData_criacao());
 				lblData.setBounds(95, 51, 70, 14);
 				add(lblData);
 
-				// lblSaldo = new JLabel(String.valueOf(saldo));
 				lblSaldo.setText(String.valueOf(c.getSaldo()));
 				lblSaldo.setBounds(95, 76, 46, 14);
 				add(lblSaldo);
@@ -126,8 +141,12 @@ public class Window_JavaBank_DadosConta extends JPanel {
 				add(lblJuros1);
 			}
 		}
-		
+
 		tabelaMovimentos(scrollPane);
+
+		JButton btnAdicionarTitular = new JButton("Adicionar titular");
+		btnAdicionarTitular.setBounds(287, 47, 121, 23);
+		add(btnAdicionarTitular);
 
 		btnFecharConta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -155,8 +174,8 @@ public class Window_JavaBank_DadosConta extends JPanel {
 						"DEPÓSITO", JOptionPane.QUESTION_MESSAGE, null, null, null);
 				String movimento = "Depósito";
 				if (!montante.equals(null) && montante.length() > 0) {
-					gestao.movimento(montante, aux, movimento);
-					JOptionPane.showMessageDialog(getParent(), "Operação efectuada com sucesso.");
+					String mensagem = gestao.movimento(montante, aux, movimento);
+					JOptionPane.showMessageDialog(getParent(), mensagem);
 					initialize();
 				}
 			}
@@ -168,8 +187,8 @@ public class Window_JavaBank_DadosConta extends JPanel {
 						"LEVANTAMENTO", JOptionPane.QUESTION_MESSAGE, null, null, null);
 				String movimento = "Levantamento";
 				if (!montante.equals(null) && montante.length() > 0) {
-					gestao.movimento(montante, aux, movimento);
-					JOptionPane.showMessageDialog(getParent(), "Operação efectuada com sucesso.");
+					String mensagem = gestao.movimento(montante, aux, movimento);
+					JOptionPane.showMessageDialog(getParent(), mensagem);
 					initialize();
 				}
 			}
@@ -177,22 +196,48 @@ public class Window_JavaBank_DadosConta extends JPanel {
 
 		btnAssociarCarto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Window_JavaBank_ListarContas list = new Window_JavaBank_ListarContas(gestao);
-				String titular = list.getNome_completo();
-				for (JavaBank_Conta c : gestao.getContas()) {
-					if (c instanceof JavaBank_Conta_Ordem && ((JavaBank_Conta_Ordem) c).getCartao() != null) {
-						n_cartao++;
+				Object[] opcoes = { "Confirmar", "Cancelar" };
+				JPanel panel = new JPanel();
+				panel.add(new JLabel("Nome "));
+				JComboBox<String> combo = new JComboBox<>();
+				for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
+					if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getConta().getN_conta() == aux) {
+						String nome_completo = u.getPrimeiro_nome().concat(" ").concat(u.getSobrenome());
+						combo.addItem(nome_completo);
 					}
 				}
-				String n_cartao_string = String.format("%04d", n_cartao);
-				JavaBank_Cartao_Debito cartao = new JavaBank_Cartao_Debito(titular, n_cartao_string);
-				String data = cartao.getData_vencimento();
-				String codigo = cartao.getCodigo_verificacao();
-				Window_JavaBank_AssociarCartao associar = new Window_JavaBank_AssociarCartao(titular, n_cartao_string,
-						data, codigo, aux);
-				getParent().add(associar, "associar");
-				CardLayout card = (CardLayout) getParent().getLayout();
-				card.show(getParent(), "associar");
+				panel.add(combo);
+				int i = JOptionPane.showOptionDialog(getParent(), panel, "Asoociar cartão de débito",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+				String titular = "";
+				if (i == JOptionPane.OK_OPTION) {
+					titular = (String) combo.getSelectedItem();
+					String[] partes = titular.split(" ");
+					for (JavaBank_Conta c : gestao.getContas()) {
+						if (c instanceof JavaBank_Conta_Ordem && ((JavaBank_Conta_Ordem) c).getCartao() != null) {
+							n_cartao++;
+						}
+						for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
+							if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getConta().getN_conta() == aux
+									&& u.getPrimeiro_nome().equals(partes[0]) && u.getSobrenome().equals(partes[1])
+									&& c.getN_conta() == aux && c instanceof JavaBank_Conta_Ordem
+									&& ((JavaBank_Conta_Ordem) c).getCartao() != null) {
+								JOptionPane.showMessageDialog(getParent(),
+										"O titular " + titular + " já possui cartão de débito associado a esta conta.");
+								return;
+							}
+						}
+					}
+					String n_cartao_string = String.format("%04d", n_cartao);
+					JavaBank_Cartao_Debito cartao = new JavaBank_Cartao_Debito(titular, n_cartao_string);
+					String data = cartao.getData_vencimento();
+					String codigo = cartao.getCodigo_verificacao();
+					Window_JavaBank_AssociarCartao associar = new Window_JavaBank_AssociarCartao(titular,
+							n_cartao_string, data, codigo, aux, gestao);
+					getParent().add(associar, "associar");
+					CardLayout card = (CardLayout) getParent().getLayout();
+					card.show(getParent(), "associar");
+				}
 			}
 		});
 
@@ -200,6 +245,44 @@ public class Window_JavaBank_DadosConta extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Window_JavaBank_TransferenciaInterna transf = new Window_JavaBank_TransferenciaInterna(gestao, aux);
 				initialize();
+			}
+		});
+
+		btnAdicionarTitular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] opcoes = { "Confirmar", "Cancelar" };
+				JPanel panel = new JPanel();
+				panel.add(new JLabel("Nome "));
+				JComboBox<String> combo = new JComboBox<>();
+				for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
+					if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getConta().getN_conta() != aux) {
+						String nome_completo = u.getPrimeiro_nome().concat(" ").concat(u.getSobrenome());
+						combo.addItem(nome_completo);
+					}
+				}
+				panel.add(combo);
+				int i = JOptionPane.showOptionDialog(getParent(), panel, "Adicionar titular",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+				String titular = "";
+				if (i == JOptionPane.OK_OPTION) {
+					titular = (String) combo.getSelectedItem();
+					String[] partes = titular.split(" ");
+					String nome = partes[0];
+					String sobrenome = partes[1];
+					for (JavaBank_Conta c : gestao.getContas()) {
+						for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
+							if (u.getPrimeiro_nome().equals(partes[0]) && u.getSobrenome().equals(partes[1])
+									&& u instanceof JavaBank_Cliente && c.getN_conta() == aux) {
+								gestao.getUtilizadores()
+										.add(new JavaBank_Cliente(nome, sobrenome, u.getData_nascimento(),
+												u.getTipo_id(), u.getN_id(), u.getEndereco(), u.getN_contacto(),
+												u.getLogin(), u.getPassword(), ((JavaBank_Cliente) u).getNif(), c));
+								break;
+							}
+						}
+					}
+					JOptionPane.showMessageDialog(getParent(), "Operação efectuada com sucesso");
+				}
 			}
 		});
 	}
@@ -232,5 +315,4 @@ public class Window_JavaBank_DadosConta extends JPanel {
 		}
 		scrollPane.setViewportView(table);
 	}
-
 }

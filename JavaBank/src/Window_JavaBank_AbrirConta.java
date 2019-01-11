@@ -23,10 +23,8 @@ import java.util.Locale;
  */
 public class Window_JavaBank_AbrirConta extends JPanel {
 
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
+	private JavaBank_Gestao gestao;
 	private JTextField textFieldNConta;
-	private JTextField textFieldNome;
-	private JTextField textFieldSobrenome;
 	private JTextField textFieldDeposito;
 
 	/**
@@ -71,74 +69,74 @@ public class Window_JavaBank_AbrirConta extends JPanel {
 		add(textFieldNConta);
 		textFieldNConta.setColumns(10);
 
-		JLabel lblNome = new JLabel("Nome");
+		JLabel lblNome = new JLabel("Nome completo");
 		lblNome.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNome.setBounds(75, 76, 27, 14);
+		lblNome.setBounds(27, 76, 75, 14);
 		add(lblNome);
-
-		textFieldNome = new JTextField();
-		textFieldNome.setBounds(112, 73, 259, 20);
-		add(textFieldNome);
-		textFieldNome.setColumns(10);
-
-		JLabel lblSobrenome = new JLabel("Sobrenome");
-		lblSobrenome.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblSobrenome.setBounds(43, 101, 59, 14);
-		add(lblSobrenome);
-
-		textFieldSobrenome = new JTextField();
-		textFieldSobrenome.setBounds(112, 98, 259, 20);
-		add(textFieldSobrenome);
-		textFieldSobrenome.setColumns(10);
 
 		JLabel lblDataDeCriao = new JLabel("Data de cria\u00E7\u00E3o");
 		lblDataDeCriao.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblDataDeCriao.setBounds(27, 126, 75, 14);
+		lblDataDeCriao.setBounds(27, 101, 75, 14);
 		add(lblDataDeCriao);
 
 		JDateChooser dateChooser = new JDateChooser();
 		dateChooser.setLocale(new Locale("pt"));
-		dateChooser.setBounds(112, 126, 89, 20);
+		dateChooser.setBounds(112, 101, 89, 20);
 		add(dateChooser);
 
 		JLabel lblEstado = new JLabel("Estado");
 		lblEstado.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblEstado.setBounds(211, 129, 46, 14);
+		lblEstado.setBounds(211, 104, 46, 14);
 		add(lblEstado);
 
 		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.addItem("---Escolha a opção---");
 		comboBox.addItem("Activa");
 		comboBox.addItem("Inactiva");
-		comboBox.setBounds(267, 126, 104, 20);
+		comboBox.setBounds(267, 101, 104, 20);
 		add(comboBox);
 
 		JLabel lblDepsitoInicial = new JLabel("Dep\u00F3sito inicial");
 		lblDepsitoInicial.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblDepsitoInicial.setBounds(27, 155, 75, 14);
+		lblDepsitoInicial.setBounds(27, 130, 75, 14);
 		add(lblDepsitoInicial);
 
 		textFieldDeposito = new JTextField();
-		textFieldDeposito.setBounds(112, 152, 89, 20);
+		textFieldDeposito.setBounds(112, 127, 89, 20);
 		add(textFieldDeposito);
 		textFieldDeposito.setColumns(10);
 		
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblTipo.setBounds(211, 155, 46, 14);
+		lblTipo.setBounds(211, 130, 46, 14);
 		add(lblTipo);
 		
 		JComboBox<String> comboBox_1 = new JComboBox<String>();
 		comboBox_1.addItem("---Escolha a opção---");
 		comboBox_1.addItem("Conta à Ordem");
 		comboBox_1.addItem("Conta Poupança");
-		comboBox_1.setBounds(267, 152, 104, 20);
+		comboBox_1.setBounds(267, 127, 104, 20);
 		add(comboBox_1);
+		
+		JComboBox<String> comboBox_2 = new JComboBox<String>();
+		comboBox_2.addItem("---Escolha o cliente---");
+		for(JavaBank_Utilizador u : gestao.getUtilizadores()) {
+			if(u instanceof JavaBank_Cliente) {
+				String nome = u.getPrimeiro_nome();
+				String sobrenome = u.getSobrenome();
+				String nome_completo = nome.concat(" ").concat(sobrenome);
+				comboBox_2.addItem(nome_completo);
+			}
+		}
+		comboBox_2.setBounds(112, 73, 157, 20);
+		add(comboBox_2);
 		
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String nome = textFieldNome.getText();
-				String sobrenome = textFieldSobrenome.getText();
+				String nome_completo = (String) comboBox_2.getSelectedItem();
+				String[] nome_partes = nome_completo.split(" ");
+				String nome = nome_partes[0];
+				String sobrenome = nome_partes[1];
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				String formatData = sdf.format(dateChooser.getDate());
 				String data = formatData.toString();

@@ -1,10 +1,12 @@
+import java.io.Serializable;
+
 /**
 * Breve descrição do código
 *
 * @sid 2002
 * @aid 1.1
 */
-public class JavaBank_Admin extends JavaBank_Utilizador {
+public class JavaBank_Admin extends JavaBank_Utilizador implements Serializable {
 
 	public JavaBank_Admin(String primeiro_nome, String sobrenome, String data_nascimento, String tipo_id,
 			int n_id, String endereco, String n_contacto, String login, String password) {

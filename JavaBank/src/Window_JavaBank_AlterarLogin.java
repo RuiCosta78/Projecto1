@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 */
 public class Window_JavaBank_AlterarLogin extends JPanel {
 	
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
+	private JavaBank_Gestao gestao;
 	private JTextField textFieldUsername;
 	private JTextField textFieldUsernameConfirm;
 	private JPasswordField passwordField;

@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 public class Window_JavaBank_HomepageAdmin extends JFrame {
 
 	private JPanel main_panel;
-	private JavaBank_Gestao gestao = new JavaBank_Gestao();
+	private JavaBank_Gestao gestao;
 
 	public Window_JavaBank_HomepageAdmin(JavaBank_Gestao gestao) throws HeadlessException {
 		this.gestao = gestao;
