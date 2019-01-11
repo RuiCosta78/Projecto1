@@ -11,13 +11,9 @@ public class VCI_cl_Vendedor extends VCI_cl_Utilizador  implements Serializable 
 	
 	private boolean estado;
 	
-	VCI_cl_Vendedor() {
-		
-	}
-
 	public VCI_cl_Vendedor(String nome, String email, String senha, boolean estado) {
 		super(nome, email, senha);
-		estado=false;
+		this.estado = estado;
 	}
 
 	public boolean isEstado() {

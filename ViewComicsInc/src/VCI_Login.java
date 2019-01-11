@@ -39,12 +39,14 @@ public class VCI_Login {
 	private JFrame frame;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private VCI_cl_Gestao g;
 
 	/**
 	 * Create the application.
 	 */
-	public VCI_Login() {
+	public VCI_Login(VCI_cl_Gestao g) {
 		initialize();
+		this.g = g;
 		frame.setVisible(true);
 
 	}
@@ -78,7 +80,6 @@ public class VCI_Login {
 				boolean ut = false;
 				String senha = passwordField.getText(); // lê a password introduzida
 				boolean sn = false;
-				VCI_cl_Gestao g = new VCI_cl_Gestao();
 				if (g.validarEmail(utilizador)) { // Verifica o formato do email.
 					ut = true;
 				} else {
@@ -100,18 +101,22 @@ public class VCI_Login {
 					} // Faz o login.
 					if (retornoLogin.equals("Admin")) { // Se retorno der Admin,
 						frame.dispose(); // desliga a janela ativa;
-						VCI_ADMIN window = new VCI_ADMIN();
+						VCI_ADMIN window = null;
+						try {
+							window = new VCI_ADMIN(g);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						window.getFrames(); // Ativa a janela a que o botão dá acesso;
 					} else if (retornoLogin.equals("Vendedor")) { // Se retorno der Vendedor,
-						if (VCI_cl_Gestao.utilizador instanceof VCI_cl_Vendedor &&
-								((VCI_cl_Vendedor) VCI_cl_Gestao.utilizador).isEstado() == true) {
+						if (((VCI_cl_Vendedor) VCI_cl_Gestao.utilizador).isEstado() == true) {
 							frame.dispose(); // desliga a janela ativa;
-							VCI_VENDEDOR window = new VCI_VENDEDOR();
+							VCI_VENDEDOR window = new VCI_VENDEDOR(g);
 							window.getFrame(); // Ativa a janela a que o botão dá acesso;
 						} else {
 							JOptionPane.showMessageDialog(frame, "Vendedor inativo. Contactar o Administrador.");
-							System.out.println(((VCI_cl_Vendedor) VCI_cl_Gestao.utilizador).isEstado());
-						}
+							}
 					} else { // Dados errados ou utilizador não registado.
 						JOptionPane.showMessageDialog(frame, "Utilizador não registado ou dados incorretos.");
 					}
@@ -128,7 +133,7 @@ public class VCI_Login {
 			// Adição de ação ao botão:
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose(); // desliga a janela ativa;
-				VCI_N1 window = new VCI_N1();
+				VCI_N1 window = new VCI_N1(g);
 				window.getFrame().setVisible(true);
 				; // Ativa a janela a que o botão dá acesso;
 			}
@@ -153,20 +158,16 @@ public class VCI_Login {
 
 		JLabel lblSenhaDeAcesso = new JLabel("(m\u00EDnimo 8 caracteres)");
 		lblSenhaDeAcesso.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblSenhaDeAcesso.setBounds(66, 184, 110, 14);
+		lblSenhaDeAcesso.setBounds(26, 184, 150, 14);
 		panel.add(lblSenhaDeAcesso);
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(178, 0, 80, 80);
-<<<<<<< HEAD
-		// Insertion of image adapted to the size of the jlabel (I mooved the above line
+
+		// Insertion of image adapted to the size of the jlabel (I moved the above line
 		// with bounds and dimension from down).
 		ImageIcon imagem = new ImageIcon(
 				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg");
-=======
-		// Insertion of image adapted to the size of the jlabel (I moved the above line with bounds and dimension from down).
-		ImageIcon imagem= new ImageIcon("C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg");
->>>>>>> refs/remotes/origin/master
 		Image img = imagem.getImage();
 		Image img1 = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon i = new ImageIcon(img1);

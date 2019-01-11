@@ -28,8 +28,14 @@ import java.awt.SystemColor;
 public class VCI_N1 {
 
 	private JFrame frame;
+	private VCI_cl_Gestao g = new VCI_cl_Gestao();
 
-		public VCI_N1() {
+	public VCI_N1(VCI_cl_Gestao g) {
+		this.g = g;
+		initialize();
+	}
+	
+	public VCI_N1() {
 		initialize();
 	}
 
@@ -53,7 +59,7 @@ public class VCI_N1 {
 			// Adição de ação ao botão:
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose(); // desliga a janela ativa;
-				VCI_Login window = new VCI_Login();
+				VCI_Login window = new VCI_Login(g);
 				window.getFrame(); // Ativa a janela a que o botão dá acesso;
 			}
 		});
@@ -67,9 +73,8 @@ public class VCI_N1 {
 			// Adição de ação ao botão:
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose(); // desliga a janela ativa;
-				VCI_Cliente_Op window = new VCI_Cliente_Op();
+				VCI_Cliente_Nome window = new VCI_Cliente_Nome(g);
 				window.getFrame(); // Ativa a janela a que o botão dá acesso;
-
 			}
 		});
 		btnAcessoLoja.setBounds(153, 214, 130, 23);

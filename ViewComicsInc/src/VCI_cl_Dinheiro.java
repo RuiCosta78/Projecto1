@@ -1,3 +1,5 @@
+import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 /**   
  * Projeto final de Introdução à Programação em Java
@@ -6,17 +8,13 @@
  * @aid 1.1   
  */
 
-public class VCI_cl_Dinheiro extends VCI_cl_Compra {
+public class VCI_cl_Dinheiro extends VCI_cl_Compra implements Serializable {
 	
-	private double valor;
+	//private double valor;
 	
-	VCI_cl_Dinheiro() {
-		
-	}
-
-	public VCI_cl_Dinheiro(double valor) {
-		super();
-		this.valor = valor;
+	public VCI_cl_Dinheiro(int nif, VCI_cl_Carrinho carrinho, GregorianCalendar data, double valor) {
+		super(nif, carrinho, data, valor);
+		// TODO Auto-generated constructor stub
 	}
 
 	public double getValor() {

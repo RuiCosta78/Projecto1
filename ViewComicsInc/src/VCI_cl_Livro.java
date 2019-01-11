@@ -27,7 +27,7 @@ public class VCI_cl_Livro  implements Serializable {
 		super();
 		this.titulo = titulo;
 		this.autor = autor;
-		editora = editora;
+		this.editora = editora;
 		this.isbn = isbn;
 		this.anoEdicao = anoEdicao;
 		this.preco = preco;
@@ -88,6 +88,11 @@ public class VCI_cl_Livro  implements Serializable {
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	@Override
+	public String toString() {
+		return titulo;
 	}
 	
 

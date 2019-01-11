@@ -1,3 +1,4 @@
+import java.util.GregorianCalendar;
 
 /**   
  * Projeto final de Introdução à Programação em Java
@@ -9,16 +10,10 @@
 public class VCI_cl_Cartao extends VCI_cl_Compra {
 	
 	private int numCartao;
-	private int codCartao;
-	
-	VCI_cl_Cartao() {
-		
-	}
 
-	public VCI_cl_Cartao(int numCartao, int codCartao) {
-		super();
+	public VCI_cl_Cartao(int nif, VCI_cl_Carrinho carrinho, GregorianCalendar data, double valor, int numCartao) {
+		super(nif, carrinho, data, valor);
 		this.numCartao = numCartao;
-		this.codCartao = codCartao;
 	}
 
 	public int getNumCartao() {
@@ -28,13 +23,4 @@ public class VCI_cl_Cartao extends VCI_cl_Compra {
 	public void setNumCartao(int numCartao) {
 		this.numCartao = numCartao;
 	}
-
-	public int getCodCartao() {
-		return codCartao;
-	}
-
-	public void setCodCartao(int codCartao) {
-		this.codCartao = codCartao;
-	}
-
 }

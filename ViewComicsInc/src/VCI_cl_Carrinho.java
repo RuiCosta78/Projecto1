@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**   
@@ -7,45 +8,45 @@ import java.util.ArrayList;
  * @aid 1.1   
  */
 
-public class VCI_cl_Carrinho {
+public class VCI_cl_Carrinho  implements Serializable {
 	
-	protected int carrinho_ID;
-	protected boolean estado;
-	protected ArrayList<VCI_cl_Livro> compras = new ArrayList<>();
+	protected String nome;
+	protected ArrayList<VCI_cl_Livro> listaCompras;
+	protected ArrayList<Integer> quantLivros;
 
 	VCI_cl_Carrinho() {
 		
 	}
 
-	public VCI_cl_Carrinho(int carrinho_ID, boolean estado, ArrayList<VCI_cl_Livro> compras) {
+	public VCI_cl_Carrinho(String nome, ArrayList<VCI_cl_Livro> listaCompras, ArrayList<Integer> quantLivros) {
 		super();
-		this.carrinho_ID = carrinho_ID;
-		this.estado = estado;
-		this.compras = compras;
+		this.nome = nome;
+		this.listaCompras = listaCompras;
+		this.quantLivros = quantLivros;
 	}
 
-	public int getCarrinho_ID() {
-		return carrinho_ID;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setCarrinho_ID(int carrinho_ID) {
-		this.carrinho_ID = carrinho_ID;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public boolean isEstado() {
-		return estado;
+	public ArrayList<Integer> getQuantLivros() {
+		return quantLivros;
 	}
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void setQuantLivros(ArrayList<Integer> quantLivros) {
+		this.quantLivros = quantLivros;
 	}
 
-	public ArrayList<VCI_cl_Livro> getCompras() {
-		return compras;
+	public ArrayList<VCI_cl_Livro> getListaCompras() {
+		return listaCompras;
 	}
 
-	public void setCompras(ArrayList<VCI_cl_Livro> compras) {
-		this.compras = compras;
+	public void setListaCompras(ArrayList<VCI_cl_Livro> listaCompras) {
+		this.listaCompras = listaCompras;
 	}
 	
 }

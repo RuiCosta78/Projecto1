@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 /**   
@@ -21,14 +22,15 @@ public class VCI_Cliente_Nome {
 
 	private JFrame frame;
 	private JTextField textField;
+	private VCI_cl_Gestao g;
 
 	/**
 	 * Create the application.
 	 */
-	public VCI_Cliente_Nome() {
+	public VCI_Cliente_Nome(VCI_cl_Gestao g) {
+		this.g = g;
 		initialize();
 		frame.setVisible(true);
-
 	}
 
 	/**
@@ -65,14 +67,20 @@ public class VCI_Cliente_Nome {
 		panel.add(lblDeUtilizador);
 		
 		textField = new JTextField();
-		textField.setBounds(162, 156, 111, 20);
+		textField.setBounds(156, 132, 111, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 		
+		// CONFIRMAR
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String nome = textField.getText(); // Aquisição do nome de utilizador do cliente
+				g.novoCliente(nome); // Criação do carrinho do novo cliente.
+				frame.dispose(); // desliga a janela ativa;
+				VCI_Cliente_Op window = new VCI_Cliente_Op(g);
+				window.getFrame(); // Ativa a janela das opções do cliente;
 			}
 		});
 		btnConfirmar.setBounds(233, 206, 89, 23);
@@ -85,12 +93,18 @@ public class VCI_Cliente_Nome {
 			// Adição de ação ao botão:
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose(); // desliga a janela ativa;
-				VCI_N1 window = new VCI_N1();
+				VCI_N1 window = new VCI_N1(g);
 				window.getFrame().setVisible(true);; // Ativa a janela a que o botão dá acesso;
 			}
 		});
 		btnVoltar.setBounds(115, 206, 89, 23);
 		panel.add(btnVoltar);
+		
+		JLabel lblnoFinalDa = new JLabel("(No final da compra dever\u00E1 fornecer o seu nome de utilizador a um vendedor).");
+		lblnoFinalDa.setHorizontalAlignment(SwingConstants.CENTER);
+		lblnoFinalDa.setFont(new Font("Comic Sans MS", Font.PLAIN, 11));
+		lblnoFinalDa.setBounds(0, 158, 436, 24);
+		panel.add(lblnoFinalDa);
 	}
 
 	public JFrame getFrame() {
@@ -108,5 +122,4 @@ public class VCI_Cliente_Nome {
 	public void setTextField(JTextField textField) {
 		this.textField = textField;
 	}
-	
 }

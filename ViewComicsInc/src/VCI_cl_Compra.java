@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 /**   
@@ -7,21 +8,19 @@ import java.util.GregorianCalendar;
  * @aid 1.1   
  */
 
-public class VCI_cl_Compra {
+public class VCI_cl_Compra implements Serializable {
 	
 	protected int nif;
 	protected VCI_cl_Carrinho carrinho;
 	protected GregorianCalendar data;
+	protected double valor;
 	
-	VCI_cl_Compra() {
-		
-	}
-
-	public VCI_cl_Compra(int nif, VCI_cl_Carrinho carrinho, GregorianCalendar data) {
+	public VCI_cl_Compra(int nif, VCI_cl_Carrinho carrinho, GregorianCalendar data, double valor) {
 		super();
 		this.nif = nif;
 		this.carrinho = carrinho;
 		this.data = data;
+		this.valor = valor;
 	}
 
 	public int getNif() {
@@ -46,6 +45,13 @@ public class VCI_cl_Compra {
 
 	public void setData(GregorianCalendar data) {
 		this.data = data;
+	}
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
 	}
 
 }

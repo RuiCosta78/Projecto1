@@ -30,11 +30,13 @@ public class VCI_LoginAlt {
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JPasswordField passwordField_1;
+	VCI_cl_Gestao g;
 
 	/**
 	 * Create the application.
 	 */
-	public VCI_LoginAlt() {
+	public VCI_LoginAlt(VCI_cl_Gestao g) {
+		this.g = g;
 		initialize();
 		frame.setVisible(true);
 	}
@@ -84,10 +86,10 @@ public class VCI_LoginAlt {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 				if (VCI_cl_Gestao.utilizador instanceof VCI_cl_Admin) {
-					VCI_ADMIN window = new VCI_ADMIN();
+					VCI_ADMIN window = new VCI_ADMIN(g);
 					window.getFrames(); // Ativa a janela a que o botão dá acesso;
 				} else if (VCI_cl_Gestao.utilizador instanceof VCI_cl_Vendedor) {
-					VCI_VENDEDOR window = new VCI_VENDEDOR();
+					VCI_VENDEDOR window = new VCI_VENDEDOR(g);
 					window.getFrame(); // Ativa a janela a que o botão dá acesso;
 				}
 			}
@@ -103,7 +105,6 @@ public class VCI_LoginAlt {
 				String u1 = textField.getText(); // lê o utilizador introduzido
 				String u2 = textField_1.getText(); // lê o utilizador introduzido
 				String utilizador = "";
-				VCI_cl_Gestao g = new VCI_cl_Gestao();
 				boolean ut = false;
 				if (u1.equals(u2)) { // Verifica se os dois emails coincidem.
 					utilizador = u1;
@@ -131,22 +132,28 @@ public class VCI_LoginAlt {
 					JOptionPane.showMessageDialog(frame, "Introduzidas senhas de acesso diferentes.");
 				}
 				if (ut == true && pw == true) { // Caso o email e a senha sejam válidos,
-					VCI_cl_Gestao loginGestao = new VCI_cl_Gestao();
 					try {
-						loginGestao.alterarLogin(utilizador, senha);
+						g.alterarLogin(utilizador, senha);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} // Altera os dados de login
+					}
+					// Altera os dados de login
 					JOptionPane.showMessageDialog(frame, "Dados de login alterados com sucesso.");
 					frame.dispose(); // Desativa a janela em visualização.
 					// Retorno à janela das opções do utilizador ativo,
 					// identificando na gestão qual o utilizador em sessão (variável pública estabelecida no login):
 					if (VCI_cl_Gestao.utilizador instanceof VCI_cl_Admin) {
-						VCI_Admin_Op window = new VCI_Admin_Op();
-						window.getFrame(); // Ativa a janela das opções do Admin.
+						VCI_ADMIN window = null;
+						try {
+							window = new VCI_ADMIN(g);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						window.getFrames(); // Ativa a janela das opções do Admin.
 					} else if (VCI_cl_Gestao.utilizador instanceof VCI_cl_Vendedor) {
-						VCI_VENDEDOR window = new VCI_VENDEDOR();
+						VCI_VENDEDOR window = new VCI_VENDEDOR(g);
 						window.getFrame(); // Ativa a janela das opções do Vendedor.
 					}
 				}
