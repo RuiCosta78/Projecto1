@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -133,11 +135,32 @@ public class Window_JavaBank_HomepageAdmin extends JFrame {
 		});
 
 		btnListarContas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Window_JavaBank_ListarContas listaconta = new Window_JavaBank_ListarContas(gestao);
-				main_panel.add(listaconta, "listarconta");
-				CardLayout card = (CardLayout) main_panel.getLayout();
-				card.show(main_panel, "listarconta");
+			public void actionPerformed(ActionEvent e) {
+				Object[] opcoes = { "Confirmar", "Cancelar" };
+				JPanel panel = new JPanel();
+				panel.add(new JLabel("Nome "));
+				JComboBox<String> combo = new JComboBox<>();
+				combo.addItem("---Escolha a conta---");
+				for (JavaBank_Conta c : gestao.getContas()) {
+					combo.addItem(String.valueOf(c.getN_conta()));
+				}
+				panel.add(combo);
+				int i = JOptionPane.showOptionDialog(getParent(), panel, "Lista de contas",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+				int n_conta = 0;
+				double saldo = 0.0;
+				if (i == JOptionPane.OK_OPTION) {
+					n_conta = Integer.parseInt(combo.getSelectedItem().toString());
+					for (JavaBank_Conta c : gestao.getContas()) {
+						if (c.getN_conta() == n_conta) {
+							saldo = c.getSaldo();
+						}
+					}
+					Window_JavaBank_DadosConta dados = new Window_JavaBank_DadosConta(gestao, n_conta, saldo);
+					main_panel.add(dados, "dados");
+					CardLayout card = (CardLayout) main_panel.getLayout();
+					card.show(main_panel, "dados");
+				}
 			}
 		});
 	}

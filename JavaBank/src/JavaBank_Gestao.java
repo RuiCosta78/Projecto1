@@ -1,18 +1,10 @@
 import java.awt.EventQueue;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -276,7 +268,34 @@ public class JavaBank_Gestao implements Serializable {
 				double quantia_mensal = 0.0;
 				String[] data = null;
 				double juros = 0;
-				if(c instanceof JavaBank_Conta_Poupanca) {
+				int mes_num = 0;
+				switch (mes) {
+				case "jan":
+					mes_num = 1;
+				case "fev":
+					mes_num = 2;
+				case "mar":
+					mes_num = 3;
+				case "abr":
+					mes_num = 4;
+				case "mai":
+					mes_num = 5;
+				case "jun":
+					mes_num = 6;
+				case "jul":
+					mes_num = 7;
+				case "ago":
+					mes_num = 8;
+				case "set":
+					mes_num = 9;
+				case "out":
+					mes_num = 10;
+				case "nov":
+					mes_num = 11;
+				case "dez":
+					mes_num = 12;
+				}
+				if (c instanceof JavaBank_Conta_Poupanca) {
 					juros = calculoJuros(c, dia, mes, ano);
 				}
 				for (JavaBank_Movimento m : c.getHistorico_movimentos()) {
