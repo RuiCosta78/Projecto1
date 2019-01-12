@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -175,7 +176,13 @@ public class Window_JavaBank_DadosConta extends JPanel {
 						"DEPÓSITO", JOptionPane.QUESTION_MESSAGE, null, null, null);
 				String movimento = "Depósito";
 				if (!montante.equals(null) && montante.length() > 0) {
-					String mensagem = gestao.movimento(montante, aux, movimento);
+					String mensagem = null;
+					try {
+						mensagem = gestao.movimento(montante, aux, movimento);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(getParent(), mensagem);
 					initialize();
 				}
@@ -188,7 +195,13 @@ public class Window_JavaBank_DadosConta extends JPanel {
 						"LEVANTAMENTO", JOptionPane.QUESTION_MESSAGE, null, null, null);
 				String movimento = "Levantamento";
 				if (!montante.equals(null) && montante.length() > 0) {
-					String mensagem = gestao.movimento(montante, aux, movimento);
+					String mensagem = null;
+					try {
+						mensagem = gestao.movimento(montante, aux, movimento);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(getParent(), mensagem);
 					initialize();
 				}

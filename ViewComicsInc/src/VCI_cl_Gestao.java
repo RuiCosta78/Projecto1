@@ -158,9 +158,14 @@ public class VCI_cl_Gestao implements Serializable {
 							((JavaBank_Conta_Ordem) contas.get(i)).setSaldo(novoSaldo);
 							compra = "efetuada";
 							JavaBank_Gestao jb = new JavaBank_Gestao();
-							jb.movimento(Double.toString(p),
-									Integer.parseInt(((JavaBank_Conta_Ordem) contas.get(i)).getCartao().getNumero()),
-									"Compra ViewComics");
+							try {
+								jb.movimento(Double.toString(p),
+										Integer.parseInt(((JavaBank_Conta_Ordem) contas.get(i)).getCartao().getNumero()),
+										"Compra ViewComics");
+							} catch (NumberFormatException | IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					}
 				}

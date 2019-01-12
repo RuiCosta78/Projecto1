@@ -1,5 +1,6 @@
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,10 +62,20 @@ public class Window_JavaBank_TransferenciaInterna extends JFrame {
 			dest = Integer.parseInt(destinoInput);
 			for (JavaBank_Conta c : gestao.getContas()) {
 				if (c.getN_conta() == aux) {
-					gestao.movimento(montanteInput, aux, "Transferência para " + destinoInput);
+					try {
+						gestao.movimento(montanteInput, aux, "Transferência para " + destinoInput);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				if (c.getN_conta() == dest) {
-					gestao.movimento(montanteInput, dest, "Transferência de " + aux);
+					try {
+						gestao.movimento(montanteInput, dest, "Transferência de " + aux);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			JOptionPane.showMessageDialog(getParent(), "Operação efectuada com sucesso.");

@@ -17,26 +17,24 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- * Breve descrição do código
- *
- * @sid 2002
- * @aid 1.1
+ * Classe principal onde estão agregadas as listas de utilizadores e de contas do banco
+ * Também estão introduzidos os métodos relativos a validação de valores inseridos e operações matemáticas
  */
 public class JavaBank_Gestao implements Serializable {
 
-	protected ArrayList<JavaBank_Utilizador> utilizadores = new ArrayList<>();
-	protected ArrayList<JavaBank_Conta> contas = new ArrayList<>();
-	public static JavaBank_Utilizador utilizador_logado;
+	protected ArrayList<JavaBank_Utilizador> utilizadores = new ArrayList<>();//Lista de utilizadores
+	protected ArrayList<JavaBank_Conta> contas = new ArrayList<>();//Lista de contas
+	public static JavaBank_Utilizador utilizador_logado;//Informaçao do utilizador logado no momento
 
 	public JavaBank_Gestao() {
 		super();
-		JavaBank_Conta conta1 = new JavaBank_Conta_Ordem(1, "1/jan/2001", 250.00, "Inactiva", null);
+		/*JavaBank_Conta conta1 = new JavaBank_Conta_Ordem(1, "1/jan/2001", 250.00, "Inactiva", null);
 		JavaBank_Conta conta2 = new JavaBank_Conta_Ordem(2, "1/jan/2001", 150.00, "Activa",
 				new JavaBank_Cartao_Debito("Nuno Pratas", "0001", "1/2024", "001"));
 		JavaBank_Conta conta3 = new JavaBank_Conta_Poupanca(3, "1/1/2001", 5000.00, "Activa");
 		contas.add(conta1);
 		contas.add(conta2);
-		contas.add(conta3);
+		//contas.add(conta3);
 		utilizadores.add(new JavaBank_Admin("Rui", "Costa", "29/08/1978", "Cartão de cidadão", 123456789,
 				"Rua Maria Vitória Bourbon Bobone, Lote 15.7, 3030-502 Coimbra", "987654321", "rdrmdc",
 				"SuperBread1978"));
@@ -46,9 +44,12 @@ public class JavaBank_Gestao implements Serializable {
 		utilizadores.add(new JavaBank_Cliente("Bruno", "Escada", "1/jan/1980", "Passaporte", 456, "asdf", "234",
 				"asdfg@gmail.com", "87654321", "987", conta1));
 		utilizadores.add(new JavaBank_Cliente("Nuno", "Pratas", "1/mar/1980", "Cartão de Cidadão", 789, "asdf", "234",
-				"asdfg@gmail.com", "12345678", "345", conta2));
+				"asdfg@gmail.com", "12345678", "345", conta2));*/
 	}
 
+	/**
+	 * Método mais para carregar o programa de gestão do banco
+	 */
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -70,7 +71,11 @@ public class JavaBank_Gestao implements Serializable {
 		});
 	}
 
-	// Método para iniciar o processo de login
+	/**
+	 * @param login
+	 * @param password
+	 * @return
+	 */
 	public String login(String login, String password) {
 
 		String janela_confirmacao = "";
@@ -317,6 +322,7 @@ public class JavaBank_Gestao implements Serializable {
 					mes_num = 12;
 				}
 				if (c instanceof JavaBank_Conta_Poupanca) {
+					mes = String.valueOf(mes_num);
 					juros = calculoJuros(c, dia, mes, ano);
 				}
 				for (JavaBank_Movimento m : c.getHistorico_movimentos()) {
