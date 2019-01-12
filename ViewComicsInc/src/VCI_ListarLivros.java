@@ -58,8 +58,7 @@ public class VCI_ListarLivros {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
@@ -273,7 +272,7 @@ public class VCI_ListarLivros {
 						}
 					} else if (rdbtnTitulo.isSelected()) {
 						for (VCI_cl_Livro l : g.listaLivros) {
-							if (String.valueOf(l.getTitulo()).equals(textField.getText())) {
+							if (String.valueOf(l.getTitulo()).equalsIgnoreCase(textField.getText())) {
 								livrosSel.add(l);
 							}
 						}

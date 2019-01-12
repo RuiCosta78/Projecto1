@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -49,9 +50,8 @@ public class VCI_TabListaLiv {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setBounds(100, 100, 800, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -69,13 +69,20 @@ public class VCI_TabListaLiv {
 		JFrame caixa = new JFrame();
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 61, 416, 152);
+		scrollPane.setBounds(10, 77, 766, 136);
 		frame.getContentPane().add(scrollPane);
 		// Colunas da tabela.
-		String[] colunas = { "Título", "Autor", "Editora", "ISBN", "Ano de Edição", "Preço" };
+		String[] colunas = { "Título", "Autor", "Editora", "ISBN", "Ano de Ed.", "Preço" };
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable table = new JTable(modeloTabela);
-		//table.setAutoCreateRowSorter(true);
+		table.setAutoCreateRowSorter(true);
+		TableColumnModel col = table.getColumnModel();
+		col.getColumn(0).setMaxWidth(261);
+		col.getColumn(1).setMaxWidth(130);
+		col.getColumn(2).setMaxWidth(130);
+		col.getColumn(3).setMaxWidth(130);
+		col.getColumn(4).setMaxWidth(65);
+		col.getColumn(5).setMaxWidth(50);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		for (VCI_cl_Livro l : listaLiv) { // Formação das linhas da tabela.
@@ -106,8 +113,11 @@ public class VCI_TabListaLiv {
 		JButton btnSelecionar = new JButton("Selecionar");
 		btnSelecionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int n = table.getSelectedRow(); // número da linha selecionada.
-				if (n >= 0) {
+				if (table.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(frame, "Selecionar um item da tabela.");
+				} else {
+					int n = table.convertRowIndexToModel(table.getSelectedRow()); // número da linha selecionada.
+
 					String isbnSel = table.getModel().getValueAt(n, 3).toString(); // isbn da linha selecionada (4.ª
 																					// coluna, posição 3).
 					for (VCI_cl_Livro l : listaLiv) {
@@ -145,7 +155,8 @@ public class VCI_TabListaLiv {
 												"Encontram-se disponíveis " + livroSelecionado.getQuantidade()
 														+ " exemplares do livro selecionado.");
 									} else {
-										JOptionPane.showMessageDialog(frame, "Adição ao carrinho de compras com sucesso.");
+										JOptionPane.showMessageDialog(frame,
+												"Adição ao carrinho de compras com sucesso.");
 										VCI_cl_Gestao.cliente.getListaCompras().add(livroSelecionado);
 										VCI_cl_Gestao.cliente.getQuantLivros().add(num);
 									}
@@ -153,13 +164,16 @@ public class VCI_TabListaLiv {
 							}
 						}
 					}
-				} else {
-					JOptionPane.showMessageDialog(caixa, "Nenhum livro selecionado.");
 				}
 			}
 		});
-		btnSelecionar.setBounds(321, 229, 105, 23);
+		btnSelecionar.setBounds(671, 229, 105, 23);
 		frame.getContentPane().add(btnSelecionar);
+
+		JLabel label_1 = new JLabel("Clique nas colunas para reordenar os livros.");
+		label_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		label_1.setBounds(10, 53, 416, 24);
+		frame.getContentPane().add(label_1);
 	}
 
 	// CÓDIGO ALTERNATIVO PARA CRIAÇÃO DE TABELA

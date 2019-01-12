@@ -47,8 +47,7 @@ public class VCI_Cliente_Op {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 
@@ -108,7 +107,7 @@ public class VCI_Cliente_Op {
 				if (opcao == 0) { // Adição do livro ao carrinho de compras.
 					VCI_cl_Gestao.cliente = null; // Anula o cliente ativo.
 					frame.dispose();
-					VCI_N1 window = new VCI_N1(g);
+					VCI_N1 window = new VCI_N1();
 					window.getFrame().setVisible(true);
 				}
 			}

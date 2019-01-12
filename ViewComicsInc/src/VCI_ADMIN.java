@@ -70,12 +70,12 @@ public class VCI_ADMIN extends JFrame {
 	private ArrayList<VCI_cl_Livro> listaSel = new ArrayList<VCI_cl_Livro>();
 	private VCI_cl_Livro livroSelecionado = null;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	boolean estAtual;
+	private boolean estAtual;
+	private String est;
 
 	public VCI_ADMIN(VCI_cl_Gestao g) throws IOException {
 		this.g = g;
-		setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		main = new JPanel();
@@ -211,7 +211,7 @@ public class VCI_ADMIN extends JFrame {
 		// LISTAR VENDAS
 		JButton button_9 = new JButton("Listar vendas");
 		button_9.addActionListener(new ActionListener() {
-		
+
 			public void actionPerformed(ActionEvent arg0) {
 				if (g.listaCompras.size() == 0) {
 					g.abrirCompras();
@@ -373,6 +373,9 @@ public class VCI_ADMIN extends JFrame {
 		lblAtualizarDadosDe.setBounds(10, 24, 310, 30);
 		AtVendedor.add(lblAtualizarDadosDe);
 
+		// Label para indicação do estado do vendedor selecionado na comboBox (ver comboBox abaixo).
+		JLabel lblNewLabel = new JLabel();
+
 		// COMBOBOX com a listagem dos vendedores
 		JLabel lblEscolhaOColaborador = new JLabel("Escolha o colaborador:");
 		lblEscolhaOColaborador.setHorizontalAlignment(SwingConstants.LEFT);
@@ -380,6 +383,24 @@ public class VCI_ADMIN extends JFrame {
 		lblEscolhaOColaborador.setBounds(10, 53, 416, 22);
 		AtVendedor.add(lblEscolhaOColaborador);
 		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for (VCI_cl_Utilizador u : g.listaUtilizadores) {
+					if (comboBox.getSelectedItem().toString().equals(u.getNome())) {
+						if (((VCI_cl_Vendedor) u).isEstado()) {
+							est = "ATIVO";
+						} else {
+							est = "INATIVO";
+						}
+					}
+				}
+				// INDICAÇÃO DO ESTADO DO VENDEDOR na Label criada acima.
+				lblNewLabel.setText(est);
+				lblNewLabel.setBackground(Color.WHITE);
+				lblNewLabel.setBounds(115, 100, 111, 19);
+				AtVendedor.add(lblNewLabel);
+			}
+		});
 		for (VCI_cl_Utilizador v : g.listaUtilizadores) {
 			if (v instanceof VCI_cl_Vendedor) {
 				comboBox.addItem(v.getNome());
@@ -391,32 +412,8 @@ public class VCI_ADMIN extends JFrame {
 		JLabel lblColaboradorEmAtividade = new JLabel("Estado atual:");
 		lblColaboradorEmAtividade.setHorizontalAlignment(SwingConstants.LEFT);
 		lblColaboradorEmAtividade.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblColaboradorEmAtividade.setBounds(10, 100, 129, 19);
+		lblColaboradorEmAtividade.setBounds(10, 100, 111, 19);
 		AtVendedor.add(lblColaboradorEmAtividade);
-
-		// INDICAÇÃO DO ESTADO DO VENDEDOR
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBackground(Color.WHITE);
-		lblNewLabel.setBounds(115, 100, 111, 19);
-		AtVendedor.add(lblNewLabel);
-		int cont = 0;
-		for (VCI_cl_Utilizador u : g.listaUtilizadores) {
-			if (u instanceof VCI_cl_Vendedor) {
-				cont++;
-			}
-		}
-		if (cont > 0) {
-			for (VCI_cl_Utilizador u : g.listaUtilizadores) {
-				if (comboBox.getSelectedItem().toString().equals(u.getNome()) && u instanceof VCI_cl_Vendedor) {
-					estAtual = ((VCI_cl_Vendedor) u).isEstado();
-					if (((VCI_cl_Vendedor) u).isEstado() == true) {
-						lblNewLabel.setText("ATIVO");
-					} else {
-						lblNewLabel.setText("INATIVO");
-					}
-				}
-			}
-		}
 
 		JLabel lblAtualizarApenasOs = new JLabel("Atualizar apenas os dados necess\u00E1rios");
 		lblAtualizarApenasOs.setHorizontalAlignment(SwingConstants.LEFT);
@@ -619,11 +616,14 @@ public class VCI_ADMIN extends JFrame {
 				boolean e = false;
 				String isbn = textField_7.getText(); // ISBN do livro
 				boolean i = false;
-				int ano = Integer.parseInt(textField_8.getText()); // Ano do livro
+				String ano = textField_8.getText(); // Ano do livro
+				int anoI = 0;
 				boolean an = false;
-				double preco = Double.parseDouble(textField_6.getText()); // Preço do livro
+				String preco = textField_6.getText(); // Preço do livro
+				double precoD = 0;
 				boolean p = false;
-				int quant = Integer.parseInt(textField_10.getText()); // Quantidade de exemplares
+				String quant = textField_10.getText(); // Quantidade de exemplares
+				int quantI = 0;
 				boolean q = false;
 				if (!titulo.equals("")) {
 					t = true;
@@ -646,26 +646,36 @@ public class VCI_ADMIN extends JFrame {
 					JOptionPane.showMessageDialog(caixa, "ISBN não introduzido.");
 				}
 				int anoAtual = Year.now().getValue();
-				if (ano >= 1900 && ano <= anoAtual) {
-					an = true;
+				if (g.validarInteiro(ano)) {
+					anoI = Integer.parseInt(ano); // Ano do livro
+					if (anoI >= 1900 && anoI <= anoAtual) {
+						an = true;
+					}
 				} else {
 					JOptionPane.showMessageDialog(caixa,
 							"O ano de edição deverá situar-se entre 1900 e o ano corrente.");
 				}
-				if (preco > 0) {
-					p = true;
+				if (g.validarDouble(preco)) {
+					precoD = Double.parseDouble(preco);
+					if (precoD > 0) {
+						p = true;
+					}
 				} else {
-					JOptionPane.showMessageDialog(caixa, "O preço não pode ser nulo ou negativo.");
+					JOptionPane.showMessageDialog(caixa,
+							"O preço não é válido (não pode ser nulo, negativo e ter no máximo duas casas decimais).");
 				}
-				if (quant >= 0) {
-					q = true;
+				if (g.validarInteiro(quant) == true) {
+					quantI = Integer.parseInt(quant);
+					if (quantI >= 0) {
+						q = true;
+					}
 				} else {
 					JOptionPane.showMessageDialog(caixa, "A quantidade em stock deve ser um n.º inteiro não negativo.");
 				}
 				if (t == true && a == true && e == true && i == true && an == true && p == true && q == true) {
 					try {
-						g.adicionarLivro(titulo, autor, editora, isbn, ano, preco, quant);
-						g.criarHistorico(isbn, new GregorianCalendar(), preco);
+						g.adicionarLivro(titulo, autor, editora, isbn, anoI, precoD, quantI);
+						g.criarHistorico(isbn, new GregorianCalendar(), precoD);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -761,7 +771,7 @@ public class VCI_ADMIN extends JFrame {
 				} else if (rdbtnTitulo.isSelected()) {
 					String titulo = textField_11.getText();
 					for (VCI_cl_Livro l : g.listaLivros) {
-						if (titulo.equals(l.getTitulo())) {
+						if (titulo.equalsIgnoreCase(l.getTitulo())) {
 							listaSel.add(l);
 						}
 					}

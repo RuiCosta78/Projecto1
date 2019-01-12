@@ -30,21 +30,20 @@ public class VCI_N1 {
 	private JFrame frame;
 	private VCI_cl_Gestao g = new VCI_cl_Gestao();
 
-	public VCI_N1(VCI_cl_Gestao g) {
-		this.g = g;
-		initialize();
-	}
-	
 	public VCI_N1() {
 		initialize();
 	}
+	/*
+	public VCI_N1() {
+		initialize();
+	}*/
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

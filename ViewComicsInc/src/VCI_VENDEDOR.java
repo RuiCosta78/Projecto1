@@ -57,8 +57,7 @@ public class VCI_VENDEDOR {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
@@ -332,7 +331,7 @@ public class VCI_VENDEDOR {
 					if (Double.parseDouble(pag) < pTotal) {
 						JOptionPane.showMessageDialog(frame, "O valor para pagamento não é suficiente.");
 					} else {
-						troco = Double.toString(Double.parseDouble(pag) - pTotal);
+						String troco = df.format(Double.parseDouble(pag) - pTotal);
 						JOptionPane.showMessageDialog(frame, "O cliente tem a receber " + troco + "€ de troco.");
 						// Percorre a lista de compras:
 						for (int i = 0; i < VCI_cl_Gestao.cliente.getListaCompras().size(); i++) {

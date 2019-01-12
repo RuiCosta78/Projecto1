@@ -12,8 +12,12 @@ import java.util.GregorianCalendar;
 public class VCI_cl_Historico implements Serializable {
 
 	private String isbn;
-	private ArrayList<GregorianCalendar> datas;
-	private ArrayList<Double> precos;
+	private ArrayList<GregorianCalendar> datas = new ArrayList<GregorianCalendar>();
+	private ArrayList<Double> precos = new ArrayList<Double>();
+	
+	public VCI_cl_Historico() {
+		
+	}
 
 	public VCI_cl_Historico(String isbn, ArrayList<GregorianCalendar> datas, ArrayList<Double> precos) {
 		super();
@@ -50,7 +54,5 @@ public class VCI_cl_Historico implements Serializable {
 	public String toString() {
 		return "VCI_cl_Historico [isbn=" + isbn + ", datas=" + datas + ", precos=" + precos + "]";
 	}
-	
 		
-	
 }

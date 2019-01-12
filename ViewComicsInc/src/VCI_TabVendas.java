@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -50,9 +51,8 @@ public class VCI_TabVendas {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setBounds(100, 100, 900, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -90,7 +90,7 @@ public class VCI_TabVendas {
 		panel.add(button);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 74, 416, 154);
+		scrollPane.setBounds(10, 74, 866, 154);
 		panel.add(scrollPane);
 		// Colunas da tabela.
 		String[] colunas = { "Data", "Livros", "NIF do Cliente", "Valor", "Tipo de Pag." };
@@ -99,12 +99,18 @@ public class VCI_TabVendas {
 		table.setAutoCreateRowSorter(true);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
+		TableColumnModel col = table.getColumnModel();
+		col.getColumn(0).setMaxWidth(100);
+		col.getColumn(1).setMaxWidth(516);
+		col.getColumn(2).setMaxWidth(100);
+		col.getColumn(3).setMaxWidth(50);
+		col.getColumn(4).setMaxWidth(100);
 		for (VCI_cl_Compra c : g.listaCompras) { // Formação das linhas da tabela.
 			if (c.getData().after(di) && c.getData().before(df)) {
 				GregorianCalendar d = c.getData();
 				String data = d.get(Calendar.DAY_OF_MONTH) + "/" + (d.get(Calendar.MONTH) + 1) + "/"
 						+ d.get(Calendar.YEAR);
-				String l = g.obterLivros(c.getCarrinho().getListaCompras());
+				String l = g.obterLivros(c.getCarrinho().getListaCompras(), c.getCarrinho().getQuantLivros());
 				int n = c.getNif();
 				double v = c.getValor();
 				String p = "";
@@ -120,12 +126,13 @@ public class VCI_TabVendas {
 		scrollPane.setViewportView(table);
 		if (table.getRowCount() == 0) {
 			JOptionPane.showMessageDialog(frame, "Não existem vendas para o período selecionado.");
+			
 		}
 			
-		JLabel label_1 = new JLabel("Clique nas colunas para reordenar os livros.");
-		label_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		label_1.setBounds(10, 47, 416, 24);
-		panel.add(label_1);
+		JLabel lblCliqueNasColunas = new JLabel("Clique nas colunas para reordenar os livros");
+		lblCliqueNasColunas.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		lblCliqueNasColunas.setBounds(10, 47, 416, 24);
+		panel.add(lblCliqueNasColunas);
 	}
 
 	public JFrame getFrame() {

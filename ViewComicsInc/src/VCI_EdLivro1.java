@@ -2,6 +2,8 @@ import java.awt.event.*;
 import java.awt.EventQueue;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JFrame;
 import java.awt.Toolkit;
@@ -102,14 +104,14 @@ public class VCI_EdLivro1 {
 		rdbtnTtulo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (rdbtnTtulo.isSelected()) {
-					comboBox.removeAllItems();;
+					comboBox.removeAllItems();
 					comboBox.addItem(liv.getTitulo());
 				}
 			}
 		});
 		rdbtnTtulo.setBounds(20, 101, 58, 23);
 		panel.add(rdbtnTtulo);
-	
+
 		JRadioButton rdbtnAutor = new JRadioButton("Autor");
 		buttonGroup.add(rdbtnAutor);
 		rdbtnAutor.addActionListener(new ActionListener() {
@@ -135,7 +137,7 @@ public class VCI_EdLivro1 {
 		});
 		rdbtnEditora.setBounds(148, 101, 71, 23);
 		panel.add(rdbtnEditora);
-		
+
 		JRadioButton rdbtnIsbn = new JRadioButton("ISBN");
 		buttonGroup.add(rdbtnIsbn);
 		rdbtnIsbn.addActionListener(new ActionListener() {
@@ -148,7 +150,7 @@ public class VCI_EdLivro1 {
 		});
 		rdbtnIsbn.setBounds(224, 101, 65, 23);
 		panel.add(rdbtnIsbn);
-		
+
 		JRadioButton rdbtnAnoDeEdio = new JRadioButton("Ano de Edi\u00E7\u00E3o");
 		buttonGroup.add(rdbtnAnoDeEdio);
 		rdbtnAnoDeEdio.addActionListener(new ActionListener() {
@@ -161,20 +163,44 @@ public class VCI_EdLivro1 {
 		});
 		rdbtnAnoDeEdio.setBounds(297, 101, 118, 23);
 		panel.add(rdbtnAnoDeEdio);
-		
+
 		JRadioButton rdbtnPreo = new JRadioButton("Pre\u00E7o");
 		buttonGroup.add(rdbtnPreo);
 		rdbtnPreo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (rdbtnPreo.isSelected()) {
 					comboBox.removeAllItems();
-					comboBox.addItem(String.valueOf(liv.getPreco()));
+					// Apresentação do histórico de preços.
+					VCI_cl_Historico h = null;
+					try {
+						h = g.abrirHistorico(liv.isbn); // Abre o ficheiro do histórico.
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // Apresenta os preços com as datas.
+					for (int i = 0; i < h.getPrecos().size(); i++) {
+						if (i == h.getPrecos().size() - 1) {
+							String data = String.valueOf(h.getDatas().get(i).get(Calendar.DAY_OF_MONTH)) + "/"
+									+ String.valueOf(h.getDatas().get(i).get(Calendar.MONTH) + 1) + "/"
+									+ String.valueOf(h.getDatas().get(i).get(Calendar.YEAR));
+							comboBox.addItem(String.valueOf(h.getPrecos().get(i)) + " € desde " + data);
+						} else {
+							String data1 = String.valueOf(h.getDatas().get(i).get(Calendar.DAY_OF_MONTH)) + "/"
+									+ String.valueOf(h.getDatas().get(i).get(Calendar.MONTH) + 1) + "/"
+									+ String.valueOf(h.getDatas().get(i).get(Calendar.YEAR));
+							String data2 = String.valueOf(h.getDatas().get(i + 1).get(Calendar.DAY_OF_MONTH)) + "/"
+									+ String.valueOf(h.getDatas().get(i + 1).get(Calendar.MONTH) + 1) + "/"
+									+ String.valueOf(h.getDatas().get(i + 1).get(Calendar.YEAR));
+							comboBox.addItem(
+									String.valueOf(h.getPrecos().get(i)) + " € desde " + data1 + " até " + data2);
+						}
+					}
 				}
 			}
 		});
 		rdbtnPreo.setBounds(224, 127, 65, 23);
 		panel.add(rdbtnPreo);
-		
+
 		JRadioButton rdbtnStock = new JRadioButton("Stock");
 		buttonGroup.add(rdbtnStock);
 		rdbtnStock.addActionListener(new ActionListener() {
@@ -220,68 +246,120 @@ public class VCI_EdLivro1 {
 		JButton button_1 = new JButton("Confirmar");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (comboBox.getSelectedItem().toString().equals("Título")) {
+				if (g.listaLivros.size() == 0) {
+					g.abrirLivros();
+				}
+				boolean tit = false, aut = false, edi = false, isb = false, ade = false, pre = false, sto = false;
+				if (rdbtnTtulo.isSelected()) {
 					for (VCI_cl_Livro l : g.listaLivros) {
 						if (l == liv) { // Variável livroSelecionado já definida.
 							l.setTitulo(textField.getText());
+							tit = true;
+							JOptionPane.showMessageDialog(frame, "Título do livro alterado.");
 						}
 					}
-				} else if (comboBox.getSelectedItem().toString().equals("Autor")) {
+				} else if (rdbtnAutor.isSelected()) {
 					for (VCI_cl_Livro l : g.listaLivros) {
 						if (l == liv) { // Variável livroSelecionado já definida.
 							l.setAutor(textField.getText());
+							aut = true;
+							JOptionPane.showMessageDialog(frame, "Autor do livro alterado.");
 						}
 					}
-				} else if (comboBox.getSelectedItem().toString().equals("Editora")) {
+				} else if (rdbtnEditora.isSelected()) {
 					for (VCI_cl_Livro l : g.listaLivros) {
 						if (l == liv) { // Variável livroSelecionado já definida.
 							l.setEditora(textField.getText());
+							edi = true;
+							JOptionPane.showMessageDialog(frame, "Editora do livro alterada.");
 						}
 					}
-				} else if (comboBox.getSelectedItem().toString().equals("ISBN")) {
+				} else if (rdbtnIsbn.isSelected()) {
 					for (VCI_cl_Livro l : g.listaLivros) {
 						if (l == liv) { // Variável livroSelecionado já definida.
 							l.setIsbn(textField.getText());
+							isb = true;
+							JOptionPane.showMessageDialog(frame, "ISBN do livro alterado.");
 						}
 					}
-				} else if (comboBox.getSelectedItem().toString().equals("Ano da Edição")) {
+				} else if (rdbtnAnoDeEdio.isSelected()) {
 					int anoAtual = Year.now().getValue();
-					int ano = Integer.parseInt(textField.getText());
-					if (ano >= 1900 && ano <= anoAtual) {
-						for (VCI_cl_Livro l : g.listaLivros) {
-							if (l == liv) { // Variável livroSelecionado já definida.
-								l.setanoEdicao(ano);
+					String ano = textField.getText();
+					if (g.validarInteiro(ano)) {
+						int anoInt = Integer.parseInt(ano);
+						if (anoInt >= 1900 && anoInt <= anoAtual) {
+							for (VCI_cl_Livro l : g.listaLivros) {
+								if (l == liv) { // Variável livroSelecionado já definida.
+									l.setanoEdicao(anoInt);
+									ade = true;
+									JOptionPane.showMessageDialog(frame, "Ano de edição do livro alterado.");
+								}
 							}
+						} else {
+							JOptionPane.showMessageDialog(frame, "O ano de edição deverá situar-se entre 1900 e o ano corrente.");
 						}
 					} else {
 						JOptionPane.showMessageDialog(frame,
-								"O ano de edição deverá situar-se entre 1900 e o ano corrente.");
+								"O ano de edição não é válido.");
 					}
-				} else if (comboBox.getSelectedItem().toString().equals("Preço")) {
-					double p = Double.parseDouble(textField.getText());
-					if (p > 0) {
-						for (VCI_cl_Livro l : g.listaLivros) {
-							if (l == liv) { // Variável livroSelecionado já definida.
-								l.setPreco(p);
+				} else if (rdbtnPreo.isSelected()) {
+					String p = textField.getText();
+					if (g.validarDouble(p)) {
+						double preco = Double.parseDouble(p);
+						if (preco > 0) {
+							for (VCI_cl_Livro l : g.listaLivros) {
+								if (l == liv) { // Variável livroSelecionado já definida.
+									l.setPreco(preco);
+									pre = true;
+									VCI_cl_Historico h = null;
+									try {
+										h = g.abrirHistorico(liv.getIsbn());
+
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								h.getDatas().add(new GregorianCalendar());
+								h.getPrecos().add(preco);
+								try {
+									g.gravarHistorico(h);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								JOptionPane.showMessageDialog(frame, "Preço do livro alterado.");
 							}
 						}
-					} else {
-						JOptionPane.showMessageDialog(frame, "O preço não pode ser nulo ou negativo.");
-					}
-				} else if (comboBox.getSelectedItem().toString().equals("Quantidade")) {
-					int q = Integer.parseInt(textField.getText());
-					if (q >= 0) {
-						for (VCI_cl_Livro l : g.listaLivros) {
-							if (l == liv) { // Variável livroSelecionado já definida.
-								l.setQuantidade(q);
+						} else {
+							JOptionPane.showMessageDialog(frame, "O preço não pode ser nulo ou negativo.");
 							}
+					} else {
+						JOptionPane.showMessageDialog(frame, "O preço não é válido (usar ''.'' para um máximo de duas casas decimais).");
+					}
+				} else if (rdbtnStock.isSelected()) {
+					String q = textField.getText();
+					if (g.validarInteiro(q)) {
+						int quant = Integer.parseInt(q);
+						if (quant >= 0) {
+							for (VCI_cl_Livro l : g.listaLivros) {
+								if (l == liv) { // Variável livroSelecionado já definida.
+									l.setQuantidade(quant);
+									sto = true;
+									JOptionPane.showMessageDialog(frame, "Stock do livro alterado.");
+								}
+							}
+						} else {
+							JOptionPane.showMessageDialog(frame,
+									"A quantidade de livros tem de ser um inteiro não negativo.");
 						}
 					} else {
 						JOptionPane.showMessageDialog(frame,
-								"A quantidade de livros tem de ser um inteiro não negativo.");
+								"A quantidade introduzida não é válida.");
 					}
-					// Gravação da lista de livros com a alteração
-					try {
+				} // Com sucesso de uma alteração:
+				if (tit == true || aut == true || edi == true || isb == true || ade == true || pre == true
+						|| sto == true) {
+					try {// Gravação da lista de livros.
 						g.gravarLivros();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -297,24 +375,20 @@ public class VCI_EdLivro1 {
 					}
 					window.getFrames();
 				} else {
-					if (textField.getText().equals("")) { // Verificação que foi introduzida correção.
-						JOptionPane.showMessageDialog(frame,
-								"Introduza a correção correspondente ao campo selecionado.");
-					}
+					JOptionPane.showMessageDialog(frame, "Selecione um campo e introduza a correção correspondente.");
 				}
 			}
 		});
 		button_1.setBounds(316, 229, 100, 23);
 		panel.add(button_1);
-		
-		
+
 		JLabel lblDadosAtuais = new JLabel("Dados atuais:");
 		lblDadosAtuais.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDadosAtuais.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
 		lblDadosAtuais.setBounds(10, 129, 136, 20);
 		panel.add(lblDadosAtuais);
-		
-		}
+
+	}
 
 	public JFrame getFrame() {
 		return frame;

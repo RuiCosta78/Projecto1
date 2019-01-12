@@ -56,8 +56,7 @@ public class VCI_Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -133,7 +132,7 @@ public class VCI_Login {
 			// Adição de ação ao botão:
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose(); // desliga a janela ativa;
-				VCI_N1 window = new VCI_N1(g);
+				VCI_N1 window = new VCI_N1();
 				window.getFrame().setVisible(true);
 				; // Ativa a janela a que o botão dá acesso;
 			}

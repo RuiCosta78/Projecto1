@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -20,11 +21,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-/**   
+/**
  * Breve descrição do código
- *  
+ * 
  * @sid 2001
- * @aid 1.1   
+ * @aid 1.1
  */
 
 public class VCI_TabLivSel {
@@ -35,7 +36,7 @@ public class VCI_TabLivSel {
 	private ArrayList<VCI_cl_Livro> listaLiv;
 	private JTable table;
 
-		/**
+	/**
 	 * Create the application.
 	 */
 	public VCI_TabLivSel(VCI_cl_Gestao g, ArrayList<VCI_cl_Livro> listaLiv) {
@@ -49,33 +50,40 @@ public class VCI_TabLivSel {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setBounds(100, 100, 800, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+
 		JLabel label = new JLabel("VIEW COMICS INC");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
 		label.setBounds(10, 0, 416, 30);
 		panel.add(label);
-		
+
 		JLabel label_1 = new JLabel("Listagem de livros selecionados");
 		label_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
 		label_1.setBounds(10, 30, 416, 24);
 		panel.add(label_1);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 65, 416, 147);
+		scrollPane.setBounds(10, 75, 766, 137);
 		panel.add(scrollPane);
 		// Colunas da tabela.
 		String[] colunas = { "Título", "Autor", "Editora", "ISBN", "Ano de Edição", "Preço" };
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable table = new JTable(modeloTabela);
-		//table.setAutoCreateRowSorter(true);
+		table.setAutoCreateRowSorter(true);
+		TableColumnModel col = table.getColumnModel();
+		col.getColumn(0).setMaxWidth(261);
+		col.getColumn(1).setMaxWidth(130);
+		col.getColumn(2).setMaxWidth(130);
+		col.getColumn(3).setMaxWidth(130);
+		col.getColumn(4).setMaxWidth(65);
+		col.getColumn(5).setMaxWidth(50);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		for (VCI_cl_Livro l : listaLiv) { // Formação das linhas da tabela.
@@ -89,29 +97,30 @@ public class VCI_TabLivSel {
 			modeloTabela.addRow(livro); // Adição da linha à tabela.
 		}
 		scrollPane.setViewportView(table);
-		
+
 		JButton button_1 = new JButton("Selecionar");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int n = table.getSelectedRow(); // número da linha selecionada.
-				if (n >= 0) { // isbn da linha selecionada (4.ª coluna, posição 3).
-					String isbnSel = table.getModel().getValueAt(n, 3).toString(); 
+				if (table.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(frame, "Selecionar um item da tabela.");
+				} else {
+					int n = table.convertRowIndexToModel(table.getSelectedRow()); // número da linha selecionada.
+					// isbn da linha selecionada (4.ª coluna, posição 3).
+					String isbnSel = table.getModel().getValueAt(n, 3).toString();
 					for (VCI_cl_Livro l : listaLiv) {
 						if (l.getIsbn().equals(isbnSel)) {
 							livroSelecionado = l;
 						}
 					}
-				} else {
-					JOptionPane.showMessageDialog(frame, "Nenhum livro selecionado.");
+					frame.dispose();
+					VCI_EdLivro1 window = new VCI_EdLivro1(g, livroSelecionado);
+					window.getFrame().setVisible(true); // Ativa a janela a que o botão
 				}
-				frame.dispose();
-				VCI_EdLivro1 window = new VCI_EdLivro1(g, livroSelecionado);
-				window.getFrame().setVisible(true);; // Ativa a janela a que o botão
-				}
+			}
 		});
-		button_1.setBounds(321, 229, 105, 23);
+		button_1.setBounds(671, 229, 105, 23);
 		panel.add(button_1);
-		
+
 		JButton button = new JButton("Voltar");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -129,6 +138,11 @@ public class VCI_TabLivSel {
 		});
 		button.setBounds(10, 229, 89, 23);
 		panel.add(button);
+
+		JLabel lblCliqueNasColunas = new JLabel("Clique nas colunas para reordenar os livros");
+		lblCliqueNasColunas.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		lblCliqueNasColunas.setBounds(10, 52, 416, 24);
+		panel.add(lblCliqueNasColunas);
 	}
 
 	public JFrame getFrame() {
@@ -170,5 +184,4 @@ public class VCI_TabLivSel {
 	public void setTable(JTable table) {
 		this.table = table;
 	}
-	
 }

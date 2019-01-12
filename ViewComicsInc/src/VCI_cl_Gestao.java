@@ -277,10 +277,10 @@ public class VCI_cl_Gestao implements Serializable {
 	}
 
 	// Abertura da lista de utilizadores.
-		@SuppressWarnings("unchecked")
-		public void abrirHistorico(String s, VCI_cl_Historico h) throws IOException {
+		public VCI_cl_Historico abrirHistorico(String s) throws IOException {
+			VCI_cl_Historico h = null;
 			try {
-				File f = new File(s+".dat");
+				File f = new File(s + ".dat");				
 				if (f.exists()) {
 					FileInputStream ficheiro = new FileInputStream(f);
 					ObjectInputStream in = new ObjectInputStream(ficheiro);
@@ -292,11 +292,12 @@ public class VCI_cl_Gestao implements Serializable {
 				JFrame caixa = new JFrame();
 				JOptionPane.showMessageDialog(caixa, "Histórico do livro "+ s + " não encontrado.");
 			}
+			return h;
 		}
 	
 	// Gravação da lista de livros
-	public void gravarHistorico(String s, VCI_cl_Historico h) throws IOException {
-		File f = new File(s);
+	public void gravarHistorico(VCI_cl_Historico h) throws IOException {
+		File f = new File(h.getIsbn() + ".dat");
 		FileOutputStream fileOut = new FileOutputStream(f);
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
 		out.writeObject(h);
@@ -306,11 +307,13 @@ public class VCI_cl_Gestao implements Serializable {
 
 	// Criação do 1.º histórico de preços dos livros.
 	public void criarHistorico (String s, GregorianCalendar d, double p) throws IOException {
+		// Criação do objeto VCI_cl_Historico:
 		ArrayList<GregorianCalendar> datas = new ArrayList<GregorianCalendar>();
 		datas.add(d);
 		ArrayList<Double> precos = new ArrayList<Double>();
 		precos.add(p);
 		VCI_cl_Historico h = new VCI_cl_Historico(s, datas, precos);
+		// Criação do ficheiro:
 		FileOutputStream fileOut = new FileOutputStream(s + ".dat");
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
 		out.writeObject(h);
@@ -320,10 +323,17 @@ public class VCI_cl_Gestao implements Serializable {
 	
 	// Verificar se um dado de input recebido como string é um inteiro.
 	public boolean validarInteiro(String s) {
-		boolean inteiro = true;
-		for (int i = 0; i < s.length(); i++) {
-			if (s.charAt(i) < 48 && s.charAt(i) > 57) {
-				inteiro = false;
+		boolean inteiro = false, valor = true;
+		try {
+			Integer.parseInt(s);
+		} catch	(NumberFormatException e) {
+			valor = false;
+		} catch (NullPointerException e) {
+			valor = false;
+		} if (valor == true) { // Sendo convertível em inteiro,
+			int i = Integer.parseInt(s);
+				if (i % 1 == 0) { // Se o resto da divisão por 1 for inteiro, o n.º é inteiro.
+				inteiro = true;
 			}
 		}
 		return inteiro;
@@ -332,38 +342,26 @@ public class VCI_cl_Gestao implements Serializable {
 	// Verificar se um dado de input recebido como string é um double com
 	// máximo de duas casas decimais.
 	public boolean validarDouble(String s) {
-		boolean decimal = false;
-		if (validarInteiro(s)) { // Se for inteiro, é aceite como double.
-			decimal = true;
-		} else { // Se não for inteiro, pode ter "." na penúltima ou antepenúltima posições:
-			if (s.charAt(s.length() - 1) == 46 && s.charAt(s.length()) >= 48 && s.charAt(s.length()) <= 57) {
-				for (int i = 0; i < s.length() - 1; i++) {
-					if (s.charAt(i) >= 48 && s.charAt(i) <= 57) {
-						decimal = true;
-					}
-				}
-			} else if ((s.charAt(s.length() - 2) == 46 && s.charAt(s.length()) >= 48 && s.charAt(s.length()) <= 57
-					&& s.charAt(s.length() - 1) >= 48 && s.charAt(s.length() - 1) <= 57)) {
-				for (int i = 0; i < s.length() - 2; i++) {
-					if (s.charAt(i) >= 48 && s.charAt(i) <= 57) {
-						decimal = true;
-					}
-				}
+		boolean decimal = false, valor = true;
+		try { // tenta a conversão:
+			Double.parseDouble(s);
+		} catch	(NumberFormatException e) {
+			valor = false;
+		} catch (NullPointerException e) {
+			valor = false;
+		} if (valor == true) { // Sendo convertível em double,
+			double d = Double.parseDouble(s) * 100;
+			if (d % 1 == 0) { // Se o valor *100 for inteiro, tem no máx. duas casas decimais.
+				decimal = true;
 			}
 		}
-		/*
-		 * boolean decimal = false, valor = true; try { Double.parseDouble(s); } catch
-		 * (NumberFormatException e) { valor = false; } catch (NullPointerException e) {
-		 * valor = false; } if (valor == true) { double d = Double.parseDouble(s); if (d
-		 * % 0.01 == 0) { decimal = true; } }
-		 */
 		return decimal;
 	}
 	
-	public String obterLivros(ArrayList<VCI_cl_Livro> lis) {
+	public String obterLivros(ArrayList<VCI_cl_Livro> lis, ArrayList<Integer> quant) {
 		String livros = "";
-		for (VCI_cl_Livro l: lis) {
-			livros = l.getTitulo() + "; " + livros;
+		for (int i = 0; i < lis.size(); i++) {
+			livros = lis.get(i).getTitulo() + " - " + quant.get(i) + "; " + livros;
 		}
 		return livros;
 	}

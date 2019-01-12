@@ -46,8 +46,7 @@ public class VCI_LoginAlt {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -86,7 +85,13 @@ public class VCI_LoginAlt {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 				if (VCI_cl_Gestao.utilizador instanceof VCI_cl_Admin) {
-					VCI_ADMIN window = new VCI_ADMIN(g);
+					VCI_ADMIN window = null;
+					try {
+						window = new VCI_ADMIN(g);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					window.getFrames(); // Ativa a janela a que o botão dá acesso;
 				} else if (VCI_cl_Gestao.utilizador instanceof VCI_cl_Vendedor) {
 					VCI_VENDEDOR window = new VCI_VENDEDOR(g);

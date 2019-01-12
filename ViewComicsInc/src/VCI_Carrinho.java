@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -49,9 +50,8 @@ public class VCI_Carrinho {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg"));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setBounds(100, 100, 655, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 
@@ -89,24 +89,32 @@ public class VCI_Carrinho {
 				if (pTotal == 0) {
 					JOptionPane.showMessageDialog(frame, "O carrinho de compras está vazio.");
 				} else {
-					JOptionPane.showMessageDialog(frame, "Para finalizar a sua compra, por favor, dirija-se a um vendedor.");
-				//	System.out.println(VCI_cl_Gestao.cliente.getListaCompras().get(0));
+					JOptionPane.showMessageDialog(frame,
+							"Para finalizar a sua compra, por favor, dirija-se a um vendedor.");
+					// System.out.println(VCI_cl_Gestao.cliente.getListaCompras().get(0));
 					frame.dispose();
 					VCI_Login window = new VCI_Login(g);
 					window.getFrame().setVisible(true);
 				}
 			}
 		});
-		button_1.setBounds(288, 233, 138, 23);
+		button_1.setBounds(493, 233, 138, 23);
 		panel.add(button_1);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 64, 416, 124);
+		scrollPane.setBounds(10, 64, 621, 124);
 		panel.add(scrollPane);
 		// Colunas da tabela.
 		String[] colunas = { "Título", "Autor", "ISBN", "Quant", "Preço" };
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable table = new JTable(modeloTabela);
+		table.setAutoCreateRowSorter(true);
+		TableColumnModel col = table.getColumnModel();
+		col.getColumn(0).setMaxWidth(261);
+		col.getColumn(1).setMaxWidth(130);
+		col.getColumn(2).setMaxWidth(130);
+		col.getColumn(3).setMaxWidth(50);
+		col.getColumn(4).setMaxWidth(50);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		String t = "", a = "", i = "";
@@ -138,128 +146,33 @@ public class VCI_Carrinho {
 		JLabel label_2 = new JLabel(valor);
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_2.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		label_2.setBounds(316, 198, 75, 24);
+		label_2.setBounds(521, 198, 75, 24);
 		panel.add(label_2);
 
 		JButton btnAlterarSeleo = new JButton("Alterar sele\u00E7\u00E3o");
 		btnAlterarSeleo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				linhaSel = table.getSelectedRow();
-				if (linhaSel >= 0) {
-					CardLayout card = (CardLayout) frame.getContentPane().getLayout();
-					card.show(frame.getContentPane(), "AltSel");
+				if (table.getSelectedRowCount() == 0) {
+					JOptionPane.showMessageDialog(frame, "Selecionar um item da tabela.");
 				} else {
-					JOptionPane.showMessageDialog(frame, "Nenhum livro selecionado.");
+					linhaSel = table.convertRowIndexToModel(table.getSelectedRow());
+					frame.dispose();
+					VCI_AltSelCar window = new VCI_AltSelCar(g, linhaSel);
+					window.getFrame().setVisible(true);
 				}
 			}
 		});
-		btnAlterarSeleo.setBounds(123, 233, 138, 23);
+		btnAlterarSeleo.setBounds(345, 233, 138, 23);
 		panel.add(btnAlterarSeleo);
 
 		JLabel label_3 = new JLabel("\u20AC");
 		label_3.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		label_3.setBounds(401, 198, 25, 24);
+		label_3.setBounds(606, 198, 25, 24);
 		panel.add(label_3);
 
-		JPanel AltSel = new JPanel();
-		frame.getContentPane().add(AltSel, "AltSel");
-		AltSel.setLayout(null);
-// FIM CARRINHO
-// INÍCIO ALT_SEL
-		JLabel label_4 = new JLabel("VIEW COMICS INC");
-		label_4.setHorizontalAlignment(SwingConstants.CENTER);
-		label_4.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
-		label_4.setBounds(10, 0, 416, 30);
-		AltSel.add(label_4);
-
-		JLabel lblAlterarDadosDo = new JLabel("Alterar itens do carrinho");
-		lblAlterarDadosDo.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
-		lblAlterarDadosDo.setBounds(10, 30, 416, 20);
-		AltSel.add(lblAlterarDadosDo);
-
-		JLabel lblPretende = new JLabel("Pretende:");
-		lblPretende.setHorizontalAlignment(SwingConstants.LEFT);
-		lblPretende.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblPretende.setBounds(10, 160, 117, 23);
-		AltSel.add(lblPretende);
-
-		JRadioButton rdbtnEliminarLivroDa = new JRadioButton("Eliminar o livro da lista de compras");
-		buttonGroup.add(rdbtnEliminarLivroDa);
-		rdbtnEliminarLivroDa.setBounds(116, 162, 230, 23);
-		AltSel.add(rdbtnEliminarLivroDa);
-
-		JRadioButton rdbtnModificarAQuantidade = new JRadioButton("Modificar a quantidade");
-		buttonGroup.add(rdbtnModificarAQuantidade);
-		rdbtnModificarAQuantidade.setBounds(116, 194, 230, 23);
-		AltSel.add(rdbtnModificarAQuantidade);
-
-		JLabel lblOLivro = new JLabel("Selecionou o livro");
-		lblOLivro.setHorizontalAlignment(SwingConstants.LEFT);
-		lblOLivro.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblOLivro.setBounds(10, 61, 242, 23);
-		AltSel.add(lblOLivro);
-
 		String titulo = table.getModel().getValueAt(linhaSel, 0).toString();
-		JLabel label_5 = new JLabel(titulo);
-		label_5.setHorizontalAlignment(SwingConstants.LEFT);
-		label_5.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_5.setBounds(10, 85, 416, 23);
-		AltSel.add(label_5);
-
-		// VOLTAR
-		JButton button_2 = new JButton("Voltar");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CardLayout card = (CardLayout) frame.getContentPane().getLayout();
-				card.first(frame.getContentPane());
-			}
-		});
-		button_2.setBounds(10, 240, 83, 23);
-		AltSel.add(button_2);
-
-		// CONFIRMAR
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (rdbtnEliminarLivroDa.isSelected()) {
-					VCI_cl_Gestao.cliente.getListaCompras().remove(linhaSel);
-					VCI_cl_Gestao.cliente.getQuantLivros().remove(linhaSel);
-					// initialize();
-					CardLayout card = (CardLayout) frame.getContentPane().getLayout();
-					card.first(frame.getContentPane());
-				} else if (rdbtnModificarAQuantidade.isSelected()) {
-					String nLivros = JOptionPane.showInputDialog(frame, "Quantos exemplares pretende adquirir?");
-					int num = Integer.parseInt(nLivros);
-					if (num != VCI_cl_Gestao.cliente.getQuantLivros().get(linhaSel)) {
-						VCI_cl_Gestao.cliente.getQuantLivros().set(linhaSel, num);
-						// initialize();
-						CardLayout card = (CardLayout) frame.getContentPane().getLayout();
-						card.first(frame.getContentPane());
-					}
-				}
-			}
-		});
-		btnConfirmar.setBounds(288, 240, 138, 23);
-		AltSel.add(btnConfirmar);
-
-		JLabel lblParaOQual = new JLabel("Para o qual reservou ");
-		lblParaOQual.setHorizontalAlignment(SwingConstants.LEFT);
-		lblParaOQual.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblParaOQual.setBounds(10, 108, 138, 23);
-		AltSel.add(lblParaOQual);
 
 		String q = table.getModel().getValueAt(linhaSel, 3).toString();
-		JLabel label_7 = new JLabel(q);
-		label_7.setHorizontalAlignment(SwingConstants.LEFT);
-		label_7.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_7.setBounds(151, 108, 41, 23);
-		AltSel.add(label_7);
-
-		JLabel lblExemplares = new JLabel("exemplares.");
-		lblExemplares.setHorizontalAlignment(SwingConstants.LEFT);
-		lblExemplares.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblExemplares.setBounds(196, 108, 138, 23);
-		AltSel.add(lblExemplares);
 	}
 
 	public JFrame getFrame() {
