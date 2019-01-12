@@ -36,7 +36,7 @@ public class JavaBank_Gestao implements Serializable {
 				"Rua Maria Vitória Bourbon Bobone, Lote 15.7, 3030-502 Coimbra", "987654321", "qwerty", "asdfghjk"));
 		utilizadores.add(new JavaBank_Funcionario("Rui", "Inácio", "rmmi@gmail.com", "12345678", 1, "Inactivo"));
 		utilizadores.add(new JavaBank_Cliente("Bruno", "Escada", "1/jan/1980", "Passaporte", 456, "asdf", "234",
-				"asdfg@gmail.com", "12345678", "345", conta1));
+				"asdfg@gmail.com", "87654321", "987", conta1));
 		utilizadores.add(new JavaBank_Cliente("Nuno", "Pratas", "1/mar/1980", "Cartão de Cidadão", 789, "asdf", "234",
 				"asdfg@gmail.com", "12345678", "345", conta2));
 	}

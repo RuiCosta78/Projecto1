@@ -23,6 +23,10 @@ public class JavaBank_Conta_Ordem extends JavaBank_Conta {
 		JavaBank_Conta_Ordem.limite_levantamento = 200.00;
 	}
 
+	public JavaBank_Conta_Ordem() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void setCartao(JavaBank_Cartao_Debito cartao) {
 		this.cartao = cartao;
 	}

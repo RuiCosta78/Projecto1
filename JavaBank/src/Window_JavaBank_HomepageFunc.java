@@ -126,7 +126,7 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Object[] opcoes = { "Confirmar", "Cancelar" };
 				JPanel panel = new JPanel();
-				panel.add(new JLabel("Nome "));
+				panel.add(new JLabel("Nº conta"));
 				JComboBox<String> combo = new JComboBox<>();
 				combo.addItem("---Escolha a conta---");
 				for (JavaBank_Conta c : gestao.getContas()) {

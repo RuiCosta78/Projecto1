@@ -161,21 +161,17 @@ public class Window_JavaBank_ListarCl extends JPanel {
 
 		comboBox.addItem("---Escolha o cliente---");
 		for (JavaBank_Utilizador c : clientes) {
-			String pNome = c.getPrimeiro_nome();
-			String sNome = c.getSobrenome();
-			String nome_completo = pNome + " " + sNome;
-			comboBox.addItem(nome_completo);
+			String nif = ((JavaBank_Cliente) c).getNif();
+			comboBox.addItem(nif);
 		}
 
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String cliente = (String) comboBox.getSelectedItem();
-				String[] partes = cliente.split(" ");
+				String nif_sel = (String) comboBox.getSelectedItem();
 				for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
-					if (u instanceof JavaBank_Cliente && u.getPrimeiro_nome().equals(partes[0])
-							&& u.getSobrenome().equals(partes[1])) {
-						textFieldNome.setText(partes[0]);
-						textFieldSobrenome.setText(partes[1]);
+					if (u instanceof JavaBank_Cliente && ((JavaBank_Cliente) u).getNif().equals(nif_sel)) {
+						textFieldNome.setText(u.getPrimeiro_nome());
+						textFieldSobrenome.setText(u.getSobrenome());
 						textFieldContacto.setText(u.getN_contacto());
 						textFieldData.setText(u.getData_nascimento());
 						textFieldEmail.setText(u.getLogin());

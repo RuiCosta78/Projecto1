@@ -24,15 +24,17 @@ public class Window_JavaBank_AssociarCartao extends JPanel {
 	private String data_validade;
 	private String codigo_verif;
 	private int aux;
+	private JavaBank_Cartao_Debito cartao;
 
 	public Window_JavaBank_AssociarCartao(String titular, String n_cartao, String data_validade, String codigo_verif,
-			int aux, JavaBank_Gestao gestao) {
+			int aux, JavaBank_Gestao gestao, JavaBank_Cartao_Debito cartao) {
 		this.titular = titular;
 		this.n_cartao = n_cartao;
 		this.data_validade = data_validade;
 		this.codigo_verif = codigo_verif;
 		this.aux = aux;
 		this.gestao = gestao;
+		this.cartao = cartao;
 		initialize();
 	}
 
@@ -97,21 +99,35 @@ public class Window_JavaBank_AssociarCartao extends JPanel {
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String[] partes = titular.split(" ");
+				JavaBank_Conta conta = null;
+				JavaBank_Utilizador util = null;
 				for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
 					for (JavaBank_Conta c : gestao.getContas()) {
 						if (u instanceof JavaBank_Cliente && u.getPrimeiro_nome().equals(partes[0])
 								&& u.getSobrenome().equals(partes[1]) && c instanceof JavaBank_Conta_Ordem
 								&& c.getN_conta() == aux) {
-							((JavaBank_Conta_Ordem) c).setCartao(
-									new JavaBank_Cartao_Debito(titular, n_cartao, data_validade, codigo_verif));
-							JOptionPane.showMessageDialog(getParent(), "Cartão associado com sucesso.");
-							CardLayout card = (CardLayout) getParent().getLayout();
-							removeAll();
-							initialize();
-							card.show(getParent(), "mainf");
+							if (((JavaBank_Conta_Ordem) ((JavaBank_Cliente) u).getConta()).getCartao() != null) {
+								conta = new JavaBank_Conta_Ordem(aux, c.getData_criacao(), c.getSaldo(), c.getEstado(),
+										cartao);
+								util = new JavaBank_Cliente(u.getPrimeiro_nome(), u.getSobrenome(),
+										u.getData_nascimento(), u.getTipo_id(), u.getN_id(), u.getEndereco(),
+										u.getN_contacto(), u.getLogin(), u.getPassword(),
+										((JavaBank_Cliente) u).getNif(), conta);
+							} else {
+								((JavaBank_Conta_Ordem)c).setCartao(cartao);
+								((JavaBank_Cliente)u).setConta(c);
+							}
 						}
 					}
 				}
+				if(util != null) {
+					gestao.getUtilizadores().add(util);
+				}
+				JOptionPane.showMessageDialog(getParent(), "Cartão associado com sucesso.");
+				CardLayout card = (CardLayout) getParent().getLayout();
+				removeAll();
+				initialize();
+				card.show(getParent(), "mainf");
 			}
 		});
 

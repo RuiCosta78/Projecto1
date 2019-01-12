@@ -5,10 +5,13 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -76,10 +79,26 @@ public class Window_JavaBank_HomepageCliente extends JFrame {
 		btnVerConta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				double saldo = 0;
-				int n_conta_aux = ((JavaBank_Cliente) JavaBank_Gestao.utilizador_logado).getConta().getN_conta();
-				for (JavaBank_Conta c : gestao.getContas()) {
-					if (c.getN_conta() == n_conta_aux) {
-						saldo = c.getSaldo();
+				int n_conta_aux = 0;
+				Object[] opcoes = { "Confirmar", "Cancelar" };
+				JPanel panel = new JPanel();
+				panel.add(new JLabel("Nº conta"));
+				JComboBox<Object> combo = new JComboBox<>();
+				combo.addItem("---Escolha a conta---");
+				for(JavaBank_Conta c : gestao.getContas()) {
+					if(((JavaBank_Cliente) JavaBank_Gestao.utilizador_logado).getConta().getN_conta() == c.getN_conta()) {
+						combo.addItem(c.getN_conta());
+					}
+				}
+				panel.add(combo);
+				int i = JOptionPane.showOptionDialog(getParent(), panel, "Lista de contas",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
+				if (i == JOptionPane.OK_OPTION) {
+					n_conta_aux = (int) combo.getSelectedItem();
+					for (JavaBank_Conta c : gestao.getContas()) {
+						if (c.getN_conta() == n_conta_aux) {
+							saldo = c.getSaldo();
+						}
 					}
 				}
 				Window_JavaBank_DadosConta listarmov = new Window_JavaBank_DadosConta(gestao, n_conta_aux, saldo);

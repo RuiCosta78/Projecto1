@@ -23,7 +23,7 @@ public class JavaBank_Cliente extends JavaBank_Utilizador implements Serializabl
 		this.nif = nif;
 		this.conta = conta;
 	}
-	
+
 	public String getNif() {
 		return nif;
 	}
