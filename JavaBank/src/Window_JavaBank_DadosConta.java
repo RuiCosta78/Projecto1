@@ -109,11 +109,11 @@ public class Window_JavaBank_DadosConta extends JPanel {
 		}
 
 		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(335, 266, 89, 23);
+		btnVoltar.setBounds(287, 123, 121, 23);
 		add(btnVoltar);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 126, 414, 129);
+		scrollPane.setBounds(10, 160, 414, 129);
 		add(scrollPane);
 
 		btnVoltar.addActionListener(new ActionListener() {
@@ -149,6 +149,10 @@ public class Window_JavaBank_DadosConta extends JPanel {
 		JButton btnAdicionarTitular = new JButton("Adicionar titular");
 		btnAdicionarTitular.setBounds(287, 47, 121, 23);
 		add(btnAdicionarTitular);
+		
+		JButton btnCartesAssociados = new JButton("Cart\u00F5es associados");
+		btnCartesAssociados.setBounds(151, 123, 126, 23);
+		add(btnCartesAssociados);
 
 		btnFecharConta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
