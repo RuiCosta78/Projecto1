@@ -1,10 +1,12 @@
+import java.io.Serializable;
+
 /**
 * Breve descrição do código
 *
 * @sid 2002
 * @aid 1.1
 */
-public class JavaBank_Conta_Ordem extends JavaBank_Conta {
+public class JavaBank_Conta_Ordem extends JavaBank_Conta implements Serializable{
 	
 	public static double limite_diario;
 	public static double limite_levantamento;

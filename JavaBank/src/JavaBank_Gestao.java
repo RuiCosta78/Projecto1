@@ -1,10 +1,18 @@
 import java.awt.EventQueue;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -22,7 +30,7 @@ public class JavaBank_Gestao implements Serializable {
 
 	public JavaBank_Gestao() {
 		super();
-		JavaBank_Conta conta1 = new JavaBank_Conta_Ordem(1, "1/jan/2001", 250.00, "Activa", null);
+		JavaBank_Conta conta1 = new JavaBank_Conta_Ordem(1, "1/jan/2001", 250.00, "Inactiva", null);
 		JavaBank_Conta conta2 = new JavaBank_Conta_Ordem(2, "1/jan/2001", 150.00, "Activa",
 				new JavaBank_Cartao_Debito("Nuno Pratas", "0001", "1/2024", "001"));
 		JavaBank_Conta conta3 = new JavaBank_Conta_Poupanca(3, "1/1/2001", 5000.00, "Activa");
@@ -157,7 +165,13 @@ public class JavaBank_Gestao implements Serializable {
 		} else if (!password.equals(passwordConfirm)) {
 			janela_confirm = "Registo inválido. Password não confirmada correctamente.";
 		} else if (password.length() < 8) {
-			janela_confirm = "Registo inválido. Password tem de conter no mínimo 8 caractceres.";
+			janela_confirm = "Registo inválido. Password tem de conter no mínimo 8 caracteres.";
+		} else if (!validarInteiro(String.valueOf(numId))) {
+			janela_confirm = "Registo inválido. Identificação tem de ser um valor numérico.";
+		} else if (!validarInteiro(String.valueOf(contacto))) {
+			janela_confirm = "Registo inválido. Nº de contacto tem de ser um valor numérico.";
+		} else if (!validarInteiro(String.valueOf(nif))) {
+			janela_confirm = "Registo inválido. NIF tem de ser um valor numérico.";
 		} else {
 			janela_confirm = "Registo concluído com sucesso.";
 			utilizadores.add(new JavaBank_Cliente(nome, sobrenome, data, tipoId, numId, endereco, contacto, email,
@@ -206,6 +220,9 @@ public class JavaBank_Gestao implements Serializable {
 		String janela_confirm = "";
 		int id_cliente = 0;
 		int cont = 0, cont_poup = 0;
+		if (!validarDouble(String.valueOf(deposito))) {
+			janela_confirm = "Valor do depósito tem de ser um valor numérico com duas casas decimais separadas por ponto.";
+		}
 		for (JavaBank_Utilizador c : getUtilizadores()) {
 			if (c.getPrimeiro_nome().equals(nome) && c.getSobrenome().equals(sobrenome)
 					&& c instanceof JavaBank_Cliente) {
@@ -250,9 +267,13 @@ public class JavaBank_Gestao implements Serializable {
 	}
 
 	// Método para realizar movimento de determinado valor em determinada conta
-	public String movimento(String montante, int aux, String movimento) {
+	public String movimento(String montante, int aux, String movimento) throws IOException {
+		abrirContas();
 		double saldoInst = 0;
 		String mensagem = "";
+		if (!validarDouble(montante)) {
+			mensagem = "Valor do movimento tem de ser um valor numérico com duas casas decimais separadas por ponto.";
+		}
 		for (JavaBank_Conta c : getContas()) {
 			if (c.getN_conta() == aux && c.getEstado().equals("Activa")) {
 				Calendar cal = Calendar.getInstance();
@@ -357,6 +378,7 @@ public class JavaBank_Gestao implements Serializable {
 				}
 			}
 		}
+		gravarContas();
 		return mensagem;
 	}
 
@@ -382,6 +404,99 @@ public class JavaBank_Gestao implements Serializable {
 			soma_depositos = 0;
 		}
 		return quantia;
+	}
+
+	// Verificar se um dado de input recebido como string é um inteiro.
+	public boolean validarInteiro(String s) {
+		boolean inteiro = false, valor = true;
+		try {
+			Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			valor = false;
+		} catch (NullPointerException e) {
+			valor = false;
+		}
+		if (valor == true) { // Sendo convertível em inteiro,
+			int i = Integer.parseInt(s);
+			if (i % 1 == 0) { // Se o resto da divisão por 1 for inteiro, o n.º é inteiro.
+				inteiro = true;
+			}
+		}
+		return inteiro;
+	}
+
+	// Verificar se um dado de input recebido como string é um double com
+	// máximo de duas casas decimais.
+	public boolean validarDouble(String s) {
+		boolean decimal = false, valor = true;
+		try { // tenta a conversão:
+			Double.parseDouble(s);
+		} catch (NumberFormatException e) {
+			valor = false;
+		} catch (NullPointerException e) {
+			valor = false;
+		}
+		if (valor == true) { // Sendo convertível em double,
+			double d = Double.parseDouble(s) * 100;
+			if (d % 1 == 0) { // Se o valor *100 for inteiro, tem no máx. duas casas decimais.
+				decimal = true;
+			}
+		}
+		return decimal;
+	}
+
+	// Gravação da lista de utilizadores
+	public void gravarUtilizadores() throws IOException {
+		FileOutputStream fileOut = new FileOutputStream("JavaBank_Utilizadores.dat");
+		ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		out.writeObject(utilizadores);
+		out.close();
+		fileOut.close();
+	}
+
+	// Abertura da lista de utilizadores.
+	@SuppressWarnings("unchecked")
+	public void abrirUtilizadores() throws IOException {
+		try {
+			File f = new File("JavaBank_Utilizadores.dat");
+			if (f.exists()) {
+				FileInputStream ficheiro = new FileInputStream(f);
+				ObjectInputStream in = new ObjectInputStream(ficheiro);
+				utilizadores = (ArrayList<JavaBank_Utilizador>) in.readObject();
+				in.close();
+				ficheiro.close();
+			}
+		} catch (Exception e) {
+			JFrame frame = new JFrame();
+			JOptionPane.showMessageDialog(frame, "Ficheiro de utilizadores não encontrado.");
+		}
+	}
+
+	// Gravação da lista de contas
+	public void gravarContas() throws IOException {
+		FileOutputStream fileOut = new FileOutputStream("JavaBank_Contas.dat");
+		ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		out.writeObject(contas);
+		out.close();
+		fileOut.close();
+	}
+
+	// Abertura da lista de contas.
+	@SuppressWarnings("unchecked")
+	public void abrirContas() throws IOException {
+		try {
+			File f = new File("JavaBank_Contas.dat");
+			if (f.exists()) {
+				FileInputStream ficheiro = new FileInputStream(f);
+				ObjectInputStream in = new ObjectInputStream(ficheiro);
+				contas = (ArrayList<JavaBank_Conta>) in.readObject();
+				in.close();
+				ficheiro.close();
+			}
+		} catch (Exception e) {
+			JFrame frame = new JFrame();
+			JOptionPane.showMessageDialog(frame, "Ficheiro de contas não encontrado.");
+		}
 	}
 
 	public ArrayList<JavaBank_Utilizador> getUtilizadores() {

@@ -85,8 +85,9 @@ public class Window_JavaBank_HomepageCliente extends JFrame {
 				panel.add(new JLabel("Nº conta"));
 				JComboBox<Object> combo = new JComboBox<>();
 				combo.addItem("---Escolha a conta---");
-				for(JavaBank_Conta c : gestao.getContas()) {
-					if(((JavaBank_Cliente) JavaBank_Gestao.utilizador_logado).getConta().getN_conta() == c.getN_conta()) {
+				for (JavaBank_Conta c : gestao.getContas()) {
+					if (((JavaBank_Cliente) JavaBank_Gestao.utilizador_logado).getConta().getN_conta() == c
+							.getN_conta()) {
 						combo.addItem(c.getN_conta());
 					}
 				}
@@ -96,8 +97,15 @@ public class Window_JavaBank_HomepageCliente extends JFrame {
 				if (i == JOptionPane.OK_OPTION) {
 					n_conta_aux = (int) combo.getSelectedItem();
 					for (JavaBank_Conta c : gestao.getContas()) {
+
 						if (c.getN_conta() == n_conta_aux) {
-							saldo = c.getSaldo();
+							if (c.getEstado().equals("Inactiva")) {
+								JOptionPane.showMessageDialog(getParent(),
+										"A conta encontra-se inactiva. Contacte o balcão mais próximo.");
+								return;
+							} else {
+								saldo = c.getSaldo();
+							}
 						}
 					}
 				}

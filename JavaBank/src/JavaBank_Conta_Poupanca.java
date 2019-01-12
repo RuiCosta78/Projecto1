@@ -1,10 +1,12 @@
+import java.io.Serializable;
+
 /**
 * Breve descrição do código
 *
 * @sid 2002
 * @aid 1.1
 */
-public class JavaBank_Conta_Poupanca extends JavaBank_Conta {
+public class JavaBank_Conta_Poupanca extends JavaBank_Conta implements Serializable{
 	
 	private double juros;
 	public static double limite_mensal;

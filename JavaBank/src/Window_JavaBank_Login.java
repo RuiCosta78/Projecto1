@@ -49,17 +49,8 @@ public class Window_JavaBank_Login {
 	}
 
 	public Window_JavaBank_Login() throws ClassNotFoundException, IOException {
-		/*try {
-			FileInputStream utilizadoresIn = new FileInputStream("JavaBank_Utilizadores.dat");
-			ObjectInputStream uIn = new ObjectInputStream(utilizadoresIn);
-			gestao.utilizadores = (ArrayList<JavaBank_Utilizador>) uIn.readObject();
-			uIn.close();
-			utilizadoresIn.close();
-		} catch (Exception e) {
-			gestao.utilizadores.add(new JavaBank_Admin("Rui", "Costa", "29/08/1978", "Cartão de cidadão", 123456789,
-					"Rua Maria Vitória Bourbon Bobone, Lote 15.7, 3030-502 Coimbra", "987654321", "rdrmdc",
-					"SuperBread1978"));
-		}*/
+		gestao.abrirUtilizadores();
+		gestao.abrirContas();
 		initialize();
 	}
 
@@ -145,11 +136,8 @@ public class Window_JavaBank_Login {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				try {
-					FileOutputStream utilizadoresOut = new FileOutputStream("JavaBank_Utilizadores.dat");
-					ObjectOutputStream uOut = new ObjectOutputStream(utilizadoresOut);
-					uOut.writeObject(gestao.getUtilizadores());
-					uOut.close();
-					utilizadoresOut.close();
+					gestao.gravarUtilizadores();
+					gestao.gravarContas();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

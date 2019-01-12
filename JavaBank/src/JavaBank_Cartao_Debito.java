@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -7,7 +8,7 @@ import java.util.Random;
  * @sid 2002
  * @aid 1.1
  */
-public class JavaBank_Cartao_Debito {
+public class JavaBank_Cartao_Debito implements Serializable {
 
 	protected String nome_titular;
 	protected String numero;
