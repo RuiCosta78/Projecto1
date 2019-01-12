@@ -116,7 +116,7 @@ public class VCI_AltSelCar {
 				window.getFrame().setVisible(true);
 			}
 		});
-		button.setBounds(10, 240, 83, 23);
+		button.setBounds(10, 229, 83, 23);
 		panel.add(button);
 		
 		//CONFIRMAR
@@ -138,7 +138,7 @@ public class VCI_AltSelCar {
 				window.getFrame().setVisible(true);
 			}
 		});
-		button_1.setBounds(288, 240, 138, 23);
+		button_1.setBounds(288, 229, 138, 23);
 		panel.add(button_1);
 	}
 

@@ -70,7 +70,6 @@ public class VCI_ADMIN extends JFrame {
 	private ArrayList<VCI_cl_Livro> listaSel = new ArrayList<VCI_cl_Livro>();
 	private VCI_cl_Livro livroSelecionado = null;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	private boolean estAtual;
 	private String est;
 
 	public VCI_ADMIN(VCI_cl_Gestao g) throws IOException {
@@ -848,7 +847,13 @@ public class VCI_ADMIN extends JFrame {
 				GregorianCalendar dI = new GregorianCalendar(1900, 0, 1);
 				GregorianCalendar dF = new GregorianCalendar();
 				dispose();
-				VCI_TabVendas window = new VCI_TabVendas(g, dI, dF);
+				VCI_TabVendas window = null;
+				try {
+					window = new VCI_TabVendas(g, dI, dF);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				window.getFrame().setVisible(true); // Ativa a janela a que o botão dá acesso;
 			}
 		});
@@ -885,7 +890,13 @@ public class VCI_ADMIN extends JFrame {
 				GregorianCalendar dI = new GregorianCalendar(dIano, dImes - 1, dIdia);
 				GregorianCalendar dF = new GregorianCalendar(dFano, dFmes - 1, dFdia);
 				dispose(); // Troca de janela.
-				VCI_TabVendas window = new VCI_TabVendas(g, dI, dF);
+				VCI_TabVendas window = null;
+				try {
+					window = new VCI_TabVendas(g, dI, dF);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				window.getFrame().setVisible(true); // Ativa a janela a que o botão dá acesso.
 			}
 		});

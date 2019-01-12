@@ -245,8 +245,6 @@ public class VCI_cl_Gestao implements Serializable {
 				if (((VCI_cl_Vendedor) u).getNome().equals(nOrig)) {
 					((VCI_cl_Vendedor) u).setNome(nNovo);
 					gravarUtilizadores();
-					// JFrame caixa = new JFrame();
-					// JOptionPane.showMessageDialog(caixa, "Nome do vendedor corrigido.");
 				}
 			}
 		}
@@ -259,8 +257,6 @@ public class VCI_cl_Gestao implements Serializable {
 				if (((VCI_cl_Vendedor) u).getNome().equals(n)) {
 					((VCI_cl_Vendedor) u).setEstado(b);
 					gravarUtilizadores();
-					// JFrame caixa = new JFrame();
-					// JOptionPane.showMessageDialog(caixa, "Estado do vendedor alterado.");
 				}
 			}
 		}
