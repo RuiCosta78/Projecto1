@@ -4,6 +4,9 @@ import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,6 +30,13 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 
 	public Window_JavaBank_HomepageFunc(JavaBank_Gestao gestao) throws HeadlessException {
 		this.gestao = gestao;
+		try {
+			gestao.abrirContas();
+			gestao.abrirUtilizadores();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 		setVisible(true);
 	}
@@ -128,6 +138,9 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 				JPanel panel = new JPanel();
 				panel.add(new JLabel("Nº conta"));
 				JComboBox<String> combo = new JComboBox<>();
+
+				HashSet<Object> existe = new HashSet<>();
+				gestao.getContas().removeIf(c -> !existe.add(c.getN_conta()));
 				combo.addItem("---Escolha a conta---");
 				for (JavaBank_Conta c : gestao.getContas()) {
 					combo.addItem(String.valueOf(c.getN_conta()));

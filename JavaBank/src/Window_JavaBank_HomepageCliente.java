@@ -86,10 +86,7 @@ public class Window_JavaBank_HomepageCliente extends JFrame {
 				JComboBox<Object> combo = new JComboBox<>();
 				combo.addItem("---Escolha a conta---");
 				for (JavaBank_Conta c : gestao.getContas()) {
-					if (((JavaBank_Cliente) JavaBank_Gestao.utilizador_logado).getConta().getN_conta() == c
-							.getN_conta()) {
-						combo.addItem(c.getN_conta());
-					}
+					combo.addItem(c.getN_conta());
 				}
 				panel.add(combo);
 				int i = JOptionPane.showOptionDialog(getParent(), panel, "Lista de contas",

@@ -1,10 +1,12 @@
+import java.io.Serializable;
+
 /**
 * Breve descrição do código
 *
 * @sid 2002
 * @aid 1.1
 */
-public class JavaBank_Movimento {
+public class JavaBank_Movimento implements Serializable{
 	
 	protected String data_movimento;
 	protected String tipo_movimento;

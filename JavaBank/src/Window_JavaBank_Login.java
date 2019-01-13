@@ -49,6 +49,7 @@ public class Window_JavaBank_Login {
 	}
 
 	public Window_JavaBank_Login() throws ClassNotFoundException, IOException {
+		
 		gestao.abrirUtilizadores();
 		gestao.abrirContas();
 		initialize();

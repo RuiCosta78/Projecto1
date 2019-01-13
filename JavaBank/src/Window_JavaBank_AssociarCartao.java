@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 /**
@@ -98,36 +99,42 @@ public class Window_JavaBank_AssociarCartao extends JPanel {
 
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					gestao.abrirContas();
+					gestao.abrirUtilizadores();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				String[] partes = titular.split(" ");
-				JavaBank_Conta conta = null;
-				JavaBank_Utilizador util = null;
 				for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
-					for (JavaBank_Conta c : gestao.getContas()) {
-						if (u instanceof JavaBank_Cliente && u.getPrimeiro_nome().equals(partes[0])
-								&& u.getSobrenome().equals(partes[1]) && c instanceof JavaBank_Conta_Ordem
-								&& c.getN_conta() == aux) {
-							if (((JavaBank_Conta_Ordem) ((JavaBank_Cliente) u).getConta()).getCartao() != null) {
-								conta = new JavaBank_Conta_Ordem(aux, c.getData_criacao(), c.getSaldo(), c.getEstado(),
-										cartao);
-								util = new JavaBank_Cliente(u.getPrimeiro_nome(), u.getSobrenome(),
-										u.getData_nascimento(), u.getTipo_id(), u.getN_id(), u.getEndereco(),
-										u.getN_contacto(), u.getLogin(), u.getPassword(),
-										((JavaBank_Cliente) u).getNif(), conta);
-							} else {
-								((JavaBank_Conta_Ordem)c).setCartao(cartao);
-								((JavaBank_Cliente)u).setConta(c);
+					if (u instanceof JavaBank_Cliente && u.getPrimeiro_nome().equals(partes[0])
+							&& u.getSobrenome().equals(partes[1])) {
+						for (JavaBank_Conta c : ((JavaBank_Cliente) u).getContas_associadas()) {
+							if (c.getN_conta() == aux) {
+								((JavaBank_Conta_Ordem) c).getCartoes_associados().add(cartao);
+								for (JavaBank_Conta conta : gestao.getContas()) {
+									if (c.getN_conta() == conta.getN_conta()) {
+										((JavaBank_Conta_Ordem) conta).getCartoes_associados().add(cartao);
+									}
+								}
+								break;
 							}
 						}
 					}
-				}
-				if(util != null) {
-					gestao.getUtilizadores().add(util);
 				}
 				JOptionPane.showMessageDialog(getParent(), "Cartão associado com sucesso.");
 				CardLayout card = (CardLayout) getParent().getLayout();
 				removeAll();
 				initialize();
 				card.show(getParent(), "mainf");
+				try {
+					gestao.gravarContas();
+					gestao.gravarUtilizadores();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 

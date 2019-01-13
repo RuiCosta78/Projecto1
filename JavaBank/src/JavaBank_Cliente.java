@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Breve descrição do código
@@ -9,7 +10,7 @@ import java.io.Serializable;
 public class JavaBank_Cliente extends JavaBank_Utilizador implements Serializable {
 
 	private String nif;
-	private JavaBank_Conta conta;
+	private ArrayList<JavaBank_Conta> contas_associadas = new ArrayList<>();
 
 	public JavaBank_Cliente(String primeiro_nome, String sobrenome, String data_nascimento, String tipo_id,
 			int n_id, String endereco, String n_contacto, String login, String password, String nif) {
@@ -18,10 +19,10 @@ public class JavaBank_Cliente extends JavaBank_Utilizador implements Serializabl
 	}
 
 	public JavaBank_Cliente(String primeiro_nome, String sobrenome, String data_nascimento, String tipo_id, int n_id,
-			String endereco, String n_contacto, String login, String password, String nif, JavaBank_Conta conta) {
+			String endereco, String n_contacto, String login, String password, String nif, ArrayList<JavaBank_Conta> contas_associadas) {
 		super(primeiro_nome, sobrenome, data_nascimento, tipo_id, n_id, endereco, n_contacto, login, password);
 		this.nif = nif;
-		this.conta = conta;
+		this.contas_associadas = contas_associadas;
 	}
 
 	public String getNif() {
@@ -32,12 +33,12 @@ public class JavaBank_Cliente extends JavaBank_Utilizador implements Serializabl
 		this.nif = nif;
 	}
 
-	public JavaBank_Conta getConta() {
-		return conta;
+	public ArrayList<JavaBank_Conta> getContas_associadas() {
+		return contas_associadas;
 	}
 
-	public void setConta(JavaBank_Conta conta) {
-		this.conta = conta;
+	public void setContas_associadas(ArrayList<JavaBank_Conta> contas_associadas) {
+		this.contas_associadas = contas_associadas;
 	}
 
 }
