@@ -92,7 +92,7 @@ public class VCI_EdLivro1 {
 		JLabel label_4 = new JLabel("Selecione o campo a corrigir/editar:");
 		label_4.setHorizontalAlignment(SwingConstants.LEFT);
 		label_4.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_4.setBounds(10, 74, 302, 20);
+		label_4.setBounds(10, 78, 302, 20);
 		panel.add(label_4);
 
 		JComboBox<String> comboBox = new JComboBox<String>();
@@ -240,7 +240,7 @@ public class VCI_EdLivro1 {
 				card.show(window.getContentPane(), "EdLivro");
 			}
 		});
-		button.setBounds(10, 229, 89, 23);
+		button.setBounds(10, 222, 89, 30);
 		panel.add(button);
 
 		JButton button_1 = new JButton("Confirmar");
@@ -379,7 +379,7 @@ public class VCI_EdLivro1 {
 				}
 			}
 		});
-		button_1.setBounds(316, 229, 100, 23);
+		button_1.setBounds(316, 222, 100, 30);
 		panel.add(button_1);
 
 		JLabel lblDadosAtuais = new JLabel("Dados atuais:");

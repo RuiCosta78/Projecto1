@@ -1,19 +1,16 @@
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import java.awt.EventQueue;
-import java.awt.Window;
 
 /**
  * Projeto final de Introdução à Programação em Java Gestão da livraria View
@@ -112,7 +109,7 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 	}
 
-	// Abertura da lista de livros.
+	// Abertura da lista de compras.
 	@SuppressWarnings("unchecked")
 	public void abrirCompras() {
 		try {
@@ -125,53 +122,8 @@ public class VCI_cl_Gestao implements Serializable {
 				ficheiro.close();
 			}
 		} catch (Exception e) {
-			// 
+			//
 		}
-	}
-
-	// Abertura do ficheiro com os números de contas do JavaBank e execução da
-	// compra.
-	@SuppressWarnings("unchecked")
-	public String compraCartao(String nC, double p) {
-		String compra = "saldo";
-		boolean aux = false;
-		ArrayList<JavaBank_Conta> contas = null;
-		try {
-			File f = new File("Lista de Contas.dat");
-			if (f.exists()) {
-				FileInputStream ficheiro = new FileInputStream("Lista de Contas.dat");
-				ObjectInputStream in = new ObjectInputStream(ficheiro);
-				contas = (ArrayList<JavaBank_Conta>) in.readObject();
-				in.close();
-				ficheiro.close();
-				aux = true;
-			}
-		} catch (Exception e) {
-			compra = "cartao";
-		}
-		if (aux) {
-			for (int i = 0; i < contas.size(); i++) {
-				if (contas.get(i) instanceof JavaBank_Conta_Ordem) {
-					if (nC == ((JavaBank_Conta_Ordem) contas.get(i)).getCartao().getNumero()) {
-						if (p <= ((JavaBank_Conta_Ordem) contas.get(i)).getSaldo()) {
-							double novoSaldo = ((JavaBank_Conta_Ordem) contas.get(i)).getSaldo() - p;
-							((JavaBank_Conta_Ordem) contas.get(i)).setSaldo(novoSaldo);
-							compra = "efetuada";
-							JavaBank_Gestao jb = new JavaBank_Gestao();
-							try {
-								jb.movimento(Double.toString(p),
-										Integer.parseInt(((JavaBank_Conta_Ordem) contas.get(i)).getCartao().getNumero()),
-										"Compra ViewComics");
-							} catch (NumberFormatException | IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}
-		}
-		return compra;
 	}
 
 	// Login para utilizadores Admin e Vendedor.
@@ -278,24 +230,24 @@ public class VCI_cl_Gestao implements Serializable {
 	}
 
 	// Abertura da lista de utilizadores.
-		public VCI_cl_Historico abrirHistorico(String s) throws IOException {
-			VCI_cl_Historico h = null;
-			try {
-				File f = new File(s + ".dat");				
-				if (f.exists()) {
-					FileInputStream ficheiro = new FileInputStream(f);
-					ObjectInputStream in = new ObjectInputStream(ficheiro);
-					h = (VCI_cl_Historico) in.readObject();
-					in.close();
-					ficheiro.close();
-				}
-			} catch (Exception e) {
-				JFrame caixa = new JFrame();
-				JOptionPane.showMessageDialog(caixa, "Histórico do livro "+ s + " não encontrado.");
+	public VCI_cl_Historico abrirHistorico(String s) throws IOException {
+		VCI_cl_Historico h = null;
+		try {
+			File f = new File(s + ".dat");
+			if (f.exists()) {
+				FileInputStream ficheiro = new FileInputStream(f);
+				ObjectInputStream in = new ObjectInputStream(ficheiro);
+				h = (VCI_cl_Historico) in.readObject();
+				in.close();
+				ficheiro.close();
 			}
-			return h;
+		} catch (Exception e) {
+			JFrame caixa = new JFrame();
+			JOptionPane.showMessageDialog(caixa, "Histórico do livro " + s + " não encontrado.");
 		}
-	
+		return h;
+	}
+
 	// Gravação da lista de livros
 	public void gravarHistorico(VCI_cl_Historico h) throws IOException {
 		File f = new File(h.getIsbn() + ".dat");
@@ -307,7 +259,7 @@ public class VCI_cl_Gestao implements Serializable {
 	}
 
 	// Criação do 1.º histórico de preços dos livros.
-	public void criarHistorico (String s, GregorianCalendar d, double p) throws IOException {
+	public void criarHistorico(String s, GregorianCalendar d, double p) throws IOException {
 		// Criação do objeto VCI_cl_Historico:
 		ArrayList<GregorianCalendar> datas = new ArrayList<GregorianCalendar>();
 		datas.add(d);
@@ -321,19 +273,20 @@ public class VCI_cl_Gestao implements Serializable {
 		out.close();
 		fileOut.close();
 	}
-	
+
 	// Verificar se um dado de input recebido como string é um inteiro.
 	public boolean validarInteiro(String s) {
 		boolean inteiro = false, valor = true;
 		try {
 			Integer.parseInt(s);
-		} catch	(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			valor = false;
 		} catch (NullPointerException e) {
 			valor = false;
-		} if (valor == true) { // Sendo convertível em inteiro,
+		}
+		if (valor == true) { // Sendo convertível em inteiro,
 			int i = Integer.parseInt(s);
-				if (i % 1 == 0) { // Se o resto da divisão por 1 for inteiro, o n.º é inteiro.
+			if (i % 1 == 0) { // Se o resto da divisão por 1 for inteiro, o n.º é inteiro.
 				inteiro = true;
 			}
 		}
@@ -346,11 +299,12 @@ public class VCI_cl_Gestao implements Serializable {
 		boolean decimal = false, valor = true;
 		try { // tenta a conversão:
 			Double.parseDouble(s);
-		} catch	(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			valor = false;
 		} catch (NullPointerException e) {
 			valor = false;
-		} if (valor == true) { // Sendo convertível em double,
+		}
+		if (valor == true) { // Sendo convertível em double,
 			double d = Double.parseDouble(s) * 100;
 			if (d % 1 == 0) { // Se o valor *100 for inteiro, tem no máx. duas casas decimais.
 				decimal = true;
@@ -358,13 +312,142 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 		return decimal;
 	}
-	
+
 	public String obterLivros(ArrayList<VCI_cl_Livro> lis, ArrayList<Integer> quant) {
 		String livros = "";
 		for (int i = 0; i < lis.size(); i++) {
 			livros = lis.get(i).getTitulo() + " - " + quant.get(i) + "; " + livros;
 		}
 		return livros;
+	}
+
+	// Abertura do ficheiro com os números de contas do JavaBank e execução da
+	public void compraCartao(String nC, double p) throws NumberFormatException, IOException {
+		//String resposta = "";
+		String[] pedido = { nC, String.valueOf(p) }; // Ficheiro para o banco.
+		FileOutputStream fileOut = new FileOutputStream("pedido.dat");
+		ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		out.writeObject(pedido);
+		out.close();
+		fileOut.close();
+		System.out.println("compraCartao   " + pedido[0] + " " + pedido[1]);
+	}
+
+	// Recebe o ficheiro do banco
+	public String respostaBanco() {
+		String[] resposta = { " " };
+		while (resposta[0].equals(" ")) {
+			JFrame caixa = new JFrame();
+			JOptionPane.showMessageDialog(caixa, "Aguarda comunicação...");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				File f = new File("resposta.dat");
+				if (f.exists()) {
+					FileInputStream ficheiro = new FileInputStream(f);
+					ObjectInputStream in = new ObjectInputStream(ficheiro);
+					resposta[0] = (String) in.readObject();
+					in.close();
+					ficheiro.close();
+				}
+			} catch (Exception e) {
+				//
+			}
+			caixa.dispose();
+		}
+		return resposta[0];
+	}
+
+	// Apagar ficheiro (aplicado aos ficheiros entre livraria e banco).
+	public void apagarFicheiro(String s) {
+		File f = new File(s + ".dat");
+		try {
+			if (f.exists()) {
+				f.delete();
+			}
+		} catch (Exception e) {
+			//
+		}
+	}
+
+	// EXECUÇÃO DO PEDIDO PELO BANCO.
+	public static String[] show(ArrayList<JavaBank_Conta> contas) throws IOException {
+		JavaBank_Gestao gestao = new JavaBank_Gestao();
+		String resp = "";
+		String[] dados = new String[2];
+		String[] resposta = new String[1];
+			dados = abrirPedido();
+			System.out.println("show - dados   " + dados[0] + " " + dados[1]); // SHOW DADOS
+			int aux = 0;
+				for (JavaBank_Conta c : contas) {
+				System.out.println("show - n.º conta  " + c.getN_conta());
+				if (c instanceof JavaBank_Conta_Ordem) {
+					for (JavaBank_Cartao_Debito car : ((JavaBank_Conta_Ordem) c).getCartoes_associados()) {
+						if (car.getNumero().equals(dados[0])) {
+							aux = c.n_conta;
+							System.out.println("show - cartao   " + car.getNumero()); // SHOW CARTAO
+							if (c.getEstado().equals("Inactiva")) {
+								resposta[0] = "inativo";
+							}
+						} else {
+							resposta[0] = "errado";
+						}
+					}
+				}
+			}
+			System.out.println("show - conta   " + aux); // SHOW CONTA
+			resp = gestao.movimento(dados[1], aux, "Compra");
+			if (resp.equals("Saldo insuficiente.")) {
+				resposta[0] = "sem saldo";
+			} else if (resp.equals("Operação efectuada com sucesso.")) {
+				resposta[0] = "sucesso";
+			}
+			System.out.println("show - resposta   " + resposta[0]); // SHOW RESPOSTA
+		return resposta;
+	}
+	
+	// Gravação da lista de contas
+		public void gravarContas(ArrayList<JavaBank_Conta> c) throws IOException {
+			FileOutputStream fileOut = new FileOutputStream("JavaBank_Contas.dat");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(c);
+			out.close();
+			fileOut.close();
+		}
+
+
+	// Gravação da resposta.
+	public static void gravarResposta(ArrayList<JavaBank_Conta> c) throws IOException {
+		File f = new File("resposta.dat");
+		FileOutputStream fileOut = new FileOutputStream(f);
+		ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		String[] resposta = show(c);
+		out.writeObject(resposta);
+		out.close();
+		fileOut.close();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static String[] abrirPedido() throws IOException {
+		String[] dados = new String[2];
+		try {
+			File f = new File("pedido.dat");
+			if (f.exists()) {
+				FileInputStream ficheiro = new FileInputStream(f);
+				ObjectInputStream in = new ObjectInputStream(ficheiro);
+				dados = (String[]) in.readObject();
+				in.close();
+				ficheiro.close();
+			}
+		} catch (Exception e) {
+			JFrame frame = new JFrame();
+			JOptionPane.showMessageDialog(frame, "Ficheiro de contas não encontrado.");
+		}
+		return dados;
 	}
 
 	public ArrayList<VCI_cl_Livro> getListaLivros() {

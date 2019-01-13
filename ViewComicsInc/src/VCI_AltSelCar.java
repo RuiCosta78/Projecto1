@@ -71,7 +71,7 @@ public class VCI_AltSelCar {
 		JLabel label_3 = new JLabel(titulo);
 		label_3.setHorizontalAlignment(SwingConstants.LEFT);
 		label_3.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_3.setBounds(10, 91, 416, 23);
+		label_3.setBounds(10, 85, 416, 23);
 		panel.add(label_3);
 		
 		JLabel label_4 = new JLabel("Para o qual reservou ");
@@ -96,15 +96,15 @@ public class VCI_AltSelCar {
 		JLabel label_7 = new JLabel("Pretende:");
 		label_7.setHorizontalAlignment(SwingConstants.LEFT);
 		label_7.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_7.setBounds(10, 160, 117, 23);
+		label_7.setBounds(10, 144, 117, 23);
 		panel.add(label_7);
 		
 		JRadioButton radioButton = new JRadioButton("Eliminar o livro da lista de compras");
-		radioButton.setBounds(116, 162, 230, 23);
+		radioButton.setBounds(116, 146, 230, 23);
 		panel.add(radioButton);
 		
 		JRadioButton radioButton_1 = new JRadioButton("Modificar a quantidade");
-		radioButton_1.setBounds(116, 194, 230, 23);
+		radioButton_1.setBounds(116, 178, 230, 23);
 		panel.add(radioButton_1);
 		
 		// VOLTAR
@@ -116,7 +116,7 @@ public class VCI_AltSelCar {
 				window.getFrame().setVisible(true);
 			}
 		});
-		button.setBounds(10, 229, 83, 23);
+		button.setBounds(10, 222, 83, 30);
 		panel.add(button);
 		
 		//CONFIRMAR
@@ -132,13 +132,15 @@ public class VCI_AltSelCar {
 					if (num != VCI_cl_Gestao.cliente.getQuantLivros().get(linha)) {
 						VCI_cl_Gestao.cliente.getQuantLivros().set(linha, num);
 					}
+				} else {
+					JOptionPane.showMessageDialog(frame, "Não foram efetuadas alterações.");
 				}
 				frame.dispose();
 				VCI_Carrinho window = new VCI_Carrinho(g);
 				window.getFrame().setVisible(true);
 			}
 		});
-		button_1.setBounds(288, 229, 138, 23);
+		button_1.setBounds(288, 222, 138, 30);
 		panel.add(button_1);
 	}
 

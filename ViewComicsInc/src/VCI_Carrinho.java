@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
@@ -79,7 +80,7 @@ public class VCI_Carrinho {
 				window.getFrame().setVisible(true);
 			}
 		});
-		button.setBounds(10, 233, 83, 23);
+		button.setBounds(10, 222, 83, 30);
 		panel.add(button);
 
 		// FINALIZAR COMPRA
@@ -98,7 +99,7 @@ public class VCI_Carrinho {
 				}
 			}
 		});
-		button_1.setBounds(493, 233, 138, 23);
+		button_1.setBounds(493, 222, 138, 30);
 		panel.add(button_1);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -108,13 +109,23 @@ public class VCI_Carrinho {
 		String[] colunas = { "Título", "Autor", "ISBN", "Quant", "Preço" };
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable table = new JTable(modeloTabela);
-		table.setAutoCreateRowSorter(true);
+		table.setAutoCreateRowSorter(true); // Reordenamento de colunas.
+		// Alinhamento de colunas:
+		DefaultTableCellRenderer alinharEsquerda = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer alinharCentro = new DefaultTableCellRenderer();
+		alinharEsquerda.setHorizontalAlignment(JLabel.LEFT);
+		alinharCentro.setHorizontalAlignment(JLabel.CENTER);
+		table.getColumnModel().getColumn(0).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(1).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(2).setCellRenderer(alinharCentro);
+		table.getColumnModel().getColumn(3).setCellRenderer(alinharCentro);
+		table.getColumnModel().getColumn(4).setCellRenderer(alinharCentro);
 		TableColumnModel col = table.getColumnModel();
-		col.getColumn(0).setMaxWidth(261);
-		col.getColumn(1).setMaxWidth(130);
-		col.getColumn(2).setMaxWidth(130);
-		col.getColumn(3).setMaxWidth(50);
-		col.getColumn(4).setMaxWidth(50);
+		col.getColumn(0).setMaxWidth(250);
+		col.getColumn(1).setMaxWidth(125);
+		col.getColumn(2).setMaxWidth(125);
+		col.getColumn(3).setMaxWidth(60);
+		col.getColumn(4).setMaxWidth(61);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		String t = "", a = "", i = "";
@@ -126,14 +137,14 @@ public class VCI_Carrinho {
 			p = VCI_cl_Gestao.cliente.getListaCompras().get(j).getPreco();
 			i = VCI_cl_Gestao.cliente.getListaCompras().get(j).getIsbn();
 			n = VCI_cl_Gestao.cliente.getQuantLivros().get(j);
-			Object[] livro = { t, a, i, n, p }; // Linha da tabela.
+			Object[] livro = { t, a, i, n, p + " €" }; // Linha da tabela.
 			modeloTabela.addRow(livro); // Adição da linha à tabela.
 		}
 		scrollPane.setViewportView(table);
 
 		JLabel label_1 = new JLabel("Valor total da sua compra:");
 		label_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		label_1.setBounds(10, 198, 208, 24);
+		label_1.setBounds(10, 190, 208, 24);
 		panel.add(label_1);
 
 		// Cálculo e apresentação do valor total da compra.
@@ -146,7 +157,7 @@ public class VCI_Carrinho {
 		JLabel label_2 = new JLabel(valor);
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_2.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		label_2.setBounds(521, 198, 75, 24);
+		label_2.setBounds(521, 190, 75, 24);
 		panel.add(label_2);
 
 		JButton btnAlterarSeleo = new JButton("Alterar sele\u00E7\u00E3o");
@@ -162,12 +173,12 @@ public class VCI_Carrinho {
 				}
 			}
 		});
-		btnAlterarSeleo.setBounds(345, 233, 138, 23);
+		btnAlterarSeleo.setBounds(345, 222, 138, 30);
 		panel.add(btnAlterarSeleo);
 
 		JLabel label_3 = new JLabel("\u20AC");
 		label_3.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		label_3.setBounds(606, 198, 25, 24);
+		label_3.setBounds(606, 190, 25, 24);
 		panel.add(label_3);
 
 		String titulo = table.getModel().getValueAt(linhaSel, 0).toString();

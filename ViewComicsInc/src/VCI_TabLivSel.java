@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
@@ -73,17 +74,28 @@ public class VCI_TabLivSel {
 		scrollPane.setBounds(10, 75, 766, 137);
 		panel.add(scrollPane);
 		// Colunas da tabela.
-		String[] colunas = { "Título", "Autor", "Editora", "ISBN", "Ano de Edição", "Preço" };
+		String[] colunas = { "Título", "Autor", "Editora", "ISBN", "Ano de Ed.", "Preço" };
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable table = new JTable(modeloTabela);
-		table.setAutoCreateRowSorter(true);
+		table.setAutoCreateRowSorter(true); // Reordenamento de colunas.
+		// Alinhamento de colunas:
+		DefaultTableCellRenderer alinharEsquerda = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer alinharCentro = new DefaultTableCellRenderer();
+		alinharEsquerda.setHorizontalAlignment(JLabel.LEFT);
+		alinharCentro.setHorizontalAlignment(JLabel.CENTER);
+		table.getColumnModel().getColumn(0).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(1).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(2).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(3).setCellRenderer(alinharCentro);
+		table.getColumnModel().getColumn(4).setCellRenderer(alinharCentro);
+		table.getColumnModel().getColumn(5).setCellRenderer(alinharCentro);
 		TableColumnModel col = table.getColumnModel();
-		col.getColumn(0).setMaxWidth(261);
-		col.getColumn(1).setMaxWidth(130);
-		col.getColumn(2).setMaxWidth(130);
-		col.getColumn(3).setMaxWidth(130);
-		col.getColumn(4).setMaxWidth(65);
-		col.getColumn(5).setMaxWidth(50);
+		col.getColumn(0).setMaxWidth(250);
+		col.getColumn(1).setMaxWidth(125);
+		col.getColumn(2).setMaxWidth(125);
+		col.getColumn(3).setMaxWidth(125);
+		col.getColumn(4).setMaxWidth(75);
+		col.getColumn(5).setMaxWidth(66);
 		table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		for (VCI_cl_Livro l : listaLiv) { // Formação das linhas da tabela.
@@ -93,7 +105,7 @@ public class VCI_TabLivSel {
 			String isbn = l.getIsbn();
 			int ano = l.getAnoEdicao();
 			double p = l.getPreco();
-			Object[] livro = { t, a, ed, isbn, ano, p }; // Linha da tabela.
+			Object[] livro = { t, a, ed, isbn, ano, p + " €" }; // Linha da tabela.
 			modeloTabela.addRow(livro); // Adição da linha à tabela.
 		}
 		scrollPane.setViewportView(table);
@@ -118,7 +130,7 @@ public class VCI_TabLivSel {
 				}
 			}
 		});
-		button_1.setBounds(671, 229, 105, 23);
+		button_1.setBounds(671, 222, 105, 30);
 		panel.add(button_1);
 
 		JButton button = new JButton("Voltar");
@@ -136,7 +148,7 @@ public class VCI_TabLivSel {
 				card.show(window.getContentPane(), "EdLivro");
 			}
 		});
-		button.setBounds(10, 229, 89, 23);
+		button.setBounds(10, 222, 89, 30);
 		panel.add(button);
 
 		JLabel lblCliqueNasColunas = new JLabel("Clique nas colunas para reordenar os livros");

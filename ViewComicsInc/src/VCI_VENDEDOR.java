@@ -8,11 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.awt.event.ActionEvent;
@@ -37,7 +40,6 @@ public class VCI_VENDEDOR {
 	private JTextField textField_1;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JTextField textField_2;
-	private String troco;
 	private String nc; // NIF
 	private VCI_cl_Gestao g;
 	private JTextField textField_3;
@@ -91,7 +93,7 @@ public class VCI_VENDEDOR {
 				window.getFrame().setVisible(true);
 			}
 		});
-		button.setBounds(10, 128, 133, 23);
+		button.setBounds(10, 128, 133, 30);
 		Opcoes.add(button);
 
 		// LISTAR LIVROS
@@ -103,7 +105,7 @@ public class VCI_VENDEDOR {
 				window.getFrame().setVisible(true);
 			}
 		});
-		btnPesquisarLivros.setBounds(153, 128, 133, 23);
+		btnPesquisarLivros.setBounds(153, 128, 133, 30);
 		Opcoes.add(btnPesquisarLivros);
 
 		// CONCLUIR COMPRA
@@ -114,20 +116,25 @@ public class VCI_VENDEDOR {
 				card.show(frame.getContentPane(), "Compra");
 			}
 		});
-		btnConcluirCompra.setBounds(293, 128, 133, 23);
+		btnConcluirCompra.setBounds(293, 128, 133, 30);
 		Opcoes.add(btnConcluirCompra);
 
 		// LOGOUT
 		JButton button_3 = new JButton("Logout");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frame.dispose(); // desliga a janela ativa;
-				VCI_cl_Gestao.utilizador = null;
-				VCI_Login window = new VCI_Login(g);
-				window.getFrame().setVisible(true);
+				Object[] opcoes = { "Abandonar sessão", "Continuar sessão" };
+				int opcao = JOptionPane.showOptionDialog(frame, "Pretende abandonar a sessão?", "ABANDONO DE SESSÃO",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[1]);
+				if (opcao == 0) {
+					frame.dispose(); // desliga a janela ativa;
+					VCI_cl_Gestao.utilizador = null;
+					VCI_Login window = new VCI_Login(g);
+					window.getFrame().setVisible(true);
+				}
 			}
 		});
-		button_3.setBounds(293, 229, 133, 23);
+		button_3.setBounds(293, 222, 133, 30);
 		Opcoes.add(button_3);
 
 		JPanel Compra = new JPanel();
@@ -154,7 +161,7 @@ public class VCI_VENDEDOR {
 				card.previous(frame.getContentPane());
 			}
 		});
-		button_2.setBounds(10, 229, 133, 23);
+		button_2.setBounds(10, 222, 133, 30);
 		Compra.add(button_2);
 
 		JRadioButton rdbtnADinheiro = new JRadioButton("A dinheiro");
@@ -164,7 +171,7 @@ public class VCI_VENDEDOR {
 
 		JRadioButton rdbtnCartoDeDbito = new JRadioButton("Cart\u00E3o de d\u00E9bito");
 		buttonGroup.add(rdbtnCartoDeDbito);
-		rdbtnCartoDeDbito.setBounds(207, 184, 111, 23);
+		rdbtnCartoDeDbito.setBounds(207, 184, 154, 23);
 		Compra.add(rdbtnCartoDeDbito);
 
 		textField = new JTextField();
@@ -208,50 +215,56 @@ public class VCI_VENDEDOR {
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// Validação do NIF:
-				nc = textField_1.getText().toString();
-				boolean nif = false;
-				if (g.validarInteiro(nc) == false) {
-					JOptionPane.showMessageDialog(frame,
-							"Número de Contribuinte inválido (verificar dígitos, sem espaços).");
-				} else {
-					if (nc.length() != 9) {
-						JOptionPane.showMessageDialog(frame,
-								"Número de Contribuinte inválido (introduzir número de 9 dígitos)");
-					} else {
-						nif = true;
-					}
-				}
 				// Verificação do nome de utilizador para localizar o cliente.
 				boolean nome = false;
 				String nomeC = textField.getText().toString();
-				// System.out.println(nomeC);
-				// System.out.println(VCI_cl_Gestao.cliente.getNome());
-				if (nomeC.equals(VCI_cl_Gestao.cliente.getNome())) {
-					nome = true;
+				if (nomeC.equals("")) {
+					JOptionPane.showMessageDialog(frame, "Indicar o nome de utilizador do cliente.");
 				} else {
-					JOptionPane.showMessageDialog(frame, "Utilizador não encontrado.");
-				}
-				// Verificação do método de pagamento:
-				boolean mPag = false;
-				if (buttonGroup.getSelection() == null) {
-					JOptionPane.showMessageDialog(frame, "Escolher método de pagamento.");
-				} else {
-					mPag = true;
-				}
-				// Confirmação após validação de todos os dados:
-				if (nif == true && nome == true && mPag == true) {
-					if (rdbtnADinheiro.isSelected()) { // Seleção do pagamento a dinheiro.
-						CardLayout card = (CardLayout) frame.getContentPane().getLayout();
-						card.show(frame.getContentPane(), "Dinheiro");
-					} else if (rdbtnCartoDeDbito.isSelected()) { // Seleção do pagamento com cartão.
-						CardLayout card = (CardLayout) frame.getContentPane().getLayout();
-						card.show(frame.getContentPane(), "Cartao");
+					if (VCI_cl_Gestao.cliente == null) {
+						JOptionPane.showMessageDialog(frame, "Não existem compras para pagamento.");
+					} else if (nomeC.equals(VCI_cl_Gestao.cliente.getNome())) {
+						nome = true;
+					} else {
+						JOptionPane.showMessageDialog(frame, "Utilizador não encontrado.");
+					}
+					if (VCI_cl_Gestao.cliente != null) {
+						// Validação do NIF:
+						nc = textField_1.getText().toString();
+						boolean nif = false;
+						if (g.validarInteiro(nc) == false) {
+							JOptionPane.showMessageDialog(frame,
+									"Número de Contribuinte inválido (verificar dígitos, sem espaços).");
+						} else {
+							if (nc.length() != 9) {
+								JOptionPane.showMessageDialog(frame,
+										"Número de Contribuinte inválido (introduzir número de 9 dígitos)");
+							} else {
+								nif = true;
+							}
+						}
+						// Verificação do método de pagamento:
+						boolean mPag = false;
+						if (buttonGroup.getSelection() == null) {
+							JOptionPane.showMessageDialog(frame, "Escolher método de pagamento.");
+						} else {
+							mPag = true;
+						}
+						// Confirmação após validação de todos os dados:
+						if (nif == true && nome == true && mPag == true) {
+							if (rdbtnADinheiro.isSelected()) { // Seleção do pagamento a dinheiro.
+								CardLayout card = (CardLayout) frame.getContentPane().getLayout();
+								card.show(frame.getContentPane(), "Dinheiro");
+							} else if (rdbtnCartoDeDbito.isSelected()) { // Seleção do pagamento com cartão.
+								CardLayout card = (CardLayout) frame.getContentPane().getLayout();
+								card.show(frame.getContentPane(), "Cartao");
+							}
+						}
 					}
 				}
 			}
 		});
-		btnConfirmar.setBounds(293, 229, 133, 23);
+		btnConfirmar.setBounds(293, 222, 133, 30);
 		Compra.add(btnConfirmar);
 
 // FIM COMPRA
@@ -279,7 +292,7 @@ public class VCI_VENDEDOR {
 				card.show(frame.getContentPane(), "Compra");
 			}
 		});
-		button_1.setBounds(10, 229, 133, 23);
+		button_1.setBounds(10, 222, 133, 30);
 		Dinheiro.add(button_1);
 
 		JLabel label_8 = new JLabel("Valor total da sua compra:");
@@ -326,35 +339,38 @@ public class VCI_VENDEDOR {
 				if (g.listaCompras.size() == 0) {
 					g.abrirCompras();
 				}
-				String pag = textField_2.getText().toString();
+				String pag = textField_2.getText();
 				if (g.validarDouble(pag)) {
 					if (Double.parseDouble(pag) < pTotal) {
 						JOptionPane.showMessageDialog(frame, "O valor para pagamento não é suficiente.");
 					} else {
-						String troco = df.format(Double.parseDouble(pag) - pTotal);
-						JOptionPane.showMessageDialog(frame, "O cliente tem a receber " + troco + "€ de troco.");
-						// Percorre a lista de compras:
-						for (int i = 0; i < VCI_cl_Gestao.cliente.getListaCompras().size(); i++) {
-							// Percorre a lista de livros:
-							for (VCI_cl_Livro l : g.listaLivros) {
-								// Encontra cada livro da lista de compras na lista de livros:
-								if (VCI_cl_Gestao.cliente.getListaCompras().get(i).getIsbn().equals(l.getIsbn())) {
-									int qAt = l.getQuantidade() - VCI_cl_Gestao.cliente.getQuantLivros().get(i);
-									l.setQuantidade(qAt); // Atualiza o stock.
+						if (Double.parseDouble(pag) == pTotal) {
+							JOptionPane.showMessageDialog(frame, "O valor para pagamento está correto.");
+						} else {
+							String troco = df.format(Double.parseDouble(pag) - pTotal);
+							JOptionPane.showMessageDialog(frame, "O cliente tem a receber " + troco + "€ de troco.");
+							// Percorre a lista de compras:
+							for (int i = 0; i < VCI_cl_Gestao.cliente.getListaCompras().size(); i++) {
+								// Percorre a lista de livros:
+								for (VCI_cl_Livro l : g.listaLivros) {
+									// Encontra cada livro da lista de compras na lista de livros:
+									if (VCI_cl_Gestao.cliente.getListaCompras().get(i).getIsbn().equals(l.getIsbn())) {
+										int qAt = l.getQuantidade() - VCI_cl_Gestao.cliente.getQuantLivros().get(i);
+										l.setQuantidade(qAt); // Atualiza o stock.
+									}
 								}
 							}
-						}
-						VCI_cl_Compra novaCompra = new VCI_cl_Dinheiro(Integer.parseInt(nc), VCI_cl_Gestao.cliente,
-								new GregorianCalendar(), pTotal);
-						g.listaCompras.add(novaCompra); // Adiciona à lista de vendas.
-						try {
-							g.gravarLivros(); // Grava no ficheiro dos livros
-							g.gravarCompras(); // Grava no ficheiro de compras
+							VCI_cl_Compra novaCompra = new VCI_cl_Dinheiro(Integer.parseInt(nc), VCI_cl_Gestao.cliente,
+									new GregorianCalendar(), pTotal);
+							g.listaCompras.add(novaCompra);
+							try {
+								g.gravarLivros(); // Grava no ficheiro dos livros
+								g.gravarCompras(); // Grava no ficheiro de compras
 
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 						JOptionPane.showMessageDialog(frame, "Compra efetuada.");
 						VCI_cl_Gestao.cliente = null; // Reinicia o cliente.
@@ -364,13 +380,12 @@ public class VCI_VENDEDOR {
 						card.first(frame.getContentPane());
 					}
 				} else {
-					// System.out.println(g.validarDouble(pag));
 					JOptionPane.showMessageDialog(frame,
 							"O valor introduzido não é válido. Verificar algarismos, separador decimal (.) ou casas decimais (máx. de duas).");
 				}
 			}
 		});
-		button_4.setBounds(279, 229, 133, 23);
+		button_4.setBounds(279, 222, 133, 30);
 		Dinheiro.add(button_4);
 
 // FIM DINHEIRO
@@ -398,7 +413,7 @@ public class VCI_VENDEDOR {
 				card.show(frame.getContentPane(), "Compra");
 			}
 		});
-		button_5.setBounds(10, 229, 133, 23);
+		button_5.setBounds(10, 222, 133, 30);
 		Cartao.add(button_5);
 
 		JLabel lblNmeroDoCarto = new JLabel("N\u00FAmero do cart\u00E3o de d\u00E9bito:");
@@ -416,11 +431,19 @@ public class VCI_VENDEDOR {
 		JButton button_6 = new JButton("Confirmar");
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (g.listaLivros.size() == 0) {
+					g.abrirLivros();
+				}
+				if (g.listaCompras.size() == 0) {
+					g.abrirCompras();
+				}
+				String resposta = "";
 				// Validação do número do cartão de débito:
 				String nCartao = textField_3.getText().toString();
 				boolean nC = false;
 				if (g.validarInteiro(nCartao) == false) {
-					JOptionPane.showMessageDialog(frame, "Número de cartão inválido (verificar dígitos, sem espaços).");
+					JOptionPane.showMessageDialog(frame,
+							"Número de cartão inválido (verificar 4 dígitos, sem espaços).");
 				} else {
 					if (nCartao.length() != 4) {
 						JOptionPane.showMessageDialog(frame,
@@ -430,26 +453,83 @@ public class VCI_VENDEDOR {
 					}
 				}
 				if (nC) {
-					if (g.compraCartao(nCartao, Double.parseDouble(valor)).equals("efetuada")) {
-						JOptionPane.showMessageDialog(frame, "Compra executada com sucesso.");
+					try {
+						g.compraCartao(nCartao, pTotal);
+					} catch (NumberFormatException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					String[] resBanco = null;
+					JavaBank_Gestao gestao = new JavaBank_Gestao();
+					ArrayList<JavaBank_Conta> contas = new ArrayList<>();
+					try {
+						contas = gestao.abrirContas();
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+					try {
+						resBanco = g.show(contas);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						g.gravarResposta(contas);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					// g.apagarFicheiro("pedido");
+					// g.apagarFicheiro("resposta");
+					resposta = resBanco[0];
+					switch (resposta) {
+					case "sem saldo":
+						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Saldo insuficiente.");
+					case "errado":
+						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Número de cartão inválido.");
+					case "inativo":
+						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Cartão inativo.");
+					case "sucesso":
+						// Percorre a lista de compras:
+						for (int i = 0; i < VCI_cl_Gestao.cliente.getListaCompras().size(); i++) {
+							// Percorre a lista de livros:
+							for (VCI_cl_Livro l : g.listaLivros) {
+								// Encontra cada livro da lista de compras na lista de livros:
+								if (VCI_cl_Gestao.cliente.getListaCompras().get(i).getIsbn().equals(l.getIsbn())) {
+									int qAt = l.getQuantidade() - VCI_cl_Gestao.cliente.getQuantLivros().get(i);
+									l.setQuantidade(qAt); // Atualiza o stock.
+								}
+							}
+						}
+						System.out.println(pTotal + " " + df.format(pTotal) + " " + valor);
 						VCI_cl_Compra novaCompra = new VCI_cl_Cartao(Integer.parseInt(nc), VCI_cl_Gestao.cliente,
-								new GregorianCalendar(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH),
-								Double.parseDouble(valor), Integer.parseInt(nCartao));
+								new GregorianCalendar(), pTotal, Integer.parseInt(nCartao));
 						g.listaCompras.add(novaCompra); // Adiciona a compra à lista de vendas.
+						System.out.println(((VCI_cl_Compra) novaCompra).getNif());
+						try {
+							g.gravarLivros(); // Grava no ficheiro dos livros
+							g.gravarCompras(); // Grava no ficheiro de compras
+							g.gravarContas(contas);
+
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
 						VCI_cl_Gestao.cliente = null; // Reinicia o cliente.
 						label_12.setText("");
 						textField_2.setText("");
 						CardLayout card = (CardLayout) frame.getContentPane().getLayout();
 						card.first(frame.getContentPane());
-					} else if (g.compraCartao(nCartao, Double.parseDouble(valor)).equals("cartao")) {
-						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Número de cartão inválido.");
-					} else if (g.compraCartao(nCartao, Double.parseDouble(valor)).equals("saldo")) {
-						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Saldo insuficiente.");
+						JOptionPane.showMessageDialog(frame, "Compra efetuada com sucesso.");
+						g.apagarFicheiro("resposta");
+						g.apagarFicheiro("pedido");
 					}
 				}
 			}
 		});
-		button_6.setBounds(293, 229, 133, 23);
+		button_6.setBounds(293, 222, 133, 30);
 		Cartao.add(button_6);
 
 		JLabel label_10 = new JLabel("Valor total da sua compra:");
@@ -468,7 +548,6 @@ public class VCI_VENDEDOR {
 		label_17.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		label_17.setBounds(401, 69, 25, 24);
 		Cartao.add(label_17);
-
 	}
 
 	public JFrame getFrame() {

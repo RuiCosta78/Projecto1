@@ -114,7 +114,7 @@ public class VCI_ADMIN extends JFrame {
 				window.getFrame(); // Ativa a janela para alterar o login.
 			}
 		});
-		button.setBounds(0, 89, 143, 23);
+		button.setBounds(0, 89, 143, 30);
 		opcoes.add(button);
 
 		// REGISTAR VENDEDOR
@@ -126,7 +126,7 @@ public class VCI_ADMIN extends JFrame {
 				// setVisible(true);
 			}
 		});
-		button_1.setBounds(0, 123, 143, 23);
+		button_1.setBounds(0, 130, 143, 30);
 		opcoes.add(button_1);
 
 		// ATUALIZAR VENDEDOR
@@ -147,20 +147,25 @@ public class VCI_ADMIN extends JFrame {
 				}
 			}
 		});
-		button_2.setBounds(0, 157, 150, 23);
+		button_2.setBounds(0, 171, 145, 30);
 		opcoes.add(button_2);
 
 		// LOGOUT
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				dispose(); // desliga a janela ativa das opções.
-				VCI_cl_Gestao.utilizador = null;
-				VCI_Login window = new VCI_Login(g);
-				window.getFrame().setVisible(true); // Liga a janela do login.
+				Object[] opcoes = { "Abandonar sessão", "Continuar sessão" };
+				int opcao = JOptionPane.showOptionDialog(caixa, "Pretende abandonar a sessão?", "ABANDONO DE SESSÃO",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[1]);
+				if (opcao == 0) {
+					dispose(); // desliga a janela ativa das opções.
+					VCI_cl_Gestao.utilizador = null;
+					VCI_Login window = new VCI_Login(g);
+					window.getFrame().setVisible(true); // Liga a janela do login.
+				}
 			}
 		});
-		btnLogout.setBounds(293, 219, 133, 23);
+		btnLogout.setBounds(293, 212, 133, 30);
 		opcoes.add(btnLogout);
 
 		// ADICIONAR LIVRO
@@ -171,7 +176,7 @@ public class VCI_ADMIN extends JFrame {
 				card.show(main, "NovoLivro");
 			}
 		});
-		button_4.setBounds(151, 89, 133, 23);
+		button_4.setBounds(151, 89, 133, 30);
 		opcoes.add(button_4);
 
 		// LISTAR LIVROS
@@ -188,7 +193,7 @@ public class VCI_ADMIN extends JFrame {
 				}
 			}
 		});
-		btnPesquisarLivros.setBounds(293, 89, 133, 23);
+		btnPesquisarLivros.setBounds(293, 89, 133, 30);
 		opcoes.add(btnPesquisarLivros);
 
 		// EDITAR LIVRO
@@ -204,7 +209,7 @@ public class VCI_ADMIN extends JFrame {
 				}
 			}
 		});
-		button_6.setBounds(151, 123, 133, 23);
+		button_6.setBounds(151, 130, 133, 30);
 		opcoes.add(button_6);
 
 		// LISTAR VENDAS
@@ -223,7 +228,7 @@ public class VCI_ADMIN extends JFrame {
 				}
 			}
 		});
-		button_9.setBounds(293, 123, 133, 23);
+		button_9.setBounds(293, 130, 133, 30);
 		opcoes.add(button_9);
 // FIM DAS OPÇÕES
 // INÍCIO_REGISTAR VENDEDOR	(ANT. - OPÇÕES; PRÓX. - AT_VENDEDOR)	
@@ -240,58 +245,58 @@ public class VCI_ADMIN extends JFrame {
 		JLabel label_4 = new JLabel("Registar vendedor");
 		label_4.setHorizontalAlignment(SwingConstants.LEFT);
 		label_4.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
-		label_4.setBounds(0, 28, 239, 30);
+		label_4.setBounds(10, 28, 239, 30);
 		regVendedor.add(label_4);
 
 		JLabel label_5 = new JLabel("Introduza o nome do novo colaborador:");
 		label_5.setHorizontalAlignment(SwingConstants.LEFT);
 		label_5.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_5.setBounds(0, 58, 416, 30);
+		label_5.setBounds(10, 58, 416, 30);
 		regVendedor.add(label_5);
 
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(0, 85, 416, 20);
+		textField.setBounds(10, 85, 406, 20);
 		regVendedor.add(textField);
 
-		JLabel lblColaboradorEmAtividade_1 = new JLabel("Colaborador em atividade:");
+		JLabel lblColaboradorEmAtividade_1 = new JLabel("Colaborador em atividade?");
 		lblColaboradorEmAtividade_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblColaboradorEmAtividade_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblColaboradorEmAtividade_1.setBounds(0, 108, 162, 30);
+		lblColaboradorEmAtividade_1.setBounds(10, 108, 175, 30);
 		regVendedor.add(lblColaboradorEmAtividade_1);
 
 		JLabel label_7 = new JLabel("Correio eletr\u00F3nico para login no sistema:");
 		label_7.setHorizontalAlignment(SwingConstants.LEFT);
 		label_7.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_7.setBounds(0, 133, 253, 30);
+		label_7.setBounds(10, 133, 253, 30);
 		regVendedor.add(label_7);
 
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(254, 170, 162, 20);
+		textField_1.setBounds(266, 170, 150, 20);
 		regVendedor.add(textField_1);
 
 		JLabel label_8 = new JLabel("Senha para login no sistema (m\u00EDn 8 car.):");
 		label_8.setHorizontalAlignment(SwingConstants.LEFT);
 		label_8.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_8.setBounds(0, 163, 253, 30);
+		label_8.setBounds(10, 163, 253, 30);
 		regVendedor.add(label_8);
 
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
-		textField_2.setBounds(254, 139, 162, 20);
+		textField_2.setBounds(266, 139, 150, 20);
 		regVendedor.add(textField_2);
 
 		JLabel label_9 = new JLabel("O novo colaborador dever\u00E1 alterar os dados de acesso no 1.\u00BA login.");
 		label_9.setHorizontalAlignment(SwingConstants.LEFT);
 		label_9.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_9.setBounds(0, 190, 416, 30);
+		label_9.setBounds(10, 190, 416, 30);
 		regVendedor.add(label_9);
 
 		JComboBox<String> comboBox_1 = new JComboBox<String>();
 		comboBox_1.addItem("SIM");
 		comboBox_1.addItem("NÃO");
-		comboBox_1.setBounds(175, 116, 65, 22);
+		comboBox_1.setBounds(200, 112, 65, 22);
 		regVendedor.add(comboBox_1);
 
 		// VOLTAR do REG_ADMIN
@@ -302,7 +307,7 @@ public class VCI_ADMIN extends JFrame {
 				card.previous(main);
 			}
 		});
-		button_11.setBounds(0, 230, 89, 23);
+		button_11.setBounds(10, 223, 89, 30);
 		regVendedor.add(button_11);
 
 		// CONFIRMAR em NOVO VENDEDOR
@@ -344,15 +349,15 @@ public class VCI_ADMIN extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					textField.setText("");
+					textField_1.setText("");
+					textField_2.setText("");
+					CardLayout card = (CardLayout) main.getLayout();
+					card.first(main);
 				}
-				textField.setText("");
-				textField_1.setText("");
-				textField_2.setText("");
-				CardLayout card = (CardLayout) main.getLayout();
-				card.first(main);
 			}
 		});
-		button_12.setBounds(316, 230, 100, 23);
+		button_12.setBounds(316, 223, 100, 30);
 		regVendedor.add(button_12);
 // FIM_REGISTAR VENDEDOR
 // INÍCIO_ ATUALIZAR VENDEDOR
@@ -372,7 +377,8 @@ public class VCI_ADMIN extends JFrame {
 		lblAtualizarDadosDe.setBounds(10, 24, 310, 30);
 		AtVendedor.add(lblAtualizarDadosDe);
 
-		// Label para indicação do estado do vendedor selecionado na comboBox (ver comboBox abaixo).
+		// Label para indicação do estado do vendedor selecionado na comboBox (ver
+		// comboBox abaixo).
 		JLabel lblNewLabel = new JLabel();
 
 		// COMBOBOX com a listagem dos vendedores
@@ -445,7 +451,7 @@ public class VCI_ADMIN extends JFrame {
 				card.first(main);
 			}
 		});
-		button_13.setBounds(0, 230, 89, 23);
+		button_13.setBounds(10, 223, 89, 30);
 		AtVendedor.add(button_13);
 
 		JRadioButton rdbtnAtivo = new JRadioButton("Ativo");
@@ -488,12 +494,15 @@ public class VCI_ADMIN extends JFrame {
 						e.printStackTrace();
 					}
 				}
+				if (buttonGroup_1.isSelected(null) && nomeCorrigido.equals("")) {
+					JOptionPane.showMessageDialog(caixa, "Não foram efetuadas alterações.");
+				}
 				textField_3.setText("");
 				CardLayout card = (CardLayout) main.getLayout();
 				card.first(main);
 			}
 		});
-		button_14.setBounds(316, 230, 100, 23);
+		button_14.setBounds(316, 223, 100, 30);
 		AtVendedor.add(button_14);
 
 // FIM_ATUALIZAR VENDEDOR
@@ -599,7 +608,7 @@ public class VCI_ADMIN extends JFrame {
 				card.first(main);
 			}
 		});
-		button_15.setBounds(10, 230, 89, 23);
+		button_15.setBounds(10, 222, 89, 30);
 		NovoLivro.add(button_15);
 
 		// CONFIRMAR A ADIÇÃO DE NOVO LIVRO
@@ -679,20 +688,20 @@ public class VCI_ADMIN extends JFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					JOptionPane.showMessageDialog(caixa, "Novo livro adicionado.");
+					textField_4.setText("");
+					textField_5.setText("");
+					textField_6.setText("");
+					textField_7.setText("");
+					textField_8.setText("");
+					textField_9.setText("");
+					textField_10.setText("");
+					CardLayout card = (CardLayout) main.getLayout();
+					card.first(main);
 				}
-				JOptionPane.showMessageDialog(caixa, "Novo livro adicionado.");
-				textField_4.setText("");
-				textField_5.setText("");
-				textField_6.setText("");
-				textField_7.setText("");
-				textField_8.setText("");
-				textField_9.setText("");
-				textField_10.setText("");
-				CardLayout card = (CardLayout) main.getLayout();
-				card.first(main);
 			}
 		});
-		button_16.setBounds(316, 230, 100, 23);
+		button_16.setBounds(316, 222, 100, 30);
 		NovoLivro.add(button_16);
 // FIM_NOVO LIVRO
 // INÍCIO_EDITAR LIVRO
@@ -737,7 +746,7 @@ public class VCI_ADMIN extends JFrame {
 				card.first(main);
 			}
 		});
-		button_18.setBounds(10, 219, 89, 23);
+		button_18.setBounds(10, 222, 89, 30);
 		EdLivro.add(button_18);
 
 		JLabel lblEIntroduzaAqui = new JLabel("Introduza o ISBN ou o t\u00EDtulo do livro a localizar:");
@@ -787,7 +796,7 @@ public class VCI_ADMIN extends JFrame {
 				}
 			}
 		});
-		button_17.setBounds(316, 219, 100, 23);
+		button_17.setBounds(316, 222, 100, 30);
 		EdLivro.add(button_17);
 
 // FIM_EDITAR LIVRO
@@ -805,13 +814,13 @@ public class VCI_ADMIN extends JFrame {
 		JLabel lblEscolherOIntervalo = new JLabel("Listagem de vendas");
 		lblEscolherOIntervalo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEscolherOIntervalo.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
-		lblEscolherOIntervalo.setBounds(10, 30, 416, 30);
+		lblEscolherOIntervalo.setBounds(30, 30, 416, 30);
 		ListarVendas.add(lblEscolherOIntervalo);
 
-		JLabel lblEscolherOIntervalo_1 = new JLabel("Escolher as datas:");
+		JLabel lblEscolherOIntervalo_1 = new JLabel("Escolher o per\u00EDdodo de consulta:");
 		lblEscolherOIntervalo_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEscolherOIntervalo_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblEscolherOIntervalo_1.setBounds(10, 71, 355, 23);
+		lblEscolherOIntervalo_1.setBounds(30, 71, 355, 23);
 		ListarVendas.add(lblEscolherOIntervalo_1);
 
 		JDateChooser dateChooser = new JDateChooser();
@@ -819,7 +828,7 @@ public class VCI_ADMIN extends JFrame {
 		ListarVendas.add(dateChooser);
 
 		JLabel lblEntre = new JLabel("Entre");
-		lblEntre.setBounds(10, 115, 70, 19);
+		lblEntre.setBounds(30, 115, 55, 19);
 		ListarVendas.add(lblEntre);
 		lblEntre.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEntre.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
@@ -837,7 +846,7 @@ public class VCI_ADMIN extends JFrame {
 		JLabel lblOu = new JLabel("Ou");
 		lblOu.setHorizontalAlignment(SwingConstants.LEFT);
 		lblOu.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblOu.setBounds(10, 161, 70, 19);
+		lblOu.setBounds(30, 161, 30, 19);
 		ListarVendas.add(lblOu);
 
 		// TODAS AS VENDAS
@@ -857,7 +866,7 @@ public class VCI_ADMIN extends JFrame {
 				window.getFrame().setVisible(true); // Ativa a janela a que o botão dá acesso;
 			}
 		});
-		btnTodasAsVendas.setBounds(70, 161, 150, 23);
+		btnTodasAsVendas.setBounds(70, 153, 315, 38);
 		ListarVendas.add(btnTodasAsVendas);
 
 		// VOLTAR em LISTAR_VENDAS
@@ -868,7 +877,7 @@ public class VCI_ADMIN extends JFrame {
 				card.first(main);
 			}
 		});
-		button_19.setBounds(10, 230, 89, 23);
+		button_19.setBounds(30, 222, 89, 30);
 		ListarVendas.add(button_19);
 
 		// CONFIRMAR em LISTAR_VENDAS
@@ -879,35 +888,55 @@ public class VCI_ADMIN extends JFrame {
 				SimpleDateFormat ano = new SimpleDateFormat("yyyy");
 				SimpleDateFormat mes = new SimpleDateFormat("MM");
 				SimpleDateFormat dia = new SimpleDateFormat("dd");
-				// Parse para int dos ano, mês e dia do dateChooser.
-				int dIano = Integer.parseInt(ano.format(dateChooser.getDate()));
-				int dImes = Integer.parseInt(mes.format(dateChooser.getDate()));
-				int dIdia = Integer.parseInt(dia.format(dateChooser.getDate()));
-				int dFano = Integer.parseInt(ano.format(dateChooser_1.getDate()));
-				int dFmes = Integer.parseInt(mes.format(dateChooser_1.getDate()));
-				int dFdia = Integer.parseInt(dia.format(dateChooser_1.getDate()));
-				// Transformação das datas do dateChooser em GregorianCalendar.
-				GregorianCalendar dI = new GregorianCalendar(dIano, dImes - 1, dIdia);
-				GregorianCalendar dF = new GregorianCalendar(dFano, dFmes - 1, dFdia);
-				dispose(); // Troca de janela.
-				VCI_TabVendas window = null;
+				boolean datas = true;
 				try {
-					window = new VCI_TabVendas(g, dI, dF);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Integer.parseInt(ano.format(dateChooser.getDate()));
+					Integer.parseInt(ano.format(dateChooser_1.getDate()));
+				} catch (Exception e) {
+					datas = false;
+					JOptionPane.showMessageDialog(caixa, "Selecione as datas.");
 				}
-				window.getFrame().setVisible(true); // Ativa a janela a que o botão dá acesso.
+				if (datas) {
+					// Parse para int dos ano, mês e dia do dateChooser.
+					int dIano = Integer.parseInt(ano.format(dateChooser.getDate()));
+					int dImes = Integer.parseInt(mes.format(dateChooser.getDate()));
+					int dIdia = Integer.parseInt(dia.format(dateChooser.getDate()));
+					int dFano = Integer.parseInt(ano.format(dateChooser_1.getDate()));
+					int dFmes = Integer.parseInt(mes.format(dateChooser_1.getDate()));
+					int dFdia = Integer.parseInt(dia.format(dateChooser_1.getDate()));
+					// Transformação das datas do dateChooser em GregorianCalendar.
+					GregorianCalendar dI = new GregorianCalendar(dIano, dImes - 1, dIdia);
+					GregorianCalendar dF = new GregorianCalendar(dFano, dFmes - 1, dFdia);
+					// Verifica se há ou não vendas para exibir no período selecionado:
+					int cont = 0;
+					for (VCI_cl_Compra c : g.listaCompras) {
+						if (c.getData().after(dI) && c.getData().before(dF)) {
+							cont++;
+						}
+					}
+					if (cont == 0) {
+						JOptionPane.showMessageDialog(caixa, "Não existem vendas para o período selecionado.");
+					} else {
+						dispose(); // Troca de janela.
+						VCI_TabVendas window = null;
+						try {
+							window = new VCI_TabVendas(g, dI, dF);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						window.getFrame().setVisible(true);
+					}
+				}
 			}
 		});
-		button_20.setBounds(316, 230, 100, 23);
+		button_20.setBounds(285, 222, 100, 30);
 		ListarVendas.add(button_20);
 
 		String s = "";
 		if (livroSelecionado != null) {
 			s = livroSelecionado.getTitulo();
 		}
-
 	}
 
 	public VCI_cl_Livro getLivroSelecionado() {

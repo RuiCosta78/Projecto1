@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 /**   
@@ -7,7 +8,7 @@ import java.util.GregorianCalendar;
  * @aid 1.1   
  */
 
-public class VCI_cl_Cartao extends VCI_cl_Compra {
+public class VCI_cl_Cartao extends VCI_cl_Compra implements Serializable  {
 	
 	private int numCartao;
 

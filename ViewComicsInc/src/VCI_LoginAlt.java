@@ -100,7 +100,7 @@ public class VCI_LoginAlt {
 			}
 		});
 		button.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		button.setBounds(100, 229, 89, 23);
+		button.setBounds(100, 222, 89, 30);
 		panel.add(button);
 
 		// Botão "Confirmar" para aceitação dos novos dados de login.
@@ -166,7 +166,7 @@ public class VCI_LoginAlt {
 		});
 		
 		button_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		button_1.setBounds(265, 229, 89, 23);
+		button_1.setBounds(265, 222, 89, 30);
 		panel.add(button_1);
 
 		JLabel lblRepitaUtilizador = new JLabel("Repita o email:");

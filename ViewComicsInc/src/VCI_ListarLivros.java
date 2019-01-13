@@ -81,7 +81,7 @@ public class VCI_ListarLivros {
 		JLabel lblListrLivrosPor = new JLabel("Listar livros por:");
 		lblListrLivrosPor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblListrLivrosPor.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblListrLivrosPor.setBounds(10, 65, 117, 23);
+		lblListrLivrosPor.setBounds(10, 58, 117, 23);
 		ListaLivros.add(lblListrLivrosPor);
 
 		if (g.listaLivros.size() == 0) {
@@ -107,7 +107,7 @@ public class VCI_ListarLivros {
 			}
 		});
 		buttonGroup.add(rdbtnAutor);
-		rdbtnAutor.setBounds(133, 67, 90, 23);
+		rdbtnAutor.setBounds(133, 60, 90, 23);
 		ListaLivros.add(rdbtnAutor);
 
 		JRadioButton rdbtnEditora = new JRadioButton("Editora");
@@ -127,7 +127,7 @@ public class VCI_ListarLivros {
 			}
 		});
 		buttonGroup.add(rdbtnEditora);
-		rdbtnEditora.setBounds(262, 67, 111, 23);
+		rdbtnEditora.setBounds(262, 60, 111, 23);
 		ListaLivros.add(rdbtnEditora);
 
 		JRadioButton rdbtnAnoDeEdio = new JRadioButton("Ano de edi\u00E7\u00E3o");
@@ -147,7 +147,7 @@ public class VCI_ListarLivros {
 			}
 		});
 		buttonGroup.add(rdbtnAnoDeEdio);
-		rdbtnAnoDeEdio.setBounds(133, 93, 117, 23);
+		rdbtnAnoDeEdio.setBounds(133, 86, 117, 23);
 		ListaLivros.add(rdbtnAnoDeEdio);
 
 		JRadioButton rdbtnPreoMximo = new JRadioButton("Pre\u00E7o m\u00E1ximo");
@@ -166,25 +166,25 @@ public class VCI_ListarLivros {
 			}
 		});
 		buttonGroup.add(rdbtnPreoMximo);
-		rdbtnPreoMximo.setBounds(262, 93, 111, 23);
+		rdbtnPreoMximo.setBounds(262, 86, 111, 23);
 		ListaLivros.add(rdbtnPreoMximo);
 
-		comboBox.setBounds(10, 124, 416, 22);
+		comboBox.setBounds(10, 117, 416, 22);
 		ListaLivros.add(comboBox);
 
 		JRadioButton rdbtnTitulo = new JRadioButton("Titulo");
 		buttonGroup.add(rdbtnTitulo);
-		rdbtnTitulo.setBounds(143, 175, 90, 23);
+		rdbtnTitulo.setBounds(143, 168, 90, 23);
 		ListaLivros.add(rdbtnTitulo);
 
 		JRadioButton rdbtnIsbn = new JRadioButton("ISBN");
 		buttonGroup.add(rdbtnIsbn);
-		rdbtnIsbn.setBounds(272, 175, 111, 23);
+		rdbtnIsbn.setBounds(272, 168, 111, 23);
 		ListaLivros.add(rdbtnIsbn);
 
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(10, 198, 416, 20);
+		textField.setBounds(10, 191, 416, 20);
 		ListaLivros.add(textField);
 
 		// VOLTAR
@@ -210,13 +210,13 @@ public class VCI_ListarLivros {
 				}
 			}
 		});
-		button.setBounds(10, 229, 89, 23);
+		button.setBounds(10, 222, 89, 30);
 		ListaLivros.add(button);
 
 		// CONFIRMAR
 		JFrame caixa = new JFrame();
-		JButton button_1 = new JButton("Confirmar");
-		button_1.addActionListener(new ActionListener() {
+		JButton btnProcurar = new JButton("Procurar");
+		btnProcurar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (buttonGroup.getSelection() == null) {
 					JOptionPane.showMessageDialog(caixa, "Escolher um critério de seleção.");
@@ -293,19 +293,19 @@ public class VCI_ListarLivros {
 				}
 			}
 		});
-		button_1.setBounds(311, 229, 105, 23);
-		ListaLivros.add(button_1);
+		btnProcurar.setBounds(321, 222, 105, 30);
+		ListaLivros.add(btnProcurar);
 
 		JLabel label_1 = new JLabel("Pesquisar livro por:");
 		label_1.setHorizontalAlignment(SwingConstants.LEFT);
 		label_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		label_1.setBounds(10, 174, 139, 23);
+		label_1.setBounds(10, 167, 139, 23);
 		ListaLivros.add(label_1);
 
 		JLabel lblOu = new JLabel("Ou");
 		lblOu.setHorizontalAlignment(SwingConstants.LEFT);
 		lblOu.setFont(new Font("Comic Sans MS", Font.PLAIN, 13));
-		lblOu.setBounds(10, 152, 139, 23);
+		lblOu.setBounds(10, 145, 139, 23);
 		ListaLivros.add(lblOu);
 	}
 

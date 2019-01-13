@@ -122,7 +122,7 @@ public class VCI_Login {
 				}
 			}
 		});
-		btnOk.setBounds(252, 229, 89, 23);
+		btnOk.setBounds(252, 222, 89, 30);
 		panel.add(btnOk);
 
 		// Botão "Voltar"
@@ -137,7 +137,7 @@ public class VCI_Login {
 				; // Ativa a janela a que o botão dá acesso;
 			}
 		});
-		btnVoltar.setBounds(87, 229, 89, 23);
+		btnVoltar.setBounds(87, 222, 89, 30);
 		panel.add(btnVoltar);
 
 		passwordField = new JPasswordField();
@@ -155,18 +155,12 @@ public class VCI_Login {
 		lblUtilizador.setBounds(96, 140, 80, 14);
 		panel.add(lblUtilizador);
 
-		JLabel lblSenhaDeAcesso = new JLabel("(m\u00EDnimo 8 caracteres)");
-		lblSenhaDeAcesso.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblSenhaDeAcesso.setBounds(26, 184, 150, 14);
-		panel.add(lblSenhaDeAcesso);
-
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setBounds(178, 0, 80, 80);
 
 		// Insertion of image adapted to the size of the jlabel (I moved the above line
 		// with bounds and dimension from down).
-		ImageIcon imagem = new ImageIcon(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg");
+		ImageIcon imagem = new ImageIcon("C:\\\\Users\\\\rmmi7\\\\git\\\\Projecto1\\\\VC_Logotipo.jpg");
 		Image img = imagem.getImage();
 		Image img1 = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon i = new ImageIcon(img1);

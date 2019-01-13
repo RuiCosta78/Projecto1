@@ -33,14 +33,7 @@ public class VCI_N1 {
 	public VCI_N1() {
 		initialize();
 	}
-	/*
-	public VCI_N1() {
-		initialize();
-	}*/
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
@@ -62,7 +55,7 @@ public class VCI_N1 {
 				window.getFrame(); // Ativa a janela a que o botão dá acesso;
 			}
 		});
-		btnAcessoSistema.setBounds(10, 214, 130, 23);
+		btnAcessoSistema.setBounds(10, 214, 130, 38);
 		panel.add(btnAcessoSistema);
 		
 		// Botão "Acesso à Loja"
@@ -76,7 +69,7 @@ public class VCI_N1 {
 				window.getFrame(); // Ativa a janela a que o botão dá acesso;
 			}
 		});
-		btnAcessoLoja.setBounds(153, 214, 130, 23);
+		btnAcessoLoja.setBounds(153, 214, 130, 38);
 		panel.add(btnAcessoLoja);
 
 		JLabel lblBenvindoView = new JLabel("BENVINDO \u00C0 VIEW COMICS INC");
@@ -91,8 +84,7 @@ public class VCI_N1 {
 		lblNewLabel.setBackground(UIManager.getColor("CheckBox.background"));
 		lblNewLabel.setBounds(145, 48, 150, 150);
 		// Insertion of image adapted to the size of the jlabel.
-		ImageIcon imagem = new ImageIcon(
-				"C:\\Users\\rmmi7\\OneDrive\\Documentos\\Acertar o Rumo\\Aulas\\Projeto\\Relat\u00F3rio preliminar\\VC_Logotipo.jpg");
+		ImageIcon imagem = new ImageIcon("C:\\\\Users\\\\rmmi7\\\\git\\\\Projecto1\\\\VC_Logotipo.jpg");
 		Image img = imagem.getImage();
 		Image img1 = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon i = new ImageIcon(img1);
@@ -108,7 +100,7 @@ public class VCI_N1 {
 			}
 		});
 		btnSair.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		btnSair.setBounds(296, 214, 130, 23);
+		btnSair.setBounds(296, 214, 130, 38);
 		panel.add(btnSair);
 	}
 

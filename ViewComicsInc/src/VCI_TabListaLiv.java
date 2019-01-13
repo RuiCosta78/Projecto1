@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -58,7 +59,7 @@ public class VCI_TabListaLiv {
 		JLabel label = new JLabel("VIEW COMICS INC");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Comic Sans MS", Font.PLAIN, 17));
-		label.setBounds(10, 0, 416, 30);
+		label.setBounds(10, 0, 766, 30);
 		frame.getContentPane().add(label);
 
 		JLabel lblListagemDeLivros = new JLabel("Listagem de livros selecionados");
@@ -75,7 +76,18 @@ public class VCI_TabListaLiv {
 		String[] colunas = { "Título", "Autor", "Editora", "ISBN", "Ano de Ed.", "Preço" };
 		DefaultTableModel modeloTabela = new DefaultTableModel(colunas, 0);
 		JTable table = new JTable(modeloTabela);
-		table.setAutoCreateRowSorter(true);
+		table.setAutoCreateRowSorter(true); // Reordenamento de colunas.
+		// Alinhamento de colunas:
+		DefaultTableCellRenderer alinharEsquerda = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer alinharCentro = new DefaultTableCellRenderer();
+		alinharEsquerda.setHorizontalAlignment(JLabel.LEFT);
+		alinharCentro.setHorizontalAlignment(JLabel.CENTER);
+		table.getColumnModel().getColumn(0).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(1).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(2).setCellRenderer(alinharEsquerda);
+		table.getColumnModel().getColumn(3).setCellRenderer(alinharCentro);
+		table.getColumnModel().getColumn(4).setCellRenderer(alinharCentro);
+		table.getColumnModel().getColumn(5).setCellRenderer(alinharCentro);
 		TableColumnModel col = table.getColumnModel();
 		col.getColumn(0).setMaxWidth(261);
 		col.getColumn(1).setMaxWidth(130);
@@ -92,7 +104,7 @@ public class VCI_TabListaLiv {
 			String isbn = l.getIsbn();
 			int ano = l.getAnoEdicao();
 			double p = l.getPreco();
-			Object[] livro = { t, a, ed, isbn, ano, p }; // Linha da tabela.
+			Object[] livro = { t, a, ed, isbn, ano, p + " €" }; // Linha da tabela.
 			modeloTabela.addRow(livro); // Adição da linha à tabela.
 		}
 		scrollPane.setViewportView(table);
@@ -103,10 +115,10 @@ public class VCI_TabListaLiv {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
 				VCI_ListarLivros window = new VCI_ListarLivros(g);
-				window.getFrame(); // Ativa a janela a que o botão dá acesso;
+				window.getFrame();
 			}
 		});
-		button.setBounds(10, 229, 89, 23);
+		button.setBounds(10, 222, 89, 30);
 		frame.getContentPane().add(button);
 
 		// SELECIONAR
@@ -167,7 +179,7 @@ public class VCI_TabListaLiv {
 				}
 			}
 		});
-		btnSelecionar.setBounds(671, 229, 105, 23);
+		btnSelecionar.setBounds(671, 222, 105, 30);
 		frame.getContentPane().add(btnSelecionar);
 
 		JLabel label_1 = new JLabel("Clique nas colunas para reordenar os livros.");

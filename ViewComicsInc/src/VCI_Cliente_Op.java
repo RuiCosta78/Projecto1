@@ -68,7 +68,7 @@ public class VCI_Cliente_Op {
 
 		// LISTAR LIVROS
 		JButton btnListarTodosOs = new JButton("Procurar livros");
-		btnListarTodosOs.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnListarTodosOs.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnListarTodosOs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
@@ -76,12 +76,12 @@ public class VCI_Cliente_Op {
 				window.getFrame().setVisible(true);
 			}
 		});
-		btnListarTodosOs.setBounds(278, 112, 148, 23);
+		btnListarTodosOs.setBounds(278, 109, 148, 30);
 		panel.add(btnListarTodosOs);
 
 		// VER CARRINHO
 		JButton btnPesquisarLivros = new JButton("Ver/modificar carrinho");
-		btnPesquisarLivros.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnPesquisarLivros.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnPesquisarLivros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (pTotal == 0) {
@@ -93,7 +93,7 @@ public class VCI_Cliente_Op {
 				}
 			}
 		});
-		btnPesquisarLivros.setBounds(278, 159, 148, 23);
+		btnPesquisarLivros.setBounds(278, 156, 148, 30);
 		panel.add(btnPesquisarLivros);
 
 		// VOLTAR
@@ -112,7 +112,7 @@ public class VCI_Cliente_Op {
 				}
 			}
 		});
-		btnVoltar.setBounds(10, 229, 83, 23);
+		btnVoltar.setBounds(10, 222, 83, 30);
 		panel.add(btnVoltar);
 
 		// FINALIZAR COMPRA
@@ -128,7 +128,7 @@ public class VCI_Cliente_Op {
 				}
 			}			
 		});
-		btnFinalizarCompra.setBounds(288, 229, 138, 23);
+		btnFinalizarCompra.setBounds(278, 222, 148, 30);
 		panel.add(btnFinalizarCompra);
 		
 		JLabel lblParaComporO = new JLabel("Para adicionar ao carrinho de compras:");
