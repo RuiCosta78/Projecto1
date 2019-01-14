@@ -508,7 +508,6 @@ public class VCI_VENDEDOR {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
 						VCI_cl_Gestao.cliente = null; // Reinicia o cliente.
 						label_12.setText("");
 						textField_2.setText("");

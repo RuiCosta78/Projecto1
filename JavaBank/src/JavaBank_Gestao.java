@@ -75,7 +75,11 @@ public class JavaBank_Gestao implements Serializable {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+<<<<<<< HEAD
+				JavaBank_Thread.thread();	
+=======
 				// JavaBank_Thread.thread();
+>>>>>>> branch 'master' of https://github.com/RuiCosta78/Projecto1
 			}
 		});
 	}
@@ -513,8 +517,13 @@ public class JavaBank_Gestao implements Serializable {
 							mensagem = "Juros vencidos. Depósito de " + saldoInst + "€.";
 						}
 						int id_funcionario = 0, id_cliente = 0;
+<<<<<<< HEAD
+						if ((mensagem.equals("Operação efectuada com sucesso.") || mensagem.contains("Depósito")) && !movimento.equals("Compra")) {
+							c.setSaldo(saldoInst);
+=======
 						if ((mensagem.equals("Operação efectuada com sucesso.") || mensagem.contains("Depósito"))
 								&& !movimento.equals("Compra")) {
+>>>>>>> branch 'master' of https://github.com/RuiCosta78/Projecto1
 							id_funcionario = JavaBank_Gestao.utilizador_logado.getN_id();
 							id_cliente = u.getN_id();
 
@@ -533,8 +542,13 @@ public class JavaBank_Gestao implements Serializable {
 			}
 		}
 		if (!movimento.equals("Compra")) {
+<<<<<<< HEAD
+		gravarContas();
+		gravarUtilizadores();
+=======
 			gravarContas();
 			gravarUtilizadores();
+>>>>>>> branch 'master' of https://github.com/RuiCosta78/Projecto1
 		}
 		return mensagem;
 	}
@@ -677,6 +691,10 @@ public class JavaBank_Gestao implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<JavaBank_Conta> abrirContas() throws IOException {
+<<<<<<< HEAD
+		ArrayList<JavaBank_Conta> contas = new ArrayList<>();
+=======
+>>>>>>> branch 'master' of https://github.com/RuiCosta78/Projecto1
 		try {
 			File f = new File("JavaBank_Contas.dat");
 			if (f.exists()) {

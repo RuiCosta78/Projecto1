@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 
 /**
@@ -138,7 +139,8 @@ public class VCI_VendaDetalhe {
 		label_1.setBounds(10, posLabel, 70, 24);
 		panel.add(label_1);
 
-		JLabel label_2 = new JLabel(String.valueOf(v) + " €");
+		DecimalFormat df = new DecimalFormat("#.##");
+		JLabel label_2 = new JLabel(df.format(v) + " €");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 		label_2.setBounds(480, posLabel, 50, 24);
@@ -149,7 +151,7 @@ public class VCI_VendaDetalhe {
 		label_3.setBounds(80, posLabel, 250, 24);
 		panel.add(label_3);
 
-		JLabel label_4 = new JLabel(String.valueOf(qT));
+		JLabel label_4 = new JLabel(df.format(qT));
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
 		label_4.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 		label_4.setBounds(330, posLabel, 50, 24);

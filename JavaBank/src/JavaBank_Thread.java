@@ -15,10 +15,18 @@ import javax.swing.JOptionPane;
  */
 public class JavaBank_Thread {
 
+<<<<<<< HEAD
+	JavaBank_Thread(){
+		
+	}
+	
+	public static void thread() {
+=======
 	/**
 	 * @throws IOException
 	 */
 	public static void thread() throws IOException {
+>>>>>>> branch 'master' of https://github.com/RuiCosta78/Projecto1
 		Thread t1 = new Thread(new Runnable() {
 			@Override
 			public void run() {

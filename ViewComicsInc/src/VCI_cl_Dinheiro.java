@@ -10,19 +10,11 @@ import java.util.GregorianCalendar;
 
 public class VCI_cl_Dinheiro extends VCI_cl_Compra implements Serializable {
 	
-	//private double valor;
+	
 	
 	public VCI_cl_Dinheiro(int nif, VCI_cl_Carrinho carrinho, GregorianCalendar data, double valor) {
 		super(nif, carrinho, data, valor);
 		// TODO Auto-generated constructor stub
-	}
-
-	public double getValor() {
-		return valor;
-	}
-
-	public void setValor(double valor) {
-		this.valor = valor;
 	}
 
 }
