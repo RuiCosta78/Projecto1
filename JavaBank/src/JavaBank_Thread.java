@@ -8,9 +8,17 @@ import java.io.ObjectOutputStream;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/**Classe para utilização de Threads
+ * 
+ * @author Rui Costa
+ *
+ */
 public class JavaBank_Thread {
 
-	public static void thread() {
+	/**
+	 * @throws IOException
+	 */
+	public static void thread() throws IOException {
 		Thread t1 = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -19,8 +27,12 @@ public class JavaBank_Thread {
 		});
 		t1.start();
 		show();
+		gravarResposta();
 	}
 
+	/**
+	 * @return
+	 */
 	public static String[] show() {
 		int counter = 1000;
 		JavaBank_Gestao gestao = new JavaBank_Gestao();
@@ -65,8 +77,11 @@ public class JavaBank_Thread {
 		return resposta;
 	}
 
-	// Gravação da lista de contas
-	public void gravarResposta() throws IOException {
+	/**Gravação da lista de contas
+	 * 
+	 * @throws IOException
+	 */
+	public static void gravarResposta() throws IOException {
 		File f = new File("resposta.dat");
 		FileOutputStream fileOut = new FileOutputStream(f);
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -76,6 +91,10 @@ public class JavaBank_Thread {
 		fileOut.close();
 	}
 
+	/**
+	 * @return
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public static String[] abrirPedido() throws IOException {
 		String[] dados = new String[2];

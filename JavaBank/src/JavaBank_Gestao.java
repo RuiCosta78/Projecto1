@@ -20,6 +20,9 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Classe principal onde estão agregadas as listas de utilizadores e de contas
  * do banco Também estão introduzidos os métodos relativos a validação de
  * valores inseridos e operações matemáticas
+ * 
+ * @author Rui Costa
+ *
  */
 public class JavaBank_Gestao implements Serializable {
 
@@ -72,20 +75,24 @@ public class JavaBank_Gestao implements Serializable {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				JavaBank_Thread.thread();
+				// JavaBank_Thread.thread();
 			}
 		});
 	}
 
-	
-
 	/**
-	 * @param login
-	 * @param password
-	 * @return
+	 * Método para confirmar login
+	 * 
+	 * @param login    login do utilizador inserido. Este atributo é o mail do
+	 *                 utilizador
+	 * @param password password do utilizador inserido
+	 * @return mensagem de confirmação ou erro para ser usada n classe da frame do
+	 *         Login
+	 * @throws IOException
 	 */
-	public String login(String login, String password) {
-
+	public String login(String login, String password) throws IOException {
+		abrirUtilizadores();
+		abrirContas();
 		String janela_confirmacao = "";
 		boolean confirm_admin = false, confirm_func = false, confirm_cliente = false;
 		for (JavaBank_Utilizador u : utilizadores) {
@@ -111,11 +118,24 @@ public class JavaBank_Gestao implements Serializable {
 		} else {
 			janela_confirmacao = "Login inválido";
 		}
+		gravarContas();
+		gravarUtilizadores();
 		return janela_confirmacao;
 	}
 
-	// Método para alteração de dados de login
-	public String alterar_login(String username, String userConfirm, String password, String passwordConfirm) {
+	/**
+	 * Método para alteração de dados de login
+	 * 
+	 * @param username        novo username
+	 * @param userConfirm     confirmação do novo username
+	 * @param password        nova password
+	 * @param passwordConfirm confirmação da nova password
+	 * @return
+	 * @throws IOException
+	 */
+	public String alterar_login(String username, String userConfirm, String password, String passwordConfirm)
+			throws IOException {
+		abrirUtilizadores();
 		String janela_confirmacao = "";
 		if (!username.equals(userConfirm) || !password.equals(passwordConfirm)) {
 			janela_confirmacao = "Alteração não concluída. Dados não confirmados";
@@ -127,20 +147,27 @@ public class JavaBank_Gestao implements Serializable {
 			utilizador_logado.setLogin(username);
 			utilizador_logado.setPassword(password);
 		}
+		gravarUtilizadores();
 		return janela_confirmacao;
 	}
 
-	// Método para registo de novo funcionário
+	/**
+	 * Método para registo de novo funcionário
+	 * 
+	 * @param nome            nome do funcionário a ser registado
+	 * @param sobrenome       sobrenome do funcionário a ser registado
+	 * @param email           email/login do funcionário a ser registado
+	 * @param password        password do funcionário a ser registado
+	 * @param passwordConfirm confirmação de password
+	 * @param estado          estado do funcionário (Activo/Inactivo)
+	 * @return mensagem de confirmação ou alerta de registo
+	 * @throws IOException
+	 */
 	public String registar_funcionario(String nome, String sobrenome, String email, String password,
-			String passwordConfirm, String estado) {
-		try {
-			abrirUtilizadores();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+			String passwordConfirm, String estado) throws IOException {
+		abrirUtilizadores();
 		String janela_confirm = "";
-		int cont = 0;
+		int cont = 0;// contador de referência para introduzir novo ID de funcionário
 		for (JavaBank_Utilizador u : getUtilizadores()) {
 			if (u instanceof JavaBank_Funcionario) {
 				cont++;
@@ -165,17 +192,32 @@ public class JavaBank_Gestao implements Serializable {
 			janela_confirm = "Registo concluído com sucesso.";
 			utilizadores.add(new JavaBank_Funcionario(nome, sobrenome, email, password, cont + 1, estado));
 		}
-		try {
-			gravarUtilizadores();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		gravarUtilizadores();
 		return janela_confirm;
 	}
 
+	/**
+	 * Método para registo de novo cliente
+	 * 
+	 * @param nome            nome do novo cliente
+	 * @param sobrenome       sobrenome do novo cliente
+	 * @param data            data de nascimento do novo cliente
+	 * @param tipoId          tipo de documento de identificação do novo cliente(CC,
+	 *                        BI, Passaporte, Outro)
+	 * @param numId           número do documento de identificação do novo cliente
+	 * @param endereco        morada de residência do novo cliente
+	 * @param contacto        contacto telefónico do novo cliente
+	 * @param nif             NIF do novo cliente
+	 * @param email           email/login do novo cliente
+	 * @param password        password do novo cliente
+	 * @param passwordConfirm confirmação de password
+	 * @return mensagem de confirmação ou alerta de registo
+	 * @throws IOException
+	 */
 	public String registar_cliente(String nome, String sobrenome, String data, String tipoId, int numId,
-			String endereco, String contacto, String nif, String email, String password, String passwordConfirm) {
+			String endereco, String contacto, String nif, String email, String password, String passwordConfirm)
+			throws IOException {
+		abrirUtilizadores();
 		String janela_confirm = "";
 		for (JavaBank_Utilizador u : getUtilizadores()) {
 			if (u.getLogin().equals(email)) {
@@ -202,16 +244,17 @@ public class JavaBank_Gestao implements Serializable {
 			utilizadores.add(new JavaBank_Cliente(nome, sobrenome, data, tipoId, numId, endereco, contacto, email,
 					password, nif, new ArrayList<>()));
 		}
-		try {
-			gravarUtilizadores();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		gravarUtilizadores();
 		return janela_confirm;
 	}
 
-	// Método de validação de email; importado jar file para validação
+	/**
+	 * Método de validação de email; importado jar file para validação
+	 * 
+	 * @param email email para ser validado
+	 * @return boolen true se passa a validação ou false caso contrário
+	 */
 	public static boolean isValidEmailAddress(String email) {
 		boolean result = true;
 		try {
@@ -223,34 +266,62 @@ public class JavaBank_Gestao implements Serializable {
 		return result;
 	}
 
-	// Método para listagem de clientes
-	public ArrayList<JavaBank_Utilizador> listar_clientes() {
+	/**
+	 * Método para filtrar os clientes
+	 * 
+	 * @return lista de clientes sem admins ou funcionários
+	 * @throws IOException
+	 */
+	public ArrayList<JavaBank_Utilizador> listar_clientes() throws IOException {
+		abrirUtilizadores();
 		ArrayList<JavaBank_Utilizador> clientes = new ArrayList<>();
 		for (JavaBank_Utilizador c : getUtilizadores()) {
 			if (c instanceof JavaBank_Cliente) {
 				clientes.add(c);
 			}
 		}
+		gravarUtilizadores();
 		return clientes;
 	}
 
-	// Método para listagem de funcionários
-	public ArrayList<JavaBank_Utilizador> listar_funcionarios() {
+	/**
+	 * Método para filtrar os funcionários
+	 * 
+	 * @return lista de funcionários sem admins ou clientes
+	 * @throws IOException
+	 */
+	public ArrayList<JavaBank_Utilizador> listar_funcionarios() throws IOException {
+		abrirUtilizadores();
 		ArrayList<JavaBank_Utilizador> funcionarios = new ArrayList<>();
 		for (JavaBank_Utilizador f : getUtilizadores()) {
 			if (f instanceof JavaBank_Funcionario) {
 				funcionarios.add(f);
 			}
 		}
+		gravarUtilizadores();
 		return funcionarios;
 	}
 
-	// Método para abertura de nova conta
+	/**
+	 * Método para abertura de nova conta
+	 * 
+	 * @param n_conta   número de conta a ser aberta gerado automaticamente
+	 * @param nome      nome do cliente que irá ser titular da conta
+	 * @param sobrenome sobrenome do cliente que irá ser titular da conta
+	 * @param data      data de criação da conta
+	 * @param estado    estado da conta (Activa/Inactiva)
+	 * @param deposito  depósito inicial da conta opcional
+	 * @param tipo      tipo da conta (Poupança/Ordem)
+	 * @return mensagem de confirmação ou alerta de registo da nova conta
+	 * @throws IOException
+	 */
 	public String abrir_nova_conta(int n_conta, String nome, String sobrenome, String data, String estado,
-			double deposito, String tipo) {
+			double deposito, String tipo) throws IOException {
+		abrirContas();
+		abrirUtilizadores();
 		String janela_confirm = "";
 		int id_cliente = 0;
-		int cont = 0, cont_poup = 0;
+		int cont = 0, cont_poup = 0;// cont contador para conta à ordem; cont_poup contador para conta poupança
 		if (!validarDouble(String.valueOf(deposito))) {
 			janela_confirm = "Valor do depósito tem de ser um valor numérico com duas casas decimais separadas por ponto.";
 		}
@@ -284,6 +355,11 @@ public class JavaBank_Gestao implements Serializable {
 				conta = new JavaBank_Conta_Ordem(n_conta, data, deposito, estado);
 				conta.getHistorico_movimentos().add(mov);
 				contas.add(conta);
+				for (JavaBank_Utilizador u : utilizadores) {
+					if (u.getPrimeiro_nome().equals(nome) && u.getSobrenome().equals(sobrenome)) {
+						((JavaBank_Cliente) u).getContas_associadas().add(conta);
+					}
+				}
 			} else if (tipo.equals("Conta Poupança")) {
 				if (cont_poup >= 1) {
 					janela_confirm = "Máximo de uma conta poupança por cliente.";
@@ -293,28 +369,33 @@ public class JavaBank_Gestao implements Serializable {
 					conta = new JavaBank_Conta_Poupanca(n_conta, data, deposito, estado);
 					conta.getHistorico_movimentos().add(mov);
 					contas.add(conta);
-				}
-			}
-			for (JavaBank_Utilizador u : utilizadores) {
-				if (u.getPrimeiro_nome().equals(nome) && u.getSobrenome().equals(sobrenome)) {
-					((JavaBank_Cliente) u).getContas_associadas().add(conta);
+					for (JavaBank_Utilizador u : utilizadores) {
+						if (u.getPrimeiro_nome().equals(nome) && u.getSobrenome().equals(sobrenome)) {
+							((JavaBank_Cliente) u).getContas_associadas().add(conta);
+						}
+					}
 				}
 			}
 		}
-		try {
-			gravarContas();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		gravarUtilizadores();
+		gravarContas();
 		return janela_confirm;
 	}
 
-	// Método para realizar movimento de determinado valor em determinada conta
+	/**
+	 * Método para realizar movimento de determinado valor em determinada conta
+	 * 
+	 * @param montante  montante do movimento
+	 * @param aux       número da conta que vai ser afectada
+	 * @param movimento tipo de movimento
+	 *                  (depósito/levantamento/transferência/compra)
+	 * @return mensagem de confirmação ou alerta para o movimento efectuado
+	 * @throws IOException
+	 */
 	public String movimento(String montante, int aux, String movimento) throws IOException {
 		abrirContas();
 		abrirUtilizadores();
-		double saldoInst = 0;
+		double saldoInst = 0;// saldo referente a cada movimento efectuado
 		String mensagem = "";
 		if (!validarDouble(montante)) {
 			mensagem = "Valor do movimento tem de ser um valor numérico com duas casas decimais separadas por ponto.";
@@ -416,6 +497,7 @@ public class JavaBank_Gestao implements Serializable {
 						if (movimento.equals("Depósito") || movimento.contains("Transferência de")) {
 							saldoInst = c.getSaldo() + quantia;
 							mensagem = "Operação efectuada com sucesso.";
+							c.setSaldo(saldoInst);
 						} else if (movimento.equals("Levantamento") || movimento.contains("Transferência para")
 								|| movimento.contains("Compra")) {
 							if (quantia > c.getSaldo()) {
@@ -423,6 +505,7 @@ public class JavaBank_Gestao implements Serializable {
 							} else {
 								saldoInst = c.getSaldo() - quantia;
 								mensagem = "Operação efectuada com sucesso.";
+								c.setSaldo(saldoInst);
 							}
 						}
 						if (c instanceof JavaBank_Conta_Poupanca && juros != 0) {
@@ -430,8 +513,8 @@ public class JavaBank_Gestao implements Serializable {
 							mensagem = "Juros vencidos. Depósito de " + saldoInst + "€.";
 						}
 						int id_funcionario = 0, id_cliente = 0;
-						if (mensagem.equals("Operação efectuada com sucesso.") || mensagem.contains("Depósito")) {
-							c.setSaldo(saldoInst);
+						if ((mensagem.equals("Operação efectuada com sucesso.") || mensagem.contains("Depósito"))
+								&& !movimento.equals("Compra")) {
 							id_funcionario = JavaBank_Gestao.utilizador_logado.getN_id();
 							id_cliente = u.getN_id();
 
@@ -449,11 +532,22 @@ public class JavaBank_Gestao implements Serializable {
 				}
 			}
 		}
-		gravarContas();
-		gravarUtilizadores();
+		if (!movimento.equals("Compra")) {
+			gravarContas();
+			gravarUtilizadores();
+		}
 		return mensagem;
 	}
 
+	/**
+	 * Cálculo dos juros para uma determinada conta criada numa determinada data
+	 * 
+	 * @param c          conta a ser validada
+	 * @param dia_actual dia da data actual
+	 * @param mes_actual mês da data actual
+	 * @param ano_actual ano da data actual
+	 * @return valor da quantia a ser adicionada à conta c
+	 */
 	public double calculoJuros(JavaBank_Conta c, String dia_actual, String mes_actual, String ano_actual) {
 		String[] data_criacao = c.getData_criacao().split("/");
 		int dia = Integer.parseInt(data_criacao[0]);
@@ -478,7 +572,12 @@ public class JavaBank_Gestao implements Serializable {
 		return quantia;
 	}
 
-	// Verificar se um dado de input recebido como string é um inteiro.
+	/**
+	 * Verificar se um dado de input recebido como string é um inteiro.
+	 * 
+	 * @param s valor em String a ser validado
+	 * @return true se s é inteiro, false caso contrário
+	 */
 	public boolean validarInteiro(String s) {
 		boolean inteiro = false, valor = true;
 		try {
@@ -497,8 +596,13 @@ public class JavaBank_Gestao implements Serializable {
 		return inteiro;
 	}
 
-	// Verificar se um dado de input recebido como string é um double com
-	// máximo de duas casas decimais.
+	/**
+	 * Verificar se um dado de input recebido como string é um double com máximo de
+	 * duas casas decimais.
+	 * 
+	 * @param s valor em String a ser validado
+	 * @return true se s é inteiro, false caso contrário
+	 */
 	public boolean validarDouble(String s) {
 		boolean decimal = false, valor = true;
 		try { // tenta a conversão:
@@ -517,7 +621,10 @@ public class JavaBank_Gestao implements Serializable {
 		return decimal;
 	}
 
-	// Gravação da lista de utilizadores
+	/**Gravação da lista de utilizadores
+	 * 
+	 * @throws IOException
+	 */
 	public void gravarUtilizadores() throws IOException {
 		FileOutputStream fileOut = new FileOutputStream("JavaBank_Utilizadores.dat");
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -526,7 +633,10 @@ public class JavaBank_Gestao implements Serializable {
 		fileOut.close();
 	}
 
-	// Abertura da lista de utilizadores.
+	/**Abertura da lista de utilizadores.
+	 * 
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public void abrirUtilizadores() throws IOException {
 		try {
@@ -548,7 +658,10 @@ public class JavaBank_Gestao implements Serializable {
 		}
 	}
 
-	// Gravação da lista de contas
+	/**Gravação da lista de contas
+	 * 
+	 * @throws IOException
+	 */
 	public void gravarContas() throws IOException {
 		FileOutputStream fileOut = new FileOutputStream("JavaBank_Contas.dat");
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -557,9 +670,13 @@ public class JavaBank_Gestao implements Serializable {
 		fileOut.close();
 	}
 
-	// Abertura da lista de contas.
+	/**Abertura da lista de contas.
+	 * 
+	 * @return lista de contas para ser comunicada
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
-	public void abrirContas() throws IOException {
+	public ArrayList<JavaBank_Conta> abrirContas() throws IOException {
 		try {
 			File f = new File("JavaBank_Contas.dat");
 			if (f.exists()) {
@@ -573,6 +690,7 @@ public class JavaBank_Gestao implements Serializable {
 			JFrame frame = new JFrame();
 			JOptionPane.showMessageDialog(frame, "Ficheiro de contas não encontrado.");
 		}
+		return contas;
 	}
 
 	public ArrayList<JavaBank_Utilizador> getUtilizadores() {

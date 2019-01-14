@@ -2,6 +2,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,33 +14,36 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-/**
- * Breve descrição do código
+/**JPanel para a homepage do Cliente
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_HomepageCliente extends JFrame {
 
 	private JPanel main_panel;
 	private JavaBank_Gestao gestao;
 
-	public Window_JavaBank_HomepageCliente(JavaBank_Gestao gestao) throws HeadlessException {
+	public Window_JavaBank_HomepageCliente(JavaBank_Gestao gestao) throws HeadlessException, IOException {
 		this.gestao = gestao;
 		initialize();
 		setVisible(true);
 	}
 
-	public void initialize() {
+	public void initialize() throws IOException {
+		gestao.abrirContas();
+		gestao.abrirUtilizadores();
 		// instanciar paineis
 		JPanel hpcli_panel = new JPanel();
 
 		// grafismo e propriedades
+		setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/JB_Logotipo.jpg"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		main_panel = new JPanel();
+		main_panel = new JPanel(); 
 		main_panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(main_panel);
 		main_panel.setLayout(new CardLayout(0, 0));
@@ -78,6 +82,13 @@ public class Window_JavaBank_HomepageCliente extends JFrame {
 
 		btnVerConta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					gestao.abrirContas();
+					gestao.abrirUtilizadores();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				double saldo = 0;
 				int n_conta_aux = 0;
 				Object[] opcoes = { "Confirmar", "Cancelar" };
@@ -85,14 +96,14 @@ public class Window_JavaBank_HomepageCliente extends JFrame {
 				panel.add(new JLabel("Nº conta"));
 				JComboBox<Object> combo = new JComboBox<>();
 				combo.addItem("---Escolha a conta---");
-				for (JavaBank_Conta c : gestao.getContas()) {
-					combo.addItem(c.getN_conta());
+				for (JavaBank_Conta c : ((JavaBank_Cliente) JavaBank_Gestao.utilizador_logado).getContas_associadas()) {
+					combo.addItem(String.valueOf(c.getN_conta()));
 				}
 				panel.add(combo);
 				int i = JOptionPane.showOptionDialog(getParent(), panel, "Lista de contas",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
 				if (i == JOptionPane.OK_OPTION) {
-					n_conta_aux = (int) combo.getSelectedItem();
+					n_conta_aux = Integer.parseInt(combo.getSelectedItem().toString());
 					for (JavaBank_Conta c : gestao.getContas()) {
 
 						if (c.getN_conta() == n_conta_aux) {
@@ -102,14 +113,14 @@ public class Window_JavaBank_HomepageCliente extends JFrame {
 								return;
 							} else {
 								saldo = c.getSaldo();
+								Window_JavaBank_DadosConta listarmov = new Window_JavaBank_DadosConta(gestao, n_conta_aux, saldo);
+								main_panel.add(listarmov, "listarmov");
+								CardLayout card = (CardLayout) main_panel.getLayout();
+								card.show(main_panel, "listarmov");
 							}
 						}
 					}
 				}
-				Window_JavaBank_DadosConta listarmov = new Window_JavaBank_DadosConta(gestao, n_conta_aux, saldo);
-				main_panel.add(listarmov, "listarmov");
-				CardLayout card = (CardLayout) main_panel.getLayout();
-				card.show(main_panel, "listarmov");
 			}
 		});
 

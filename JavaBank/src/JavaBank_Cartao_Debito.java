@@ -2,11 +2,10 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Random;
 
-/**
- * Breve descrição do código
+
+/**Classe para o objecto Cartão de Débito
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class JavaBank_Cartao_Debito implements Serializable {
 
@@ -15,17 +14,23 @@ public class JavaBank_Cartao_Debito implements Serializable {
 	protected String data_vencimento;
 	protected String codigo_verificacao;
 
+	/**
+	 * @param nome_titular titular do cartão
+	 * @param numero nº do cartão
+	 */
 	public JavaBank_Cartao_Debito(String nome_titular, String numero) {
 		super();
 		Calendar cal = Calendar.getInstance();
 		this.nome_titular = nome_titular;
 		this.numero = numero;
 		this.data_vencimento = String.valueOf(cal.get(Calendar.MONTH) + 1) + "/"
-				+ String.valueOf(cal.get(Calendar.YEAR) + 5);
+				+ String.valueOf(cal.get(Calendar.YEAR) + 5);//data de vencimento do cartão (validade de 5 anos)
 		Random r = new Random();
 		int cinf = 0;
 		int csup = 1000;
-		this.codigo_verificacao = String.format("%03d", r.nextInt(csup - cinf) + cinf);
+		this.codigo_verificacao = String.format("%03d", r.nextInt(csup - cinf) + cinf);// código de verificação de 3
+																						// dígitos gerado
+																						// automaticamente
 	}
 
 	public JavaBank_Cartao_Debito(String nome_titular, String numero, String data_vencimento, String codigo_verificacao) {

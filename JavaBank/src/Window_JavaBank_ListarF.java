@@ -1,28 +1,22 @@
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
-/**
- * Breve descrição do código
+/**JPanel para lista e dados dos funcionários
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_ListarF extends JPanel {
 
@@ -32,15 +26,16 @@ public class Window_JavaBank_ListarF extends JPanel {
 	private JTextField textFieldEmail;
 	private JTextField textFieldEstado;
 
-	public Window_JavaBank_ListarF(JavaBank_Gestao gestao) {
+	public Window_JavaBank_ListarF(JavaBank_Gestao gestao) throws IOException {
 		this.gestao = gestao;
 		initialize();
 	}
 
 	/**
 	 * Create the panel.
+	 * @throws IOException 
 	 */
-	public void initialize() {
+	public void initialize() throws IOException {
 		setLayout(null);
 		JLabel lblListaDeFuncionrios = new JLabel("LISTA DE FUNCION\u00C1RIOS");
 		lblListaDeFuncionrios.setOpaque(true);
@@ -109,7 +104,12 @@ public class Window_JavaBank_ListarF extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout card = (CardLayout) getParent().getLayout();
 				removeAll();
-				initialize();
+				try {
+					initialize();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				card.show(getParent(), "mainf");
 			}
 		});

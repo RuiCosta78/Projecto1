@@ -3,26 +3,21 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
-/**
- * Breve descrição do código
+/**JPanel com lista e dados dos clientes
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_ListarCl extends JPanel {
 
@@ -36,15 +31,16 @@ public class Window_JavaBank_ListarCl extends JPanel {
 	private JTextField textFieldContacto;
 	private JTextField textFieldEmail;
 
-	public Window_JavaBank_ListarCl(JavaBank_Gestao gestao) {
+	public Window_JavaBank_ListarCl(JavaBank_Gestao gestao) throws IOException {
 		this.gestao = gestao;
 		initialize();
 	}
 
 	/**
 	 * Create the panel.
+	 * @throws IOException 
 	 */
-	public void initialize() {
+	public void initialize() throws IOException {
 		setLayout(null);
 		JLabel lblListaDeClientes = new JLabel("LISTA DE CLIENTES");
 		lblListaDeClientes.setOpaque(true);
@@ -150,7 +146,12 @@ public class Window_JavaBank_ListarCl extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout card = (CardLayout) getParent().getLayout();
 				removeAll();
-				initialize();
+				try {
+					initialize();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				card.show(getParent(), "mainf");
 			}
 		});

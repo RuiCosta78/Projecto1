@@ -2,8 +2,10 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,11 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-/**
- * Breve descrição do código
+/**JPanel da homepage do Admin
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_HomepageAdmin extends JFrame {
 
@@ -39,6 +40,7 @@ public class Window_JavaBank_HomepageAdmin extends JFrame {
 		JPanel hpadmin_panel = new JPanel();
 
 		// grafismo e propriedades
+		setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/JB_Logotipo.jpg"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		main_panel = new JPanel();
@@ -58,7 +60,7 @@ public class Window_JavaBank_HomepageAdmin extends JFrame {
 		hpadmin_panel.add(benvindo);
 
 		JLabel opcao = new JLabel("Escolha a op\u00E7\u00E3o");
-		opcao.setFont(new Font("Arial", Font.PLAIN, 12));
+		opcao.setFont(new Font("Arial", Font.PLAIN, 12)); 
 		opcao.setBounds(10, 79, 92, 14);
 		hpadmin_panel.add(opcao);
 
@@ -101,7 +103,13 @@ public class Window_JavaBank_HomepageAdmin extends JFrame {
 
 		btnListarFuncionrios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Window_JavaBank_ListarF list = new Window_JavaBank_ListarF(gestao);
+				Window_JavaBank_ListarF list = null;
+				try {
+					list = new Window_JavaBank_ListarF(gestao);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				main_panel.add(list, "listaf");
 				CardLayout card = (CardLayout) main_panel.getLayout();
 				card.show(main_panel, "listaf");
@@ -127,7 +135,13 @@ public class Window_JavaBank_HomepageAdmin extends JFrame {
 
 		btnListarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Window_JavaBank_ListarCl listac = new Window_JavaBank_ListarCl(gestao);
+				Window_JavaBank_ListarCl listac = null;
+				try {
+					listac = new Window_JavaBank_ListarCl(gestao);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				main_panel.add(listac, "listarc");
 				CardLayout card = (CardLayout) main_panel.getLayout();
 				card.show(main_panel, "listarc");

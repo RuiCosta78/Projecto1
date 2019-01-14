@@ -1,11 +1,10 @@
 import java.io.Serializable;
 
-/**
-* Breve descrição do código
-*
-* @sid 2002
-* @aid 1.1
-*/
+/**Classe para o objecto Movimento
+ * 
+ * @author Acer
+ *
+ */
 public class JavaBank_Movimento implements Serializable{
 	
 	protected String data_movimento;
@@ -15,6 +14,14 @@ public class JavaBank_Movimento implements Serializable{
 	protected int id_funcionario;
 	protected int id_cliente;
 	
+	/**
+	 * @param data_movimento data do movimento
+	 * @param tipo_movimento tipo de movimento (Depósito/Levantamento/Compra/Transferência)
+	 * @param quantia quantia do movimento
+	 * @param id_funcionario identificação do funcionário que registou o movimento
+	 * @param id_cliente identificação do cliente que solicitou o movimento
+	 * @param saldoInst saldo instantâneo para cálculo do saldo final
+	 */
 	public JavaBank_Movimento(String data_movimento, String tipo_movimento, double quantia, int id_funcionario,
 			int id_cliente, double saldoInst) {
 		super();

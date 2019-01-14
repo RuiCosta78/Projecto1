@@ -3,25 +3,25 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import com.toedter.calendar.JDateChooser;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.util.Locale;
 
-/**
- * Breve descrição do código
+import com.toedter.calendar.JDateChooser;
+
+/**JPanel para o registo de cliente
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_RegistarCl extends JPanel {
 
@@ -187,8 +187,13 @@ public class Window_JavaBank_RegistarCl extends JPanel {
 				String password = new String(passwordField.getPassword());
 				String passwordConfirm = new String(passwordFieldConfirm.getPassword());
 				String mensagem = "";
-				mensagem = gestao.registar_cliente(nome, sobrenome, data, tipoId, numId, endereco, numContacto, nif,
-						email, password, passwordConfirm);
+				try {
+					mensagem = gestao.registar_cliente(nome, sobrenome, data, tipoId, numId, endereco, numContacto, nif,
+							email, password, passwordConfirm);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(getParent(), mensagem);
 				if (mensagem.equals("Registo concluído com sucesso.")) {
 					CardLayout card = (CardLayout) getParent().getLayout();

@@ -1,11 +1,10 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Breve descrição do código
+/**Classe para o objecto Conta
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class JavaBank_Conta implements Serializable{
 
@@ -15,6 +14,13 @@ public class JavaBank_Conta implements Serializable{
 	protected ArrayList<JavaBank_Movimento> historico_movimentos = new ArrayList<>();
 	protected String estado;
 	
+	/**
+	 * @param n_conta nº da conta
+	 * @param data_criacao data de criação da conta
+	 * @param saldo saldo da conta
+	 * @param historico_movimentos lista de movimenos da conta
+	 * @param estado estado da conta (Activa/Inactiva)
+	 */
 	public JavaBank_Conta(int n_conta, String data_criacao, double saldo,
 			ArrayList<JavaBank_Movimento> historico_movimentos, String estado) {
 		super();

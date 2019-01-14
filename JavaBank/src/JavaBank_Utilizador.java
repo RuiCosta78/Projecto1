@@ -1,11 +1,10 @@
 import java.io.Serializable;
 
-/**
-* Breve descrição do código
-*
-* @sid 2002
-* @aid 1.1
-*/
+/**Classe do objecto Utilizador
+ * 
+ * @author Rui Costa
+ *
+ */
 public class JavaBank_Utilizador implements Serializable{
 	
 	protected String primeiro_nome;
@@ -18,6 +17,17 @@ public class JavaBank_Utilizador implements Serializable{
 	protected String login;
 	protected String password;
 	
+	/**
+	 * @param primeiro_nome primeiro nome do utilizador
+	 * @param sobrenome sobrenome do uitlizador
+	 * @param data_nascimento data de nascimento do utilizador
+	 * @param tipo_id tipo do documento de identificação do utilizador
+	 * @param n_id nº do documento de identificação do utilizador
+	 * @param endereco morada de residência do utilizador
+	 * @param n_contacto contacto telefónico do utilizador
+	 * @param login email do utilizador
+	 * @param password password do utilizador
+	 */
 	public JavaBank_Utilizador(String primeiro_nome, String sobrenome, String data_nascimento,
 			String tipo_id, int n_id, String endereco, String n_contacto, String login, String password) {
 		super();
