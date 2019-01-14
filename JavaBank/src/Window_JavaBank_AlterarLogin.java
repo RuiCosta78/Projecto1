@@ -10,14 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-/**
-* Breve descrição do código
-*
-* @sid 2002
-* @aid 1.1
-*/
+/**JPanel para alteração de login
+ * 
+ * @author Rui Costa
+ *
+ */
 public class Window_JavaBank_AlterarLogin extends JPanel {
 	
 	private JavaBank_Gestao gestao;
@@ -96,7 +96,13 @@ public class Window_JavaBank_AlterarLogin extends JPanel {
 				String userConfirm = textFieldUsernameConfirm.getText();
 				String password = new String(passwordField.getPassword());
 				String passwordConfirm = new String(passwordFieldConfirm.getPassword());
-				String mensagem = gestao.alterar_login(username, userConfirm, password, passwordConfirm);
+				String mensagem = null;
+				try {
+					mensagem = gestao.alterar_login(username, userConfirm, password, passwordConfirm);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(getParent(), mensagem);
 				if (mensagem.equals("Alteração concluída com sucesso")) {
 					CardLayout card = (CardLayout) getParent().getLayout();

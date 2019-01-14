@@ -11,11 +11,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-/**
- * Breve descrição do código
+/**JPanel para confirmação de associação de cartão
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_AssociarCartao extends JPanel {
 

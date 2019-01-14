@@ -11,15 +11,16 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import java.util.Locale;
 
-/**
- * Breve descrição do código
+
+/**JPanel para registo de conta
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_AbrirConta extends JPanel {
 
@@ -144,7 +145,12 @@ public class Window_JavaBank_AbrirConta extends JPanel {
 				double deposito = Double.parseDouble(textFieldDeposito.getText());
 				String tipo = comboBox_1.getSelectedItem().toString();
 				String mensagem = "";
-				mensagem = gestao.abrir_nova_conta(n_conta, nome, sobrenome, data, estado, deposito, tipo);
+				try {
+					mensagem = gestao.abrir_nova_conta(n_conta, nome, sobrenome, data, estado, deposito, tipo);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(getParent(), mensagem);
 				if (mensagem.equals("Registo concluído com sucesso.")) {
 					CardLayout card = (CardLayout) getParent().getLayout();

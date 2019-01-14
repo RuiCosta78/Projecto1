@@ -3,26 +3,22 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
-/**
-* Breve descrição do código
-*
-* @sid 2002
-* @aid 1.1
-*/
+/**JPanel para o registo de funcionário
+ * 
+ * @author Rui Costa
+ *
+ */
 public class Window_JavaBank_RegistarFunc extends JPanel {
 	
 	private JTextField textField;
@@ -131,7 +127,12 @@ public class Window_JavaBank_RegistarFunc extends JPanel {
 				String passwordConfirm = new String(passwordField_1.getPassword());
 				String estado = comboBox.getSelectedItem().toString();
 				String mensagem = "";
-				mensagem = gestao.registar_funcionario(nome, sobrenome, email, password, passwordConfirm, estado);
+				try {
+					mensagem = gestao.registar_funcionario(nome, sobrenome, email, password, passwordConfirm, estado);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				JOptionPane.showMessageDialog(getParent(), mensagem);
 				if (mensagem.equals("Registo concluído com sucesso.")) {
 					CardLayout card = (CardLayout) getParent().getLayout();

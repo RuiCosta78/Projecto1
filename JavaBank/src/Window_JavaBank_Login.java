@@ -3,7 +3,9 @@ import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -15,22 +17,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-/**
- * Breve descrição do código
+/**JPanel para a janela inicial de login
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_Login {
 
@@ -49,7 +40,7 @@ public class Window_JavaBank_Login {
 	}
 
 	public Window_JavaBank_Login() throws ClassNotFoundException, IOException {
-		
+
 		gestao.abrirUtilizadores();
 		gestao.abrirContas();
 		initialize();
@@ -60,8 +51,7 @@ public class Window_JavaBank_Login {
 	 */
 	private void initialize() {
 		setFrmLogin(new JFrame());
-		getFrmLogin().setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\Acer\\Desktop\\Acertar o Rumo\\IPJ\\Projeto Final\\JB_Logotipo.jpg"));
+		getFrmLogin().setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/JB_Logotipo.jpg"));
 		getFrmLogin().getContentPane().setBackground(UIManager.getColor("CheckBox.background"));
 		getFrmLogin().setBounds(100, 100, 450, 300);
 		getFrmLogin().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,7 +94,12 @@ public class Window_JavaBank_Login {
 				String username = textField.getText();
 				String password = new String(passwordField.getPassword());
 				String mensagem = null;
-				mensagem = gestao.login(username, password);
+				try {
+					mensagem = gestao.login(username, password);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 				JOptionPane.showMessageDialog(frmLogin, mensagem);
 				if (mensagem.equals("Login de Admin com sucesso")) {
@@ -115,7 +110,15 @@ public class Window_JavaBank_Login {
 					Window_JavaBank_HomepageFunc hpfunc = new Window_JavaBank_HomepageFunc(gestao);
 				} else if (mensagem.equals("Login de Cliente com sucesso")) {
 					frmLogin.setVisible(false);
-					Window_JavaBank_HomepageCliente hpcli = new Window_JavaBank_HomepageCliente(gestao);
+					try {
+						Window_JavaBank_HomepageCliente hpcli = new Window_JavaBank_HomepageCliente(gestao);
+					} catch (HeadlessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					return;
 				}

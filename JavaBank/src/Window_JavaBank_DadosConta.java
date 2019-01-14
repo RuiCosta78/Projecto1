@@ -4,8 +4,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,17 +12,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import jdk.nashorn.internal.scripts.JO;
-
-/**
- * Breve descrição do código
+/**JPanel para visualização de dados de conta
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_DadosConta extends JPanel {
 
@@ -173,6 +167,21 @@ public class Window_JavaBank_DadosConta extends JPanel {
 		btnCartesAssociados.setBounds(151, 123, 126, 23);
 		add(btnCartesAssociados);
 
+		JComboBox<String> comboBoxTitulares = new JComboBox<String>();
+		comboBoxTitulares.setBounds(10, 126, 131, 20);
+		comboBoxTitulares.addItem("--Titulares--");
+		for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
+			if (u instanceof JavaBank_Cliente) {
+				for (JavaBank_Conta c : ((JavaBank_Cliente) u).getContas_associadas()) {
+					if (c.getN_conta() == aux) {
+						String nome_completo = u.getPrimeiro_nome() + " " + u.getSobrenome();
+						comboBoxTitulares.addItem(nome_completo);
+					}
+				}
+			}
+		}
+		add(comboBoxTitulares);
+
 		btnCartesAssociados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -293,8 +302,8 @@ public class Window_JavaBank_DadosConta extends JPanel {
 								if (((JavaBank_Conta_Ordem) c).getCartoes_associados().isEmpty()) {
 									combo.addItem(nome_completo);
 								}
-								for(JavaBank_Cartao_Debito car : ((JavaBank_Conta_Ordem)c).getCartoes_associados()) {
-									if(car.getNome_titular() != nome_completo) {
+								for (JavaBank_Cartao_Debito car : ((JavaBank_Conta_Ordem) c).getCartoes_associados()) {
+									if (car.getNome_titular() != nome_completo) {
 										combo.addItem(nome_completo);
 									}
 								}
@@ -362,28 +371,33 @@ public class Window_JavaBank_DadosConta extends JPanel {
 				JPanel panel = new JPanel();
 				panel.add(new JLabel("Nome "));
 				JComboBox<String> combo = new JComboBox<>();
+				boolean bool = true;
 				for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
 					if (u instanceof JavaBank_Cliente) {
 						for (JavaBank_Conta c : ((JavaBank_Cliente) u).getContas_associadas()) {
-							if (c.getN_conta() != aux) {
-								String nome_completo = u.getPrimeiro_nome() + " " + u.getSobrenome();
-								combo.addItem(nome_completo);
+							if (bool && c.getN_conta() == aux) {
+								bool = false;
 							}
+						}
+						if (!bool) {
+							String nome_completo = u.getPrimeiro_nome() + " " + u.getSobrenome();
+							combo.addItem(nome_completo);
 						}
 					}
 				}
 				panel.add(combo);
 				int i = JOptionPane.showOptionDialog(getParent(), panel, "Adicionar titular",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
-				String titular = "";
+				String titular = (String) combo.getSelectedItem();
 				if (i == JOptionPane.OK_OPTION) {
-					titular = (String) combo.getSelectedItem();
 					String[] partes = titular.split(" ");
-					for (JavaBank_Conta c : gestao.getContas()) {
-						for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
-							if (u.getPrimeiro_nome().equals(partes[0]) && u.getSobrenome().equals(partes[1])
-									&& u instanceof JavaBank_Cliente && c.getN_conta() == aux) {
-								((JavaBank_Cliente) u).getContas_associadas().add(c);
+					for (JavaBank_Utilizador u : gestao.getUtilizadores()) {
+						if (u instanceof JavaBank_Cliente) {
+							for (JavaBank_Conta c : gestao.getContas()) {
+								if (u.getPrimeiro_nome().equals(partes[0]) && u.getSobrenome().equals(partes[1])
+										&& c.getN_conta() == aux) {
+									((JavaBank_Cliente) u).getContas_associadas().add(c);
+								}
 							}
 						}
 					}

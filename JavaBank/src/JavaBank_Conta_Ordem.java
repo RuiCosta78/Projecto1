@@ -1,22 +1,29 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
-* Breve descrição do código
-*
-* @sid 2002
-* @aid 1.1
-*/
+
+/**Classe para o objecto Conta à Ordem
+ * 
+ * @author Rui Costa
+ *
+ */
 public class JavaBank_Conta_Ordem extends JavaBank_Conta implements Serializable{
 	
 	public static double limite_diario;
 	public static double limite_levantamento;
 	private ArrayList<JavaBank_Cartao_Debito> cartoes_associados = new ArrayList<>();
 	
+	/**
+	 * @param n_conta nº da conta
+	 * @param data_criacao data de criação da conta
+	 * @param saldo saldo da conta
+	 * @param estado estado da conta (Activa/Inactiva)
+	 * @param cartoes_associados lista de cartões de débito associados à conta
+	 */
 	public JavaBank_Conta_Ordem(int n_conta, String data_criacao, double saldo,  String estado, ArrayList<JavaBank_Cartao_Debito> cartoes_associados) {
 		super(n_conta, data_criacao, saldo, estado);
-		this.limite_diario = 1000.00;
-		this.limite_levantamento = 200.00;
+		this.limite_diario = 1000.00;//limite da soma dos levantamentos para um determinado dia
+		this.limite_levantamento = 200.00;//limite para um levantamento isolado
 		this.cartoes_associados = cartoes_associados;
 	}
 	

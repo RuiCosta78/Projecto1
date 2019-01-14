@@ -2,10 +2,10 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.swing.JButton;
@@ -17,11 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-/**
- * Breve descrição do código
+/**JPanel para a homepage do Funcionário
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_HomepageFunc extends JFrame {
 
@@ -34,7 +33,7 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 			gestao.abrirContas();
 			gestao.abrirUtilizadores();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block 
 			e.printStackTrace();
 		}
 		initialize();
@@ -46,6 +45,7 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 		JPanel hpfunc_panel = new JPanel();
 
 		// grafismo e propriedades
+		setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/JB_Logotipo.jpg"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		main_panel = new JPanel();
@@ -116,7 +116,13 @@ public class Window_JavaBank_HomepageFunc extends JFrame {
 
 		btnListarClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Window_JavaBank_ListarCl listac = new Window_JavaBank_ListarCl(gestao);
+				Window_JavaBank_ListarCl listac = null;
+				try {
+					listac = new Window_JavaBank_ListarCl(gestao);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				main_panel.add(listac, "listarc");
 				CardLayout card = (CardLayout) main_panel.getLayout();
 				card.show(main_panel, "listarc");

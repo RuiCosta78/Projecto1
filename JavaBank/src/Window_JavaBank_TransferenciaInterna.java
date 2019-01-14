@@ -9,11 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-/**
- * Breve descrição do código
+/**JPanel para a confirmação de transferência
+ * 
+ * @author Rui Costa
  *
- * @sid 2002
- * @aid 1.1
  */
 public class Window_JavaBank_TransferenciaInterna extends JFrame {
 
