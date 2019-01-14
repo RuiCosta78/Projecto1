@@ -1,30 +1,22 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.Toolkit;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
+import java.awt.CardLayout;
 import java.awt.Font;
-import java.awt.HeadlessException;
-
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.awt.event.ActionEvent;
-import java.awt.CardLayout;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
+
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /**
  * Breve descrição do código
@@ -59,7 +51,7 @@ public class VCI_VENDEDOR {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
@@ -450,7 +442,7 @@ public class VCI_VENDEDOR {
 								"Número de cartão inválido (introduzir número de 4 dígitos)");
 					} else {
 						nC = true;
-					}
+					} 
 				}
 				if (nC) {
 					try {
@@ -480,16 +472,17 @@ public class VCI_VENDEDOR {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					// g.apagarFicheiro("pedido");
-					// g.apagarFicheiro("resposta");
 					resposta = resBanco[0];
 					switch (resposta) {
 					case "sem saldo":
 						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Saldo insuficiente.");
+						break;
 					case "errado":
 						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Número de cartão inválido.");
+						break;
 					case "inativo":
 						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Cartão inativo.");
+						break;
 					case "sucesso":
 						// Percorre a lista de compras:
 						for (int i = 0; i < VCI_cl_Gestao.cliente.getListaCompras().size(); i++) {
@@ -502,7 +495,6 @@ public class VCI_VENDEDOR {
 								}
 							}
 						}
-						System.out.println(pTotal + " " + df.format(pTotal) + " " + valor);
 						VCI_cl_Compra novaCompra = new VCI_cl_Cartao(Integer.parseInt(nc), VCI_cl_Gestao.cliente,
 								new GregorianCalendar(), pTotal, Integer.parseInt(nCartao));
 						g.listaCompras.add(novaCompra); // Adiciona a compra à lista de vendas.
@@ -525,6 +517,7 @@ public class VCI_VENDEDOR {
 						JOptionPane.showMessageDialog(frame, "Compra efetuada com sucesso.");
 						g.apagarFicheiro("resposta");
 						g.apagarFicheiro("pedido");
+						break;
 					}
 				}
 			}

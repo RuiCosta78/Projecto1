@@ -70,11 +70,11 @@ public class VCI_ADMIN extends JFrame {
 	private ArrayList<VCI_cl_Livro> listaSel = new ArrayList<VCI_cl_Livro>();
 	private VCI_cl_Livro livroSelecionado = null;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	private String est;
+	private String est; 
 
 	public VCI_ADMIN(VCI_cl_Gestao g) throws IOException {
 		this.g = g;
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/VC_Logotipo.jpg")); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		main = new JPanel();

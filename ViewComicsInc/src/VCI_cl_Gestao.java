@@ -330,7 +330,6 @@ public class VCI_cl_Gestao implements Serializable {
 		out.writeObject(pedido);
 		out.close();
 		fileOut.close();
-		System.out.println("compraCartao   " + pedido[0] + " " + pedido[1]);
 	}
 
 	// Recebe o ficheiro do banco
@@ -381,15 +380,12 @@ public class VCI_cl_Gestao implements Serializable {
 		String[] dados = new String[2];
 		String[] resposta = new String[1];
 			dados = abrirPedido();
-			System.out.println("show - dados   " + dados[0] + " " + dados[1]); // SHOW DADOS
 			int aux = 0;
 				for (JavaBank_Conta c : contas) {
-				System.out.println("show - n.º conta  " + c.getN_conta());
 				if (c instanceof JavaBank_Conta_Ordem) {
 					for (JavaBank_Cartao_Debito car : ((JavaBank_Conta_Ordem) c).getCartoes_associados()) {
 						if (car.getNumero().equals(dados[0])) {
 							aux = c.n_conta;
-							System.out.println("show - cartao   " + car.getNumero()); // SHOW CARTAO
 							if (c.getEstado().equals("Inactiva")) {
 								resposta[0] = "inativo";
 							}
@@ -399,14 +395,12 @@ public class VCI_cl_Gestao implements Serializable {
 					}
 				}
 			}
-			System.out.println("show - conta   " + aux); // SHOW CONTA
 			resp = gestao.movimento(dados[1], aux, "Compra");
 			if (resp.equals("Saldo insuficiente.")) {
 				resposta[0] = "sem saldo";
 			} else if (resp.equals("Operação efectuada com sucesso.")) {
 				resposta[0] = "sucesso";
 			}
-			System.out.println("show - resposta   " + resposta[0]); // SHOW RESPOSTA
 		return resposta;
 	}
 	

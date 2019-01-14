@@ -47,7 +47,7 @@ public class VCI_Cliente_Op {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 

@@ -35,7 +35,7 @@ public class VCI_Carrinho {
 	private JFrame frame;
 	private double pTotal;
 	private int linhaSel;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private final ButtonGroup buttonGroup = new ButtonGroup(); 
 	private VCI_cl_Gestao g;
 
 	/**
@@ -51,7 +51,7 @@ public class VCI_Carrinho {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 655, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));

@@ -36,14 +36,14 @@ public class VCI_N1 {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1/VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-
+ 
 		// Botão "Acesso ao Sistema"
 		JButton btnAcessoSistema = new JButton("ACESSO SISTEMA");
 		btnAcessoSistema.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -84,7 +84,7 @@ public class VCI_N1 {
 		lblNewLabel.setBackground(UIManager.getColor("CheckBox.background"));
 		lblNewLabel.setBounds(145, 48, 150, 150);
 		// Insertion of image adapted to the size of the jlabel.
-		ImageIcon imagem = new ImageIcon("C:\\\\Users\\\\rmmi7\\\\git\\\\Projecto1\\\\VC_Logotipo.jpg");
+		ImageIcon imagem = new ImageIcon("../Projecto1/VC_Logotipo.jpg");
 		Image img = imagem.getImage();
 		Image img1 = img.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon i = new ImageIcon(img1);
