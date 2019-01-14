@@ -18,6 +18,11 @@ public class VCI_cl_Carrinho  implements Serializable {
 		
 	}
 
+	/**
+	 * @param nome indicado pelo cliente.
+	 * @param listaCompras lista de livros comprados.
+	 * @param quantLivros quantidades compradas de cada livro.
+	 */
 	public VCI_cl_Carrinho(String nome, ArrayList<VCI_cl_Livro> listaCompras, ArrayList<Integer> quantLivros) {
 		super();
 		this.nome = nome;

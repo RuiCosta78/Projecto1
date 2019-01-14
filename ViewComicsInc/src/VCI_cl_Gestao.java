@@ -20,6 +20,12 @@ import java.awt.EventQueue;
  * @aid 1.1
  */
 
+/**
+ * @author rmmi7
+ * Classe de gestão da livraria com todos os métodos necessários para a sua implementação.
+ * Contém as listas de utilizadores, livros e compras em agregação.
+ * Contém os atributos utilizador e cliente públicos para permitir a identificação no sistema do utilizador ativo. 
+ */
 public class VCI_cl_Gestao implements Serializable {
 
 	protected ArrayList<VCI_cl_Livro> listaLivros = new ArrayList<>();
@@ -46,7 +52,10 @@ public class VCI_cl_Gestao implements Serializable {
 		});
 	}
 
-	// Gravação da lista de utilizadores
+	/**
+	 * Gravação da lista de utilizadores sempre que há a sua modificação.
+	 * @throws IOException
+	 */
 	public void gravarUtilizadores() throws IOException {
 		FileOutputStream fileOut = new FileOutputStream("Lista de Utilizadores.dat");
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -55,7 +64,10 @@ public class VCI_cl_Gestao implements Serializable {
 		fileOut.close();
 	}
 
-	// Gravação da lista de livros
+	/**
+	 * Gravação da lista de livros sempre que há a sua modificação.
+	 * @throws IOException
+	 */
 	public void gravarLivros() throws IOException {
 		FileOutputStream fileOut = new FileOutputStream("Lista de Livros.dat");
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -64,7 +76,11 @@ public class VCI_cl_Gestao implements Serializable {
 		fileOut.close();
 	}
 
-	// Gravação da lista de compras
+	
+	/**
+	 * Gravação da lista de compras sempre que é efetuada uma nova compra.
+	 * @throws IOException
+	 */
 	public void gravarCompras() throws IOException {
 		FileOutputStream fileOut = new FileOutputStream("Lista de Compras.dat");
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -73,7 +89,10 @@ public class VCI_cl_Gestao implements Serializable {
 		fileOut.close();
 	}
 
-	// Abertura da lista de utilizadores.
+	/**
+	 * Abertura da lista de utilizadores sempre que são necessários os dados de utilizadores.
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
 	public void abrirUtilizadores() throws IOException {
 		try {
@@ -91,7 +110,9 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 	}
 
-	// Abertura da lista de livros.
+	/**
+	 *Abertura da lista de livros sempre que é solicitada a sua consulta. 
+	 */
 	@SuppressWarnings("unchecked")
 	public void abrirLivros() {
 		try {
@@ -109,7 +130,10 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 	}
 
-	// Abertura da lista de compras.
+	
+	/**
+	 *Abertura da lista de compras sempre que é solicita a sua consulta. 
+	 */
 	@SuppressWarnings("unchecked")
 	public void abrirCompras() {
 		try {
@@ -126,8 +150,17 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 	}
 
-	// Login para utilizadores Admin e Vendedor.
-	// Recebe as strings email e password do login
+	
+	/**
+	 * Login para utilizadores Admin e Vendedor.
+	Recebe as strings email e password do login
+	 * @param u com email do utilizador.
+	 * @param s com password do utilizador.
+	 * @return string com indicação do resultado do login.
+	 * Com a identificação do login é identificado o atributo utilizador desta classe.
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public String login(String u, String s) throws IOException, ClassNotFoundException {
 		String resultadoLogin = "errado"; // resultado do login por defeito
 		boolean Admin = false;
@@ -160,16 +193,27 @@ public class VCI_cl_Gestao implements Serializable {
 								// "errado".
 	}
 
-	// Alteração dos dados de login para Admin e Vendedor
-	// Recebe o novo email e a nova senha para substituir na memória.
-	// O novo email e a nova senha são recebidos já validados.
+	
+	/**
+	 * Alteração dos dados de login para Admin e Vendedor
+	Recebe o novo email e a nova senha para substituir na memória.
+	O novo email e a nova senha são recebidos já validados.
+	 * @param u com novo email para login.
+	 * @param s com nova password para login.
+	 * @throws IOException
+	 */
 	public void alterarLogin(String u, String s) throws IOException {
 		VCI_cl_Gestao.utilizador.setEmail(u);
 		VCI_cl_Gestao.utilizador.setSenha(s);
 		gravarUtilizadores();
 	}
 
-	// Validação do formato do email.
+	 
+	/**
+	 * Validação do formato do email.
+	 * @param email com email introduzido para validação do formato.
+	 * @return verdadeiro ou falso.
+	 */
 	public boolean validarEmail(String email) {
 		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
@@ -177,17 +221,28 @@ public class VCI_cl_Gestao implements Serializable {
 		return m.matches();
 	}
 
-	// Novo cliente no sistema (criação do carrinho).
+	
+	/**
+	 * Novo cliente no sistema (criação do carrinho).
+	 * @param s com nome do utilizador cliente.
+	 */
 	public void novoCliente(String s) {
-		// Criação do carrinho para o cliente com estado false (compra não finalizada) e
-		// lista de compras vazia.
+		// Criação do carrinho para o cliente lista de compras vazia.
 		ArrayList<VCI_cl_Livro> listaCompras = new ArrayList<VCI_cl_Livro>();
 		ArrayList<Integer> nLivros = new ArrayList<Integer>();
 		cliente = new VCI_cl_Carrinho(s, listaCompras, nLivros);
 	}
 
-	// Registo de vendedor com nome, email (já validado), senha (já validada) e
-	// estado do vendedor.
+	
+	/**
+	 * Registo de vendedor com nome, email (já validado), senha (já validada) e	estado do vendedor.
+	 * @param n com nome do novo vendedor.
+	 * @param e com email do novo vendedor.
+	 * @param s com pasword do novo vendedor.
+	 * @param est com estado do novo vendedor (ativo ou inativo).
+	 * @return
+	 * @throws IOException
+	 */
 	public VCI_cl_Vendedor registarVendedor(String n, String e, String s, boolean est) throws IOException {
 		VCI_cl_Vendedor novoU = new VCI_cl_Vendedor(n, e, s, est);
 		listaUtilizadores.add(novoU);
@@ -195,7 +250,13 @@ public class VCI_cl_Gestao implements Serializable {
 		return novoU;
 	}
 
-	// Corrigir o nome de um vendedor
+	
+	/**
+	 * Corrigir o nome de um vendedor
+	 * @param nOrig com nome existente do vendedor.
+	 * @param nNovo com nome corrigido do vendedor.
+	 * @throws IOException
+	 */
 	public void corrigirNome(String nOrig, String nNovo) throws IOException {
 		for (VCI_cl_Utilizador u : listaUtilizadores) {
 			if (u instanceof VCI_cl_Vendedor) {
@@ -207,7 +268,12 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 	}
 
-	// Alterar estado do vendedor
+	/**
+	 * Alterar estado do vendedor
+	 * @param n com nome do vendedor.
+	 * @param b com novo estado do vendedor.
+	 * @throws IOException
+	 */
 	public void alterarEstado(String n, boolean b) throws IOException {
 		for (VCI_cl_Utilizador u : listaUtilizadores) {
 			if (u instanceof VCI_cl_Vendedor) {
@@ -219,7 +285,18 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 	}
 
-	// Adicionar novo livro à lista de livros
+	/**
+	 * Adicionar novo livro à lista de livros
+	 * @param t com título do novo livro.
+	 * @param a com autor do novo livro.
+	 * @param e com editora do novo livro.
+	 * @param i com ISBN do novo livro.
+	 * @param an com ano de edição do novo livro.
+	 * @param p com preço do novo livro.
+	 * @param q com quantidade do novo livro.
+	 * @return novo objeto VCI_cl_Livro criado.
+	 * @throws IOException
+	 */
 	public VCI_cl_Livro adicionarLivro(String t, String a, String e, String i, int an, double p, int q)
 			throws IOException {
 		abrirLivros();
@@ -229,7 +306,12 @@ public class VCI_cl_Gestao implements Serializable {
 		return novoL;
 	}
 
-	// Abertura da lista de utilizadores.
+	/**
+	 * Abertura do histórico de um livro.
+	 * @param s com ISBN do livro.
+	 * @return objeto VCI_cl_Historico correspondente ao ISBN
+	 * @throws IOException
+	 */
 	public VCI_cl_Historico abrirHistorico(String s) throws IOException {
 		VCI_cl_Historico h = null;
 		try {
@@ -248,7 +330,11 @@ public class VCI_cl_Gestao implements Serializable {
 		return h;
 	}
 
-	// Gravação da lista de livros
+	/**
+	 * Gravação do histórico de um livro
+	 * @param h com objeto para gravação.
+	 * @throws IOException
+	 */
 	public void gravarHistorico(VCI_cl_Historico h) throws IOException {
 		File f = new File(h.getIsbn() + ".dat");
 		FileOutputStream fileOut = new FileOutputStream(f);
@@ -258,7 +344,13 @@ public class VCI_cl_Gestao implements Serializable {
 		fileOut.close();
 	}
 
-	// Criação do 1.º histórico de preços dos livros.
+	/**
+	 * Criação do 1.º histórico de preços dos livros.
+	 * @param s com ISBN do livro.
+	 * @param d com a data da definição de p (mesmo dia).
+	 * @param p com preço do livro.
+	 * @throws IOException
+	 */
 	public void criarHistorico(String s, GregorianCalendar d, double p) throws IOException {
 		// Criação do objeto VCI_cl_Historico:
 		ArrayList<GregorianCalendar> datas = new ArrayList<GregorianCalendar>();
@@ -274,7 +366,11 @@ public class VCI_cl_Gestao implements Serializable {
 		fileOut.close();
 	}
 
-	// Verificar se um dado de input recebido como string é um inteiro.
+	/**
+	 * Verificar se um dado de input recebido como string é um inteiro.
+	 * @param s com n.º inteiro para validação.
+	 * @return verdadeiro ou falso.
+	 */
 	public boolean validarInteiro(String s) {
 		boolean inteiro = false, valor = true;
 		try {
@@ -293,8 +389,11 @@ public class VCI_cl_Gestao implements Serializable {
 		return inteiro;
 	}
 
-	// Verificar se um dado de input recebido como string é um double com
-	// máximo de duas casas decimais.
+	/**
+	 * Verificar se um dado de input recebido como string é um double com máximo de duas casas decimais.
+	 * @param s com número double para validação.
+	 * @return verdadeiro ou falso.
+	 */
 	public boolean validarDouble(String s) {
 		boolean decimal = false, valor = true;
 		try { // tenta a conversão:
@@ -313,6 +412,12 @@ public class VCI_cl_Gestao implements Serializable {
 		return decimal;
 	}
 
+	/**
+	 * Geração de string com todos os livros de uma lista de compras e respetivas quantidades
+	 * @param lis com lista de livros.
+	 * @param quant com lista de quantidades correspondente a lis.
+	 * @return string composta com títulos dos livros e quantidades.
+	 */
 	public String obterLivros(ArrayList<VCI_cl_Livro> lis, ArrayList<Integer> quant) {
 		String livros = "";
 		for (int i = 0; i < lis.size(); i++) {
@@ -321,7 +426,13 @@ public class VCI_cl_Gestao implements Serializable {
 		return livros;
 	}
 
-	// Abertura do ficheiro com os números de contas do JavaBank e execução da
+	/** 
+	 * Abertura do ficheiro com os números de contas do JavaBank.
+	 * @param nC com número do cartão de débito.
+	 * @param p com valor para pagamento.
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
 	public void compraCartao(String nC, double p) throws NumberFormatException, IOException {
 		//String resposta = "";
 		String[] pedido = { nC, String.valueOf(p) }; // Ficheiro para o banco.
@@ -333,7 +444,10 @@ public class VCI_cl_Gestao implements Serializable {
 		System.out.println("compraCartao   " + pedido[0] + " " + pedido[1]);
 	}
 
-	// Recebe o ficheiro do banco
+	/**
+	 * Recebe o ficheiro do banco.
+	 * @return a string[] com resposta do banco.
+	 */
 	public String respostaBanco() {
 		String[] resposta = { " " };
 		while (resposta[0].equals(" ")) {
@@ -362,7 +476,10 @@ public class VCI_cl_Gestao implements Serializable {
 		return resposta[0];
 	}
 
-	// Apagar ficheiro (aplicado aos ficheiros entre livraria e banco).
+	/**
+	 * Apagar ficheiro (aplicado aos ficheiros entre livraria e banco).
+	 * @param s com o nome do ficheiro a apagar.
+	 */
 	public void apagarFicheiro(String s) {
 		File f = new File(s + ".dat");
 		try {
@@ -374,23 +491,25 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 	}
 
-	// EXECUÇÃO DO PEDIDO PELO BANCO.
-	public static String[] show(ArrayList<JavaBank_Conta> contas) throws IOException {
+	/**
+	 * EXECUÇÃO DO PEDIDO PELO BANCO.
+	 * @param contas com listagem das contas.
+	 * @return string[] com resultado do pedido da compra. 
+	 * @throws IOException
+	 */
+	public String[] show(ArrayList<JavaBank_Conta> contas) throws IOException {
 		JavaBank_Gestao gestao = new JavaBank_Gestao();
 		String resp = "";
 		String[] dados = new String[2];
 		String[] resposta = new String[1];
 			dados = abrirPedido();
-			System.out.println("show - dados   " + dados[0] + " " + dados[1]); // SHOW DADOS
 			int aux = 0;
 				for (JavaBank_Conta c : contas) {
-				System.out.println("show - n.º conta  " + c.getN_conta());
 				if (c instanceof JavaBank_Conta_Ordem) {
 					for (JavaBank_Cartao_Debito car : ((JavaBank_Conta_Ordem) c).getCartoes_associados()) {
 						if (car.getNumero().equals(dados[0])) {
 							aux = c.n_conta;
-							System.out.println("show - cartao   " + car.getNumero()); // SHOW CARTAO
-							if (c.getEstado().equals("Inactiva")) {
+								if (c.getEstado().equals("Inactiva")) {
 								resposta[0] = "inativo";
 							}
 						} else {
@@ -399,19 +518,21 @@ public class VCI_cl_Gestao implements Serializable {
 					}
 				}
 			}
-			System.out.println("show - conta   " + aux); // SHOW CONTA
 			resp = gestao.movimento(dados[1], aux, "Compra");
 			if (resp.equals("Saldo insuficiente.")) {
 				resposta[0] = "sem saldo";
 			} else if (resp.equals("Operação efectuada com sucesso.")) {
 				resposta[0] = "sucesso";
 			}
-			System.out.println("show - resposta   " + resposta[0]); // SHOW RESPOSTA
-		return resposta;
+			return resposta;
 	}
 	
-	// Gravação da lista de contas
-		public void gravarContas(ArrayList<JavaBank_Conta> c) throws IOException {
+	/**
+	 * Gravação da lista de contas
+	 * @param c com a lista de contas para gravação.
+	 * @throws IOException
+	 */
+	public void gravarContas(ArrayList<JavaBank_Conta> c) throws IOException {
 			FileOutputStream fileOut = new FileOutputStream("JavaBank_Contas.dat");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(c);
@@ -420,8 +541,12 @@ public class VCI_cl_Gestao implements Serializable {
 		}
 
 
-	// Gravação da resposta.
-	public static void gravarResposta(ArrayList<JavaBank_Conta> c) throws IOException {
+	/**
+	 * Criação do ficheiro com a resposta do banco ao pedido de compra.
+	 * @param c com lista das contas.
+	 * @throws IOException
+	 */
+	public void gravarResposta(ArrayList<JavaBank_Conta> c) throws IOException {
 		File f = new File("resposta.dat");
 		FileOutputStream fileOut = new FileOutputStream(f);
 		ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -431,8 +556,13 @@ public class VCI_cl_Gestao implements Serializable {
 		fileOut.close();
 	}
 
+	/**
+	 * Abertura do pedido da livraria a solicitar a compra.
+	 * @return string[] com os dados do ficheiro do pedido da livraria.
+	 * @throws IOException
+	 */
 	@SuppressWarnings("unchecked")
-	public static String[] abrirPedido() throws IOException {
+	public String[] abrirPedido() throws IOException {
 		String[] dados = new String[2];
 		try {
 			File f = new File("pedido.dat");

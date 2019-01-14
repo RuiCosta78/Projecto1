@@ -15,6 +15,12 @@ public class VCI_cl_Compra implements Serializable {
 	protected GregorianCalendar data;
 	protected double valor;
 	
+	/**
+	 * @param nif NIF do cliente.
+	 * @param carrinho compras do cliente.
+	 * @param data data da compra.
+	 * @param valor valor da compra.
+	 */
 	public VCI_cl_Compra(int nif, VCI_cl_Carrinho carrinho, GregorianCalendar data, double valor) {
 		super();
 		this.nif = nif;

@@ -9,6 +9,10 @@ import java.util.GregorianCalendar;
  * @aid 1.1   
  */
 
+/**
+ * @author rmmi7
+ *
+ */
 public class VCI_cl_Historico implements Serializable {
 
 	private String isbn;
@@ -19,6 +23,11 @@ public class VCI_cl_Historico implements Serializable {
 		
 	}
 
+	/**
+	 * @param isbn ISBN de um livro.
+	 * @param datas lista das datas de mudança de preço.
+	 * @param precos lista dos preços para cada data.
+	 */
 	public VCI_cl_Historico(String isbn, ArrayList<GregorianCalendar> datas, ArrayList<Double> precos) {
 		super();
 		this.isbn = isbn;

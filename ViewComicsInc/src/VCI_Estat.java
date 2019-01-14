@@ -94,9 +94,11 @@ public class VCI_Estat {
 		// Alinhamento à direita das colunas 1 a 3:
 		DefaultTableCellRenderer rigthRenderer = new DefaultTableCellRenderer();
 		rigthRenderer.setHorizontalAlignment( JLabel.RIGHT);
-	    for(int i = 1; i < modeloTabela.getColumnCount(); i++){
-	    	table.getColumnModel().getColumn(i).setCellRenderer(rigthRenderer);
-	    }
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment( JLabel.CENTER);
+    	table.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+    	table.getColumnModel().getColumn(2).setCellRenderer(rigthRenderer);
+    	table.getColumnModel().getColumn(3).setCellRenderer(rigthRenderer);
 	    table.setShowHorizontalLines(true);
 		table.setShowVerticalLines(true);
 		TableColumnModel col = table.getColumnModel();
@@ -146,19 +148,19 @@ public class VCI_Estat {
 		JLabel label_2 = new JLabel(recMedTotal + " €");
 		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_2.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		label_2.setBounds(375, 195, 77, 24);
+		label_2.setBounds(395, 195, 75, 24);
 		panel.add(label_2);
 		
 		JLabel label_3 = new JLabel(recTotal + " €");
 		label_3.setHorizontalAlignment(SwingConstants.RIGHT);
 		label_3.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		label_3.setBounds(298, 195, 77, 24);
+		label_3.setBounds(325, 195, 70, 24);
 		panel.add(label_3);
 		
 		JLabel label_4 = new JLabel(String.valueOf(qTotal));
-		label_4.setHorizontalAlignment(SwingConstants.RIGHT);
+		label_4.setHorizontalAlignment(SwingConstants.CENTER);
 		label_4.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		label_4.setBounds(245, 195, 60, 24);
+		label_4.setBounds(250, 195, 75, 24);
 		panel.add(label_4);
 		
 	}

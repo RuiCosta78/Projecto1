@@ -72,7 +72,7 @@ public class JavaBank_Gestao implements Serializable {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				JavaBank_Thread.thread();
+				JavaBank_Thread.thread();	
 			}
 		});
 	}
@@ -430,7 +430,7 @@ public class JavaBank_Gestao implements Serializable {
 							mensagem = "Juros vencidos. Depósito de " + saldoInst + "€.";
 						}
 						int id_funcionario = 0, id_cliente = 0;
-						if (mensagem.equals("Operação efectuada com sucesso.") || mensagem.contains("Depósito")) {
+						if ((mensagem.equals("Operação efectuada com sucesso.") || mensagem.contains("Depósito")) && !movimento.equals("Compra")) {
 							c.setSaldo(saldoInst);
 							id_funcionario = JavaBank_Gestao.utilizador_logado.getN_id();
 							id_cliente = u.getN_id();
@@ -449,8 +449,10 @@ public class JavaBank_Gestao implements Serializable {
 				}
 			}
 		}
+		if (!movimento.equals("Compra")) {
 		gravarContas();
 		gravarUtilizadores();
+		}
 		return mensagem;
 	}
 
@@ -559,7 +561,8 @@ public class JavaBank_Gestao implements Serializable {
 
 	// Abertura da lista de contas.
 	@SuppressWarnings("unchecked")
-	public void abrirContas() throws IOException {
+	public ArrayList<JavaBank_Conta> abrirContas() throws IOException {
+		ArrayList<JavaBank_Conta> contas = new ArrayList<>();
 		try {
 			File f = new File("JavaBank_Contas.dat");
 			if (f.exists()) {
@@ -573,6 +576,7 @@ public class JavaBank_Gestao implements Serializable {
 			JFrame frame = new JFrame();
 			JOptionPane.showMessageDialog(frame, "Ficheiro de contas não encontrado.");
 		}
+		return contas;
 	}
 
 	public ArrayList<JavaBank_Utilizador> getUtilizadores() {

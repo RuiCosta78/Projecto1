@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -154,7 +155,8 @@ public class VCI_TabVendas {
 			lblValorTotalDas.setBounds(10, 194, 214, 24);
 			panel.add(lblValorTotalDas);
 
-			JLabel label_1 = new JLabel(String.valueOf(vendasTotais) + " €");
+			DecimalFormat df = new DecimalFormat("#.##");
+			JLabel label_1 = new JLabel(df.format(vendasTotais) + " €");
 			label_1.setHorizontalAlignment(SwingConstants.CENTER);
 			label_1.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 			label_1.setBounds(340, 194, 70, 24);

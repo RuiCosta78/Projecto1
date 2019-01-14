@@ -486,10 +486,13 @@ public class VCI_VENDEDOR {
 					switch (resposta) {
 					case "sem saldo":
 						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Saldo insuficiente.");
+						break;
 					case "errado":
 						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Número de cartão inválido.");
+						break;
 					case "inativo":
 						JOptionPane.showMessageDialog(frame, "Compra não efetuada. Cartão inativo.");
+						break;
 					case "sucesso":
 						// Percorre a lista de compras:
 						for (int i = 0; i < VCI_cl_Gestao.cliente.getListaCompras().size(); i++) {
@@ -516,7 +519,6 @@ public class VCI_VENDEDOR {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
 						VCI_cl_Gestao.cliente = null; // Reinicia o cliente.
 						label_12.setText("");
 						textField_2.setText("");
@@ -525,6 +527,7 @@ public class VCI_VENDEDOR {
 						JOptionPane.showMessageDialog(frame, "Compra efetuada com sucesso.");
 						g.apagarFicheiro("resposta");
 						g.apagarFicheiro("pedido");
+						break;
 					}
 				}
 			}

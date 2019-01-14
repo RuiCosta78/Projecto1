@@ -22,6 +22,15 @@ public class VCI_cl_Livro  implements Serializable {
 		
 	}
 
+	/**
+	 * @param titulo título do novo livro
+	 * @param autor autor do novo livro
+	 * @param editora editora do novo livro
+	 * @param isbn ISBN  do novo livro
+	 * @param anoEdicao Ano de edição do novo livro
+	 * @param preco preço do novo livro
+	 * @param quantidade quantidade  do novo livro
+	 */
 	public VCI_cl_Livro(String titulo, String autor, String editora, String isbn, int anoEdicao,
 			double preco, int quantidade) {
 		super();

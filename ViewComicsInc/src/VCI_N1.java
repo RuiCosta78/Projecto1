@@ -36,7 +36,7 @@ public class VCI_N1 {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\rmmi7\\git\\Projecto1\\VC_Logotipo.jpg"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("../Projecto1\\VC_Logotipo.jpg"));
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

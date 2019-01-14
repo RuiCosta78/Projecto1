@@ -10,6 +10,10 @@ import javax.swing.JOptionPane;
 
 public class JavaBank_Thread {
 
+	JavaBank_Thread(){
+		
+	}
+	
 	public static void thread() {
 		Thread t1 = new Thread(new Runnable() {
 			@Override

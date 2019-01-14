@@ -17,6 +17,11 @@ public class VCI_cl_Utilizador implements Serializable {
 		
 	}
 
+	/**
+	 * @param nome nome do utilizador.
+	 * @param email email para login.
+	 * @param senha password para login.
+	 */
 	public VCI_cl_Utilizador(String nome, String email, String senha) {
 		super();
 		this.nome = nome;
